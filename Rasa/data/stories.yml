@@ -29,10 +29,29 @@ stories:
   - intent: deny
   - action: utter_goodbye
 
-
-
-
 - story: test
   steps:
   - intent: honey_test
   - action: utter_honey
+
+
+- story: Initiate refund and inquire about the process
+  steps:
+    - intent: initiate_refund
+    - action: utter_initiate_refund
+    - intent: refund_time_question
+    - action: utter_refund_time_question
+
+- story: Cancel order and confirm
+  steps:
+    - intent: cancel_my_order
+    - action: utter_cancel_my_order
+    - intent: confirm_raise_ticket
+    - action: utter_confirm_raise_ticket
+
+- story: Bot abilities inquiry followed by seeking help
+  steps:
+    - intent: bot_abilities
+    - action: utter_bot_abilities
+    - intent: help
+    - action: utter_help

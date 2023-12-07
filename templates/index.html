@@ -1,146 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <style>body {
-        display: flex;
-        justify-content: center;
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
     }
-    #buttonInput{
-            /* 
+
+    #buttonInput {
+      /* 
             font-family: monospace;
             
             background-color:green;*/
-            font-size: 16px;
-            border-radius: 16% !important;
-            padding-left: 10px !important ;
-            color: white; 
-            padding: 5px;
-            border: 2px solid #cccccc;
-            -webkit-border-radius: 5px;
-            border-radius: 5px;
-            padding: 5px 15px;
-            background: rgb(77, 31, 31);
-            border: 0 none;
-            cursor: pointer;
-            -webkit-border-radius: 5px;
-            border-radius: 5px;
-            border-color: black;
-            width: 90px;
-            height: 45px;
+      font-size: 16px;
+      border-radius: 16% !important;
+      padding-left: 10px !important;
+      color: white;
+      padding: 5px;
+      border: 2px solid #cccccc;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+      padding: 5px 15px;
+      background: rgb(77, 31, 31);
+      border: 0 none;
+      cursor: pointer;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+      border-color: black;
+      width: 90px;
+      height: 45px;
 
-        }
-    
-    .chatbot-container {
-        width: 360px;
-        margin: 0 auto;
-        background-color: #f5f5f5;
-        border: 1px solid #cccccc;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-    
-    #chatbot {
-        background-color: #f5f5f5;
-        border: 1px solid #eef1f5;
-        box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
-        border-radius: 4px;
-      }
-      .heading-text{
-        padding-left:45px
-      }
-      
-      #header {
-        background-color: rgb(77, 31, 31);;
-        color: #ffffff;
-        padding: 1px;
-        font-size: 1em;
-        font-weight: bold;
-      }
-    
-      message-container {
-        background: #ffffff;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        padding:10px;
-      }
-      
-      #conversation {
-        height: 284px;
-        overflow-y: auto;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        background-color: #b4a8a8
-      }
-    
-      @keyframes message-fade-in {
-        from {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      
-      .chatbot-message {
-        display: flex;
-        align-items: flex-start;
-        position: relative;
-        font-size: 16px;
-        line-height: 20px;
-        border-radius: 20px;
-        word-wrap: break-word;
-        /* white-space: pre-wrap; */
-        max-width: 100%;
-        padding: 0 15px;
-              }
-    
-      .user-message {
-        justify-content: flex-end;
-      }
-    
-    .chatbot-text {
-        background-color: #f5ad46;
-        color: #333333;
-        font-size: 1.1em;
-        padding: 3px;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      .action-container {
-        padding: 0 15px;
-      }
-
-      .action-text {
-        background-color: rgb(77, 31, 31);
-        color: white;
-        font-size: 1em;
-        padding: 10px;
-        border-radius: 5px;
-        border-color: white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-      
-    #input-form {
-        display: flex;
-        align-items: center;
-        border-top: 1px solid #eef1f5;
     }
+
+    .chatbot-container {
+      width: 360px;
+      margin: 0 auto;
+      background-color: #f5f5f5;
+      border: 1px solid #cccccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #chatbot {
+      background-color: #f5f5f5;
+      border: 1px solid #eef1f5;
+      box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+    }
+
+    .heading-text {
+      padding-left: 45px
+    }
+
+    #header {
+      background-color: rgb(77, 31, 31);
+      ;
+      color: #ffffff;
+      padding: 1px;
+      font-size: 1em;
+      font-weight: bold;
+    }
+
+    message-container {
+      background: #ffffff;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 10px;
+    }
+
+    #conversation {
+      height: 284px;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      background-color: #b4a8a8
+    }
+
+    @keyframes message-fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .chatbot-message {
+      display: flex;
+      align-items: flex-start;
+      position: relative;
+      font-size: 16px;
+      line-height: 20px;
+      border-radius: 20px;
+      word-wrap: break-word;
+      /* white-space: pre-wrap; */
+      max-width: 100%;
+      padding: 0 15px;
+    }
+
+    .user-message {
+      justify-content: flex-end;
+    }
+
+    .chatbot-text {
+      background-color: #f5ad46;
+      color: #333333;
+      font-size: 1.1em;
+      padding: 3px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .action-container {
+      padding: 0 15px;
+    }
+
+    .action-text {
+      background-color: rgb(77, 31, 31);
+      color: white;
+      font-size: 1em;
+      padding: 10px;
+      border-radius: 5px;
+      border-color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #input-form {
+      display: flex;
+      align-items: center;
+      border-top: 1px solid #eef1f5;
+    }
+
     #input-field:focus {
       border: 3px solid #555;
     }
-  
+
     #input-field {
-        /* flex: 1;
+      /* flex: 1;
         height: 60px;
         border: 1px solid #eef1f5;
         border-radius: 4px;
@@ -150,259 +158,265 @@
         background: #ffffff;
         color: #333333;
         border: none; */
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        box-sizing: border-box;
-        border: 3px solid #ccc;
-        -webkit-transition: 0.5s;
-        transition: 0.5s;
-        outline: none;
-        
-    }
-     
-      .send-icon {
-        margin-right: 10px;
-        cursor: pointer;
-      }
-      
-      #submit-button {
-        background-color: transparent;
-        border: none;
-      }
-    
-      p[sentTime]:hover::after {    
-        content: attr(sentTime);
-        position: absolute;
-        top: -3px;
-        font-size: 14px;
-        color: gray;
-      }
-    
-      .chatbot p[sentTime]:hover::after {  
-        left: 15px;
-      }
-    
-      .user-message p[sentTime]:hover::after {  
-        right: 15px;
-      }
-    
-      /* width */
-    ::-webkit-scrollbar {
-        width: 10px;
-      }
-      
-      /* Track */
-      ::-webkit-scrollbar-track {
-        background: #f1f1f1; 
-      }
-       
-      /* Handle */
-      ::-webkit-scrollbar-thumb {
-        background: #888; 
-      }
-      
-      /* Handle on hover */
-      ::-webkit-scrollbar-thumb:hover {
-        background: #555; 
-      }</style>
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: 3px solid #ccc;
+      -webkit-transition: 0.5s;
+      transition: 0.5s;
+      outline: none;
 
-<style>
-  /* Additional styling for the button and input container */
-  #input-container {
+    }
+
+    .send-icon {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    #submit-button {
+      background-color: transparent;
+      border: none;
+    }
+
+    p[sentTime]:hover::after {
+      content: attr(sentTime);
+      position: absolute;
+      top: -3px;
+      font-size: 14px;
+      color: gray;
+    }
+
+    .chatbot p[sentTime]:hover::after {
+      left: 15px;
+    }
+
+    .user-message p[sentTime]:hover::after {
+      right: 15px;
+    }
+
+    response_array
+
+    /* width */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  </style>
+
+  <style>
+    /* Additional styling for the button and input container */
+    #input-container {
       display: flex;
       align-items: center;
-  }
+    }
 
-  #input-field {
+    #input-field {
       flex-grow: 1;
-  }
+    }
 
-  #speech-button {
+    #speech-button {
       margin-left: 10px;
       cursor: pointer;
-  }
-  .mic_icon{
-    padding: 5px;
-  }
-</style>
+    }
 
-<script>
+    .mic_icon {
+      padding: 5px;
+    }
+  </style>
 
-  function startSpeechToText(){
-  const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
-  recognition.continuous = false;
-  recognition.interimResults = false;
+  <script>
 
-  recognition.onresult = function(event) {
-      const speechToText = event.results[0][0].transcript;
-      document.getElementById('input-field').value = speechToText;
-  };
+    function startSpeechToText() {
+      const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
 
-  recognition.onerror = function(event) {
-      console.error('Speech recognition error:', event.error);
-  };
-  recognition.start();
-   
-      
-  }
-</script>
+      recognition.onresult = function (event) {
+        const speechToText = event.results[0][0].transcript;
+        document.getElementById('input-field').value = speechToText;
+      };
+
+      recognition.onerror = function (event) {
+        console.error('Speech recognition error:', event.error);
+      };
+      recognition.start();
+
+
+    }
+  </script>
 </head>
-<body>
-    <div class="chatbot-container">
-        <div id="header">
-            <h1 class="heading-text">Chatbot</h1>
-        </div>
-        <div id="chatbot">
-            <div id="conversation">
-                <div class="chatbot-message">
-                    <p class="chatbot-text">Hi! 👋 it's great to see you!</p>
-                </div>
-                <div id="action-button" class="action-container">
-                    
-                </div>
-            </div>
-            <form id="input-form" class="form">
-                <message-container>
-                    <input id="input-field" type="text" placeholder="Type your message here">&nbsp;
-                    <button id="speech-button"  onclick="startSpeechToText()">
-                    <img class="mic_icon" height="25px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbfz0EPwsBESNxKeJju2czYhmGvAR_edzC1KfoTPuc1g&s" alt="Speech Recognition"/>
-                    </button>&nbsp;&nbsp;
-                    <input id="buttonInput" type="submit" value="Send" />
-                    <button id="submit-button" type="submit">
-                      <img class="send-icon" src="send_message.png" alt="">
-                    </button>
-                </message-container>
-            </form>
-        </div>  
-    </div>
-    <script>// Get chatbot elements
-        const static_response = {
-                "Offers": {
-                    "50 % off": "Above purchase of 5k",
-                    "20% off": "Above purchase of 3k"
-                },
-                "Categories": {
-                    "Clothings": {
-                    "Womens": {
-                        "Ethnic Wear": [
-                        "Sarees",
-                        "Kurtas",
-                        "Lehengas"
-                        ]
-                    },
-                    "Mens": {
-                        "Formal Wear": [
-                        "Suits",
-                        "Shirts",
-                        "Trousers"
-                        ],
-                        "Casual Wear": [
-                        "Jeans",
-                        "T-shirts"
-                        ]
-                    }
-                    },
-                    "Footwear": {
-                    "Mens": [
-                        "Formal Shoes",
-                        "Casual Shoes"
-                    ],
-                    "Womens": [
-                        "Heels",
-                        "Flats",
-                        "Boots"
-                    ]
-                    },
-                    "Electronics": {
-                    "Smartphones": [
-                        "Android",
-                        "iPhone"
-                    ],
-                    "Laptops": [
-                        "Windows",
-                        "Macbook"
-                    ]
-                    },
-                    "Home Decor": {
-                    "Living Room": [
-                        "Sofas",
-                        "Coffee Tables",
-                        "Curtains"
-                    ],
-                    "Bedroom": [
-                        "Beds",
-                        "Dressers",
-                        "Nightstands"
-                    ]
-                    }
-                },
-                "Beauty": {
-                    "Skin care": {
-                    "Moisturiser": [
-                        "Nevia",
-                        "cetaphil",
-                        "cerave"
-                    ]
-                    }
-                }
-            };
 
-        userInputEvent();
-        var wrapper = $('#action-button'), container;
-            for (var key in static_response){
-                if(key)
-                {
-                    container = `<button id="${key}" class="action-text" type="button" onclick="getUserInput(${key})">
+<body>
+  <div class="chatbot-container">
+    <div id="header">
+      <h1 class="heading-text">Chatbot</h1>
+    </div>
+    <div id="chatbot">
+      <div id="conversation">
+        <div class="chatbot-message">
+          <p class="chatbot-text">Hi! 👋 it's great to see you!</p>
+        </div>
+        <div id="action-button" class="action-container">
+
+        </div>
+      </div>
+      <form id="input-form" class="form">
+        <message-container>
+          <input id="input-field" type="text" placeholder="Type your message here">&nbsp;
+          <button id="speech-button" onclick="startSpeechToText()">
+            <img class="mic_icon" height="25px"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbfz0EPwsBESNxKeJju2czYhmGvAR_edzC1KfoTPuc1g&s"
+              alt="Speech Recognition" />
+          </button>&nbsp;&nbsp;
+          <input id="buttonInput" type="submit" value="Send" />
+          <button id="submit-button" type="submit">
+            <img class="send-icon" src="send_message.png" alt="">
+          </button>
+        </message-container>
+      </form>
+    </div>
+  </div>
+  <script>// Get chatbot elements
+    const static_response = {
+      "Offers": {
+        "50 % off": "Above purchase of 5k",
+        "20% off": "Above purchase of 3k"
+      },
+      "Categories": {
+        "Clothings": {
+          "Womens": {
+            "Ethnic Wear": [
+              "Sarees",
+              "Kurtas",
+              "Lehengas"
+            ]
+          },
+          "Mens": {
+            "Formal Wear": [
+              "Suits",
+              "Shirts",
+              "Trousers"
+            ],
+            "Casual Wear": [
+              "Jeans",
+              "T-shirts"
+            ]
+          }
+        },
+        "Footwear": {
+          "Mens": [
+            "Formal Shoes",
+            "Casual Shoes"
+          ],
+          "Womens": [
+            "Heels",
+            "Flats",
+            "Boots"
+          ]
+        },
+        "Electronics": {
+          "Smartphones": [
+            "Android",
+            "iPhone"
+          ],
+          "Laptops": [
+            "Windows",
+            "Macbook"
+          ]
+        },
+        "Home Decor": {
+          "Living Room": [
+            "Sofas",
+            "Coffee Tables",
+            "Curtains"
+          ],
+          "Bedroom": [
+            "Beds",
+            "Dressers",
+            "Nightstands"
+          ]
+        }
+      },
+      "Beauty": {
+        "Skin care": {
+          "Moisturiser": [
+            "Nevia",
+            "cetaphil",
+            "cerave"
+          ]
+        }
+      }
+    };
+
+    userInputEvent();
+    var wrapper = $('#action-button'), container;
+    for (var key in static_response) {
+      if (key) {
+        container = `<button id="${key}" class="action-text" type="button" onclick="getUserInput(${key})">
                                         ${key}
                             </button>`;
-                    wrapper.append(container);                    
+        wrapper.append(container);
 
-                }
-        };
-        const actionField = document.getElementById('action-button');
+      }
+    };
+    const actionField = document.getElementById('action-button');
 
-        function getUserInput(event) {
-            const chatbot = document.getElementById('chatbot');
-            const conversation = document.getElementById('conversation');
+    function getUserInput(event) {
+      const chatbot = document.getElementById('chatbot');
+      const conversation = document.getElementById('conversation');
 
-            // Get user input
-            const input = event.id;
-            
-            // Clear input field
-            const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" });
-            
-            // Add user input to conversation
-            let message = document.createElement('div');
-            message.classList.add('chatbot-message', 'user-message');
-            message.innerHTML = `<p class="chatbot-text" sentTime="${currentTime}">${input}</p>`;
-            conversation.appendChild(message);
-            
-            const response = generateResponse(input);
+      // Get user input
+      const input = event.id;
 
-            let htmlResponse = '';
-            
-            Object.keys(response).forEach((element) => 
-            htmlResponse += `<button id="${element}" class="action-text" type="button" onclick="getUserInput(${element})">
+      // Clear input field
+      const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" });
+
+      // Add user input to conversation
+      let message = document.createElement('div');
+      message.classList.add('chatbot-message', 'user-message');
+      message.innerHTML = `<p class="chatbot-text" sentTime="${currentTime}">${input}</p>`;
+      conversation.appendChild(message);
+      index
+      const response = generateResponse(input);
+
+      let htmlResponse = '';
+
+      Object.keys(response).forEach((element) =>
+        htmlResponse += `<button id="${element}" class="action-text" type="button" onclick="getUserInput(${element})">
                         ${element}</button>`);
 
-            // Add chatbot response to conversation
-            message = document.createElement('div');
-            message.classList.add('chatbot-message','chatbot');
-            message.innerHTML = htmlResponse;
-            conversation.appendChild(message);
-            message.scrollIntoView({behavior: "smooth"});
-        };
+      // Add chatbot response to conversation
+      message = document.createElement('div');
+      message.classList.add('chatbot-message', 'chatbot');
+      message.innerHTML = htmlResponse;
+      conversation.appendChild(message);
+      message.scrollIntoView({ behavior: "smooth" });
+    };
 
 
 
-function userInputEvent() {
-    const inputForm = document.getElementById('input-form');
-    const inputField = document.getElementById('input-field');
+    function userInputEvent() {
+      const inputForm = document.getElementById('input-form');
+      const inputField = document.getElementById('input-field');
 
-    let prefix = '';
+      let prefix = '';
 
-    inputForm.addEventListener('submit', function (event) {
+      inputForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
         let input = inputField.value;
@@ -420,53 +434,62 @@ function userInputEvent() {
         conversation.appendChild(message);
         message.scrollIntoView({ behavior: "smooth" });
 
-        $.post("/chatbot", { userMessage: input }).done(function (data) {
-            let response = '';
+        $.post("/chatbot", { message: input }).done(function (data) {
+          let response = '';
+          console.log
 
-            if (typeof data?.response === 'string' || data?.response instanceof String) {
-                response = data?.response;
+          if (typeof data?.response === 'string' || data?.response instanceof String) {
+            response = data?.response;
 
-                if (response === "Can you please enter your order id?") {
-                    prefix = "track my order-";
-                } else if (response === "please write your concern in one line."){
-                    prefix = "raise_ticket-";
-                } else if (response === "please enter the ticket number"){
-                  prefix = "ticket-";
-                } else {
-                    prefix = '';
-                }
-                
-                message = document.createElement('div');
-                message.classList.add('chatbot-message', 'chatbot');
-                message.innerHTML = `<p class="chatbot-text" sentTime="${currentTime}">${response}</p>`;
-                conversation.appendChild(message);
-                message.scrollIntoView({ behavior: "smooth" });
+            if (response === "Can you please enter your order id?") {
+              prefix = "track my order-";
+            } else if (response === "please write your concern in one line.") {
+              prefix = "raise_ticket-";
+            } else if (response === "please enter the ticket number") {
+              prefix = "ticket-";
             } else {
-                data?.response?.forEach(element => {
-                    response += `<button id="${element}" class="action-text" type="button" onclick="getUserInput(${element})">
-                                    ${element}
-                                </button>`;
-                });
-
+              prefix = '';
+            }
+            message = document.createElement('div');
+            message.classList.add('chatbot-message', 'chatbot');
+            message.innerHTML = `<p class="chatbot-text" sentTime="${currentTime}">${response}</p>`;
+            conversation.appendChild(message);
+            message.scrollIntoView({ behavior: "smooth" });
+          } else {
+            if (data.status !== null) {
+              data?.response?.forEach(element => {
                 message = document.createElement('div');
                 message.classList.add('chatbot-message', 'chatbot');
-                message.innerHTML = response;
+                message.innerHTML = `<p class="chatbot-text" sentTime="${currentTime}">${element.text}</p>`;
                 conversation.appendChild(message);
                 message.scrollIntoView({ behavior: "smooth" });
+
+              });
             }
+            else {
+              data?.response?.forEach(element => {
+                response += `<button id="${element}" class="action-text" type="button" onclick="getUserInput(${element})">
+                                          ${element}</button>`;
+              });
+              message = document.createElement('div');
+              message.classList.add('chatbot-message', 'chatbot');
+              message.innerHTML = response;
+              conversation.appendChild(message);
+              message.scrollIntoView({ behavior: "smooth" });
+            }
+          }
         });
-    });
-}
+      });
+    }
 
-
-
-        function generateResponse(input) {
-                let response = static_response;
-                const keys = Object.keys(response);
-                const inputKey = keys.find(w=>w === input);
-                // const randomKey = keys[Math.floor(Math.random() * keys.length)];
-                return response[inputKey];
-            };
-    </script>
+    function generateResponse(input) {
+      let response = static_response;
+      const keys = Object.keys(response);
+      const inputKey = keys.find(w => w === input);
+      // const randomKey = keys[Math.floor(Math.random() * keys.length)];
+      return response[inputKey];
+    };
+  </script>
 </body>
+
 </html>

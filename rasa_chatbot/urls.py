@@ -5,6 +5,5 @@ from rasa_chat_app.views import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('yourappname/', include('rasa_chat_app.urls')),
-    path('', index )
+    path('', include('rasa_chat_app.urls')),
 ]
