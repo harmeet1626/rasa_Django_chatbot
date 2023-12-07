@@ -1,0 +1,36 @@
+[
+  {
+    "tag_name": "entity",
+    "ids_to_tags": {
+      "1": "B-day",
+      "2": "I-day",
+      "3": "L-day",
+      "4": "U-day",
+      "5": "B-payment_method",
+      "6": "I-payment_method",
+      "7": "L-payment_method",
+      "8": "U-payment_method",
+      "9": "B-person",
+      "10": "I-person",
+      "11": "L-person",
+      "12": "U-person",
+      "0": "O"
+    },
+    "tags_to_ids": {
+      "B-day": 1,
+      "I-day": 2,
+      "L-day": 3,
+      "U-day": 4,
+      "B-payment_method": 5,
+      "I-payment_method": 6,
+      "L-payment_method": 7,
+      "U-payment_method": 8,
+      "B-person": 9,
+      "I-person": 10,
+      "L-person": 11,
+      "U-person": 12,
+      "O": 0
+    },
+    "num_tags": 13
+  }
+]

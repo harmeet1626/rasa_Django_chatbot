@@ -2,6 +2,19 @@ version: "3.1"
 
 rules:
 
+
+# - rule: Activate greeting
+#   steps:
+#     - intent: raise_ticket
+#     - action: utter_are_you_sure
+#     - intent: affirm
+#     - action: utter_confirm_raise_ticket
+#     - intent: affirm
+#     - action: utter_ticket_raised
+#     - intent: utter_time_required_to_resolve
+
+
+
 - rule: Say goodbye anytime the user says goodbye
   steps:
   - intent: goodbye
@@ -58,7 +71,7 @@ rules:
 - rule: Instruct the user to raise a ticket
   steps:
   - intent: raise_ticket
-  - action: utter_confirm_raise_ticket
+  - action: utter_are_you_sure
 
 - rule: Confirm the user's request to raise a ticket
   steps:

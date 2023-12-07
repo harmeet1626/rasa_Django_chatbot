@@ -1,7 +1,7 @@
 version: "3.1"
 
 intents:
-
+  - honey_test
   - greet
   - goodbye
   - affirm
@@ -9,7 +9,6 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
-  - honey_test
   - bot_abilities
   - change_my_address
   - reset_my_password
@@ -24,11 +23,16 @@ intents:
   - raise_ticket
   - confirm_raise_ticket
   - ticket_resolution_time
+  - track_order
+  - order_status
+  - offers_info
+  - coupon_codes
+  - platform_services
 
-entities:
-  - payment_method
-  - day
-  - person
+# entities:
+#   - payment_method
+#   - day
+#   - person
 
 
 
@@ -108,6 +112,21 @@ offers_info
 
   utter_platform_services:
   - text : "We sell mobile phones, laptops, electronic gadgets and clothes. We also deal in banking facilities"
+
+
+  utter_are_you_sure:
+  - text : "Are You Sure ?"
+
+  utter_ticket_raised:
+  - text : Okay we have created a ticket for your issue. Please note down the ticket number T-123.
+
+
+  utter_time_required_to_resolve:
+  - text : How long would it take to resolve the ticket ?
+
+
+  utter_time_confirmed_to_resolved:
+  - text : It will be solved within 3-5 working days
 
  
 

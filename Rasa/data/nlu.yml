@@ -7,7 +7,7 @@ nlu:
     - honey
 
 
-# - intent: 
+
 
   
 - intent: greet
@@ -130,13 +130,13 @@ nlu:
     -  What are the different payment methods that are supported on the platform?
     -  what are the different payment methods that are supported?
     -  what are the payment options available?
-    -  Is it possible to pay by [credit card](payment_method) ?
-    -  Is it possible to pay by [COD](payment_method)?
-    -  Is COD((payment_method)) supported?
-    -  Is [Cash on Delivery](payment_method) supported?
-    -  Is [EMI supported](payment_method)?
-    -  can we do payment through [EMI](payment_method)?
-    -  can we do payment through [Cash](payment_method)?
+    -  Is it possible to pay by credit card ?
+    -  Is it possible to pay by COD?
+    -  Is COD supported?
+    -  Is Cash on Delivery supported?
+    -  Is EMI supported?
+    -  can we do payment through EMI?
+    -  can we do payment through Cash?
 
 - intent : average_delivery_time
   examples: |
@@ -154,12 +154,12 @@ nlu:
   examples: |
     - "What are your timings?"
     - "When do you work?"
-    - "Do you work on [sunday](day)"
-    - "Do you work on [saturday](day)"
-    - "Do you work on [monday](day)"
-    - "Do you work on [tuesday](day)"
-    - "Do you work on [wednesday](day)"
-    - "Do you work on [thursday](day)"
+    - "Do you work on sunday"
+    - "Do you work on saturday"
+    - "Do you work on monday"
+    - "Do you work on tuesday"
+    - "Do you work on wednesday"
+    - "Do you work on thursday"
     - "when do you close your store?"
     - "What is the closing time of the store?"
     - "What are your work timings?"
@@ -167,11 +167,11 @@ nlu:
 
 - intent : help
   examples: |
-    - "I need [customer care](person) help"
-    - "need [customer care](person) support"
-    - "please connect me to [support](person)"
-    - "How can i connect to [ customer support](person)"
-    - "Connect me to [support](person)"
+    - "I need customer care help"
+    - "need customer care support"
+    - "please connect me to support"
+    - "How can i connect to customer support"
+    - "Connect me to support"
 
 
 - intent : initiate_refund
