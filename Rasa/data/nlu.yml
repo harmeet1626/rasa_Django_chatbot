@@ -251,7 +251,6 @@ nlu:
 
 - intent : coupon_codes
   examples : |
-
     -  "Do you have any discount coupon codes?"
     -  "please give me some coupon codes"
     -  "are there any coupon codes?"
