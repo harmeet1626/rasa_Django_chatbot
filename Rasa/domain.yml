@@ -118,15 +118,15 @@ responses:
   - text : "Are You Sure ?"
 
   utter_ticket_raised:
-  - text : Okay we have created a ticket for your issue. Please note down the ticket number T-123.
+  - text : "Okay we have created a ticket for your issue. Please note down the ticket number T-123."
 
 
   utter_time_required_to_resolve:
-  - text : How long would it take to resolve the ticket ?
+  - text : "How long would it take to resolve the ticket ?"
 
 
   utter_time_confirmed_to_resolved:
-  - text : It will be solved within 3-5 working days
+  - text : "It will be solved within 3-5 working days"
 
  
 
