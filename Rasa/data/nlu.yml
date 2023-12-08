@@ -1,11 +1,6 @@
-version: "3.1"
+version: 3.1
 
 nlu:
-
-- intent: honey_test
-  examples: |
-    - honey
-
 
 # - intent: 
 
@@ -124,7 +119,6 @@ nlu:
    -  Can we change the password?
    -  Reset my address
 
-
 - intent : available_payment_methods
   examples: |
     -  What are the different payment methods that are supported on the platform?
@@ -140,126 +134,124 @@ nlu:
 
 - intent : average_delivery_time
   examples: |
-    - "What is the expected delivery time?"
-    - "How long does it take you to deliver your products?"
+    - What is the expected delivery time?
+    - How long does it take you to deliver your products?
 
 - intent : cancel_my_order
   examples: |
-    - "How can I cancel my order?"
-    - "Cancel my order?"
-    - "I want to cancel my order."
-    - "please cancel my order."
+    - How can I cancel my order?
+    - Cancel my order?
+    - I want to cancel my order.
+    - please cancel my order.
 
 - intent : work_timings
   examples: |
-    - "What are your timings?"
-    - "When do you work?"
-    - "Do you work on [sunday](day)"
-    - "Do you work on [saturday](day)"
-    - "Do you work on [monday](day)"
-    - "Do you work on [tuesday](day)"
-    - "Do you work on [wednesday](day)"
-    - "Do you work on [thursday](day)"
-    - "when do you close your store?"
-    - "What is the closing time of the store?"
-    - "What are your work timings?"
+    - What are your timings?
+    - When do you work?
+    - Do you work on [sunday](day)
+    - Do you work on [saturday](day)
+    - Do you work on [monday](day)
+    - Do you work on [tuesday](day)
+    - Do you work on [wednesday](day)
+    - Do you work on [thursday](day)
+    - when do you close your store?
+    - What is the closing time of the store?
+    - What are your work timings?
 
 
 - intent : help
   examples: |
-    - "I need [customer care](person) help"
-    - "need [customer care](person) support"
-    - "please connect me to [support](person)"
-    - "How can i connect to [ customer support](person)"
-    - "Connect me to [support](person)"
+    - I need [customer care](person) help
+    - need [customer care](person) support
+    - please connect me to [support](person)
+    - How can i connect to [ customer support](person)
+    - Connect me to [support](person)
 
 
 - intent : initiate_refund
   examples: |
-    - "I want a refund"
-    - "I want a refund on my order"
-    - "How can i get a refund?"
-    - "I want a refund."
-    - "I want my money back."
-    - "where is my refund?"
+    - I want a refund
+    - I want a refund on my order
+    - How can i get a refund?
+    - I want a refund.
+    - I want my money back.
+    - where is my refund?
 
 
 - intent : refund_answer
   examples: |
-    - "I got a defective product"
-    - "I didn't receive my order"
-    - "My order items are wrong"
-    - "Order items are missing"
-    - "I have got a wrong product."
-    - "I got a defective product, How can I return it?"
+    - I got a defective product
+    - I didn't receive my order
+    - My order items are wrong
+    - Order items are missing
+    - I have got a wrong product.
+    - I got a defective product, How can I return it?
 
 - intent : refund_time_question
   examples: |
-    - "How long would it take the refund to reflect?"
-    - "When will i get the refund"
-    - "Refund time?"
-    - "when will the refund receive?"
+    - How long would it take the refund to reflect?
+    - When will i get the refund
+    - Refund time?
+    - when will the refund receive?
 
 - intent : raise_ticket
   examples: |
-    - "please raise a ticket"
-    - "I want to raise a ticket"
-    - "please create a ticket"
-    - "create a ticket please"
-    - "raise a ticket"
-    - "How can I raise a ticket?"
+    - please raise a ticket
+    - I want to raise a ticket
+    - please create a ticket
+    - create a ticket please
+    - raise a ticket
+    - How can I raise a ticket?
 
 - intent : confirm_raise_ticket
   examples: |
-    - "yes"
-    - "Yes please"
-    - "Yes, I want to create"
-    - "Yes Im sure"
+    - yes
+    - Yes please
+    - Yes, I want to create
+    - Yes Im sure
 
 - intent : ticket_resolution_time
   examples: |
-    - "How long will it take to resolve my ticket?"
-    - "When will the ticket get solved?"
-    - "How long would it take to solve the issue?"
+    - How long will it take to resolve my ticket?
+    - When will the ticket get solved?
+    - How long would it take to solve the issue?
 
 - intent : track_order
   examples : |
-    - : "Track my order?"
-    - : "location of my order?"
-    - : "Can you help in tracking my order"
-    - : "How can i know the location of my order?"
-
+    - Track my order?
+    - location of my order?
+    - Can you help in tracking my order
+    - How can i know the location of my order?
 
 - intent : order_status
   examples : |
-    -  "What is the status of my order"
-    -  "Can you tell me the status of my order"
-    -  "Order status?"
-    -  "Whats the update on my order?"
-    -  "When will I receive my order?"
+    -  What is the status of my order
+    -  Can you tell me the status of my order
+    -  Order status?
+    -  Whats the update on my order?
+    -  When will I receive my order?
 
 - intent : offers_info
   examples : |
-    -  "Are there any discounts going on?"
-    -  "Do you give discounts?"
-    -  "Do you give offers?"
-    -  "Are there any offers going on"
-    -  "Are there any discounts?"
-    -  "I want discounts?"
-    -  "Any offers"
-    -  "Do you provide any offers?"
+    -  Are there any discounts going on?
+    -  Do you give discounts?
+    -  Do you give offers?
+    -  Are there any offers going on
+    -  Are there any discounts?
+    -  I want discounts?
+    -  Any offers
+    -  Do you provide any offers?
 
 - intent : coupon_codes
   examples : |
 
-    -  "Do you have any discount coupon codes?"
-    -  "please give me some coupon codes"
-    -  "are there any coupon codes?"
+    -  Do you have any discount coupon codes?
+    -  please give me some coupon codes
+    -  are there any coupon codes?
     
-
 - intent : platform_services
   examples : |
-    - "Tell me about the services that you provide.""
-    - "Tell me about your products"
-    - "What products do you sell?"
-    - "what does you company do?"
+    - Tell me about the services that you provide.
+    - Tell me about your products
+    - What products do you sell?
+    - what does you company do?

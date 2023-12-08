@@ -1,5 +1,5 @@
 import os
-
+from decouple import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -66,13 +66,24 @@ WSGI_APPLICATION = 'rasa_chatbot.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+         'ENGINE': 'django.db.backends.mysql',
+      'NAME': config('DATABASE_NAME', default='EolappNdb'),
+      'USER': config('DATABASE_USER', default='EolappNdbU'),
+      'PASSWORD': config('DATABASE_PASSWORD', default='EolappNdbPwD'),
+      'HOST': config('DATABASE_HOST', default='192.168.0.45'),
+        'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

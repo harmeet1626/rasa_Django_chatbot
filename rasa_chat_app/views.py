@@ -31,6 +31,7 @@ class Chatbot(APIView):
             if chatbot_response.status_code == 200 :
                 chatbot_response = json.loads(chatbot_response.content)
                 response_array = chatbot_response
+                print("response:================>", response_array)
                 if response_array ==[]:
                     response_array =[{"text":"I'm sorry. I dont have the answer to that."}]
                 return Response({"status":200, "response":response_array})

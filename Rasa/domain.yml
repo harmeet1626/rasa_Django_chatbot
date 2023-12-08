@@ -9,7 +9,6 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
-  - honey_test
   - bot_abilities
   - change_my_address
   - reset_my_password
@@ -24,6 +23,11 @@ intents:
   - raise_ticket
   - confirm_raise_ticket
   - ticket_resolution_time
+  - track_order
+  - order_status
+  - offers_info
+  - coupon_codes
+  - platform_services
 
 entities:
   - payment_method
@@ -51,9 +55,6 @@ offers_info
 
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
-
-  utter_honey:
-  - text: "Hi this is Honey's bot"
 
   utter_bot_abilities:
   - text : "You can ask me about orders, loans, offers, tickets and customer support."
