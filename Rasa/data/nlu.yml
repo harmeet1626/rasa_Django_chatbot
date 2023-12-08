@@ -164,7 +164,7 @@ nlu:
     - I need [customer care](person) help
     - need [customer care](person) support
     - please connect me to [support](person)
-    - How can i connect to [ customer support](person)
+    - How can i connect to [customer support](person)
     - Connect me to [support](person)
 
 
@@ -244,7 +244,6 @@ nlu:
 
 - intent : coupon_codes
   examples : |
-
     -  Do you have any discount coupon codes?
     -  please give me some coupon codes
     -  are there any coupon codes?
@@ -255,3 +254,10 @@ nlu:
     - Tell me about your products
     - What products do you sell?
     - what does you company do?
+
+- intent : pizza
+  examples : |
+    - Tell me about the pizza.
+    - Tell me about your pizza
+    - What pizza do you sell?
+    - what does your pizza do?

@@ -10,7 +10,10 @@ rules:
 - rule: Say 'I am a bot' anytime the user challenges
   steps:
   - intent: bot_challenge
-  - action: utter_iamabotutter_track_order
+  - action: utter_iamabot
+
+- rule: Tell bot abilities
+  steps:
   - intent: bot_abilities
   - action: utter_bot_abilities
 
@@ -81,3 +84,8 @@ rules:
   steps:
   - intent: order_status
   - action: utter_order_status
+
+- rule: enquire pizza
+  steps:
+  - intent: pizza
+  - action: utter_pizza

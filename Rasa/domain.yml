@@ -28,6 +28,7 @@ intents:
   - offers_info
   - coupon_codes
   - platform_services
+  - pizza
 
 entities:
   - payment_method
@@ -110,9 +111,11 @@ responses:
   utter_platform_services:
   - text : "We sell mobile phones, laptops, electronic gadgets and clothes. We also deal in banking facilities"
 
+
   utter_confirm:
   - text : "Are you sure ?"
  
+
 
 
 
