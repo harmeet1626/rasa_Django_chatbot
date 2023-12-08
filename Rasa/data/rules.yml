@@ -58,7 +58,7 @@ rules:
 - rule: Instruct the user to raise a ticket
   steps:
   - intent: raise_ticket
-  - action: utter_confirm_raise_ticket
+  - action: utter_confirm
 
 - rule: Confirm the user's request to raise a ticket
   steps:

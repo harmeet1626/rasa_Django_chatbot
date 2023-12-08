@@ -10,7 +10,8 @@ from decouple import config
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'sampleIndex.html')
+    # return render(request, 'index.html')
 
 
 class Chatbot(APIView):
