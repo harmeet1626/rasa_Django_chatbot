@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot UI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-container {
+            max-width: 400px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .chat-header {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 5px;
+            /* text-align: center; */
+            font-weight: bold;
+            font-size: 20px;
+            display: flex;
+        }
+
+        .chat-body {
+            padding: 10px;
+            overflow-y: auto;
+            max-height: 300px;
+            height: 40vh;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            overflow: hidden;
+            clear: both;
+            /* Add this line to clear the floats */
+        }
+
+
+        .user-message,
+        .bot-message {
+            background-color: #4CAF50;
+            color: #fff;
+            border-radius: 20px;
+            padding: 15px;
+            max-width: 40%;
+            text-align: right;
+        }
+
+        .user-message {
+            float: right;
+            border-bottom-right-radius: 0px !important;
+        }
+
+        .bot-message {
+            background-color: #ddd;
+            color: black;
+            text-align: left;
+            max-width: 40%;
+            border-bottom-left-radius: 0px !important;
+        }
+
+        .input-container {
+            padding: 10px;
+            background-color: #fff;
+            border-top: 1px solid #ccc;
+            display: flex;
+        }
+
+        .user-input {
+            width: 70%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .send-button {
+            width: 12%;
+            padding: 8px;
+            background-color: #ffffff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .title {
+            padding: 10px;
+        }
+
+        .mic_input {
+            background-color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <img height="60px" style="padding: 10px;"
+                src="https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359554_1280.png" />
+            <p class="title">Zoya</p>
+
+        </div>
+        <div class="chat-body" id="chatBody">
+            <!-- Messages will be dynamically added here -->
+        </div>
+        <div class="input-container">
+            <input type="text" class="user-input" id="userInput" placeholder="Type your message...">
+            <button class="mic_input" onclick="runSpeechRecog()" style="border: transparent;padding: 0 0.5rem;">
+                <img class="mic_icon" height="25px"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbfz0EPwsBESNxKeJju2czYhmGvAR_edzC1KfoTPuc1g&s"
+                    alt="Speech Recognition" />
+
+            </button>
+            <button class="send-button" onclick="sendMessage()">
+                <image style="height: 25px; float: left;" src="/static/images/send.png" />
+            </button>
+        </div>
+    </div>
+
+    <script>
+        var input_text = ''
+        function sendMessage() {
+            var userInput = document.getElementById('userInput').value;
+            var chatBody = document.getElementById('chatBody');
+
+            // Add user message
+            var userMessage = document.createElement('div');
+            userMessage.className = 'message user-message';
+            userMessage.textContent = userInput;
+            if (userInput == "") {
+                return
+            }
+            chatBody.appendChild(userMessage);
+
+            // Simulate bot response (you can replace this with actual bot logic)
+            var botResponse = document.createElement('div');
+            botResponse.className = 'message bot-message';
+            botResponse.textContent = 'Bot: Thanks for your message!';
+            chatBody.appendChild(botResponse);
+
+            // Clear input field
+            document.getElementById('userInput').value = '';
+
+            // Scroll to the bottom of the chat body
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+        runSpeechRecog = () => {
+            let recognization = new webkitSpeechRecognition();
+            recognization.onstart = () => {
+                console.log('listening')
+            }
+            recognization.onresult = (e) => {
+                var transcript = e.results[0][0].transcript;
+                // document.getElementById("userInput").innerHTML = transcript;
+                var text = document.getElementById('userInput');
+                text.value += transcript;
+            }
+            recognization.start();
+        }
+
+        function mount(){
+            var botResponse = document.createElement('div');
+            botResponse.className = 'message bot-message';
+            botResponse.textContent = 'Hi, How Can I help you ?';
+            chatBody.appendChild(botResponse);
+        }
+        mount()
+    </script>
+
+</body>
+
+</html>

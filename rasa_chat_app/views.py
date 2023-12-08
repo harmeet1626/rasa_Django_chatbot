@@ -14,7 +14,8 @@ def generate_random_alphanumeric_string(length):
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'sampleIndex.html')
+    # return render(request, 'index.html')
 
 
 class Chatbot(APIView):
