@@ -7,7 +7,7 @@ class Chatroom(models.Model):
     created_at = models.DateTimeField(default=datetime.now())
 
 class Tickets(models.Model):
-    ext_id = models.IntegerField()
+    ext_id = models.CharField(max_length=255,null=False, blank=False)
     document_url = models.CharField(max_length=255, null=True, blank=True)
     chatroom = models.ForeignKey(Chatroom,on_delete=models.CASCADE,related_name="tickets")
     status = models.CharField(choices=(("Initiated","Initiated"),("In-Progress","In-Progress"),("Resolved","Resolved"),("Disposed","Disposed")),max_length=255)

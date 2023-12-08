@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 rasa_chat_app/__pycache__/
+*cache/*
 
 # C extensions
 *.so

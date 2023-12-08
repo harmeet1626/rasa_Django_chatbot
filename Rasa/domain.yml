@@ -28,6 +28,7 @@ intents:
   - offers_info
   - coupon_codes
   - platform_services
+  - pizza
 
 entities:
   - payment_method
@@ -43,7 +44,7 @@ responses:
   utter_cheer_up:
   - text: "Here is something to cheer you up:"
     image: "https://i.imgur.com/nGF1K8f.jpg"
-offers_info
+
   utter_did_that_help:
   - text: "Did that help you?"
 
@@ -110,7 +111,9 @@ offers_info
   utter_platform_services:
   - text : "We sell mobile phones, laptops, electronic gadgets and clothes. We also deal in banking facilities"
 
- 
+  utter_pizza:
+    - text : "We sell pizza. We also deal in burger facilities"
+  
 
 
 
