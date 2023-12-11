@@ -4,7 +4,7 @@ from rasa_chat_app.models import Tickets,Chats
 class UploadDocumentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tickets
-        fields = ["ext_id","document"]
+        fields = ["document",]
 
 class ChatsListingSerializer(serializers.ModelSerializer):
     class Meta:
