@@ -119,8 +119,13 @@
         </div>
         <div class="chat-body" id="chatBody">
             <!-- Messages will be dynamically added here -->
+            <!-- <div class="chat-container">
+                <div class="chat-message">
+                <span class="typing-loader"></span>
+                <span class="typing-loader"></span>
+                <span class="typing-loader"></span>
+               </div> -->
         </div>
-        <input id="file-input" type="file" style="display: none;" onchange="fileUpload()" />
         <div class="input-container">
             <input type="text" class="user-input" id="userInput" placeholder="Type your message...">
             <button class="mic_input" onclick="runSpeechRecog()" style="border: transparent;padding: 0 0.5rem;">
@@ -171,7 +176,6 @@
                     // Parse the JSON in the response
                 })
                 .then(data => {
-                    console.log('POST request successful', data);
                     createBoatMessage(data)
                 })
                 .catch(error => {
@@ -233,10 +237,47 @@
 
 
         $(document).on("click", ".upload", function (e) {
-            console.log("====------onclick function", e.target.id)
-            
+            const input = e.target.id;
+            console.log(input)
+            document.getElementById('file-input').click();
+
+
+
 
         })
+        function handleFileSelection(input) {
+            const fileName = input.files[0].name;
+            console.log('Selected file:', fileName);
+
+
+            uploadDocument(fileName);
+        }
+
+
+        function uploadDocument(fileName) {
+            console.log('Uploading document:', fileName);
+            const apiEndpoint = '/documentUpload/';
+            const document_url = fileName;
+
+            fetch(apiEndpoint, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    document_url
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+
+                    console.log('API Response:', data);
+
+                })
+                .catch(error => {
+                    console.error('API Error:', error);
+                });
+        }
 
         runSpeechRecog = () => {
             let recognization = new webkitSpeechRecognition();
