@@ -81,7 +81,7 @@ class UploadDocumentTicket(UpdateAPIView):
     serializer_class = UploadDocumentsSerializer
     def put(self, request):
         try:
-            ext_id = request.data["ext_id"]
+            # ext_id = request.data["ext_id"]
             # ticket_obj = Tickets.objects.filter(ext_id = ext_id).last()
             ticket_obj = Tickets.objects.filter(chat__chatroom__user_id = 1).last()
 

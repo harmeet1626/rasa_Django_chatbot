@@ -199,13 +199,10 @@
                     responseContainer.innerHTML = `${element.text}<br>
                     <button class="upload">Yes</button> 
                     <button onclick="userResponseButton('No')">No</button>`;
-
                     // Append the container to the chat body
                     chatBody.appendChild(responseContainer);
-
                     // Scroll to the newly added content
                     responseContainer.scrollIntoView({ behavior: "smooth" });
-
                     return;
                 }
 
@@ -228,56 +225,38 @@
                 return
             }
             chatBody.appendChild(userMessage);
-            // Clear input field
             document.getElementById('userInput').value = '';
-
-            // Scroll to the bottom of the chat body
             chatBody.scrollTop = chatBody.scrollHeight;
         }
 
 
         $(document).on("click", ".upload", function (e) {
             const input = e.target.id;
-            console.log(input)
             document.getElementById('file-input').click();
-
-
-
-
         })
         function handleFileSelection(input) {
-            const fileName = input.files[0].name;
+            const fileName = input.files[0];
             console.log('Selected file:', fileName);
-
-
             uploadDocument(fileName);
         }
 
-
-        function uploadDocument(fileName) {
-            console.log('Uploading document:', fileName);
+        function uploadDocument(file) {
             const apiEndpoint = '/documentUpload/';
-            const document_url = fileName;
-
+            const formData = new FormData();
+            formData.append('document', file);
             fetch(apiEndpoint, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    document_url
-                }),
+                body: formData,
             })
                 .then(response => response.json())
                 .then(data => {
-
                     console.log('API Response:', data);
-
                 })
                 .catch(error => {
                     console.error('API Error:', error);
                 });
         }
+
 
         runSpeechRecog = () => {
             let recognization = new webkitSpeechRecognition();
