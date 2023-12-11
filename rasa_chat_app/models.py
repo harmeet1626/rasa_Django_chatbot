@@ -23,7 +23,7 @@ class Tickets(models.Model):
     class Meta:
         db_table = "Tickets"
     ext_id = models.CharField(max_length=255,null=False, blank=False, unique = True)
-    text =models.CharField(max_length=255,null=False, blank=False, unique = True)
+    text =models.CharField(max_length=255,null=False, blank=False)
     document = models.FileField(upload_to =  "static/documents", null = True ,blank = True )
     chat= models.OneToOneField(Chats, on_delete=models.CASCADE, related_name="tickets")
     status = models.CharField(choices=(("Initiated","Initiated"),("In-Progress","In-Progress"),("Resolved","Resolved"),("Disposed","Disposed")),max_length=255)
