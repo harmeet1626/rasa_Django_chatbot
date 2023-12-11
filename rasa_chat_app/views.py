@@ -2,10 +2,12 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework.views import APIView
+from rest_framework.generics import *
 from rest_framework.response import Response 
 import requests, json, secrets, string, random
 from rasa_chat_app.models import Tickets, Chatroom
 from decouple import config
+from rasa_chat_app.serializers import UploadDocumentsSerializer
 
 
 def generate_random_alphanumeric_string(length):
@@ -40,7 +42,7 @@ class Chatbot(APIView):
             elif 'raise_ticket' in user_message.lower() and '-'  in user_message.lower():
                 ticket_number = generate_random_alphanumeric_string(5)
                 response_array = [{"text":f'Thankyou for sharing your problem, We have created a ticket for your issue. Please note down the ticket number T-{ticket_number} \n Do you want to share any related documents?'}]
-                Tickets.objects.create(ext_id=ticket_number,document_url="", chatroom_id=1,status ="Initiated")
+                Tickets.objects.create(ext_id=ticket_number,document="", chat_id=1,status ="Initiated")
                 status=200
                 message="Success"
     
@@ -70,6 +72,32 @@ class Chatbot(APIView):
         except Exception as E:
             print("internal server error===",str(E))
             return Response({"status":500, "message":str(E)})
+
+class UploadDocumentTicket(UpdateAPIView):
+    queryset = Tickets.objects.all()
+    serializer_class = UploadDocumentsSerializer
+    def put(self, request):
+        try:
+            ext_id = request.data["ext_id"]
+            ticket_obj = Tickets.objects.filter(ext_id = ext_id).last()
+            print("ticket_obj =", ticket_obj)
+            serializer = UploadDocumentsSerializer(ticket_obj,request.data)
+            if serializer.is_valid():
+                serializer.save()
+                response_array = [{"text":"Your Document has uploaded Successfully"}]
+                print(serializer.data)
+            else:
+                return Response({"status":500, "error":serializer.errors})
+            return Response({"status":200,"response":response_array,"document":serializer.data["document"]})
+        except Exception as E:
+            print("internal server error===",str(E))
+            return Response({"status":500, "error":str(E)})
+
+    
+
+
+
+
 
 
 
