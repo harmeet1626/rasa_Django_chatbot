@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot UI</title>
@@ -118,6 +120,7 @@
         <div class="chat-body" id="chatBody">
             <!-- Messages will be dynamically added here -->
         </div>
+        <input id="file-input" type="file" style="display: none;" onchange="fileUpload()" />
         <div class="input-container">
             <input type="text" class="user-input" id="userInput" placeholder="Type your message...">
             <button class="mic_input" onclick="runSpeechRecog()" style="border: transparent;padding: 0 0.5rem;">
@@ -129,16 +132,91 @@
             <button class="send-button" onclick="sendMessage()">
                 <image style="height: 25px; float: left;" src="/static/images/send.png" />
             </button>
+            <input id="file-input" type="file" style="display: none;" onchange="handleFileSelection(this)" />
+
         </div>
     </div>
 
     <script>
         var input_text = ''
-        function sendMessage() {
+        var userInput_text = document.getElementById("userInput");
+        userInput_text.addEventListener("keydown", function (e) {
+            if (e.code === "Enter" || e.code === "NumpadEnter") {  //checks whether the pressed key is "Enter"
+                sendMessage();
+            }
+        });
+        async function sendMessage() {
+
             var userInput = document.getElementById('userInput').value;
             var chatBody = document.getElementById('chatBody');
+            var prefix = ""
 
             // Add user message
+            createUserMessage()
+
+            await fetch(`/chatbot`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Specify the content type as JSON if sending JSON data
+                    // Add any other headers as needed
+                },
+                body: JSON.stringify({ message: userInput }), // Convert the data to JSON format
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                    // Parse the JSON in the response
+                })
+                .then(data => {
+                    console.log('POST request successful', data);
+                    createBoatMessage(data)
+                })
+                .catch(error => {
+                    console.error('There was a problem with the POST request', error);
+                    // Handle errors
+                });
+        }
+
+        function createBoatMessage(data) {
+            let chatBody = document.getElementById('chatBody');
+            data?.response?.forEach(element => {
+                console.log(element, "element ")
+                var botResponse = document.createElement('div');
+                botResponse.className = 'message bot-message';
+                if (element.text.includes('Do you want to share any related documents')) {
+                    // Create a div element to hold the content and buttons
+                    const responseContainer = document.createElement('div');
+                    responseContainer.className = 'message bot-message';
+
+                    // Set the inner HTML of the container with text and buttons
+                    responseContainer.innerHTML = `${element.text}<br>
+                    <button class="upload">Yes</button> 
+                    <button onclick="userResponseButton('No')">No</button>`;
+
+                    // Append the container to the chat body
+                    chatBody.appendChild(responseContainer);
+
+                    // Scroll to the newly added content
+                    responseContainer.scrollIntoView({ behavior: "smooth" });
+
+                    return;
+                }
+
+                botResponse.textContent = `${element.text}`
+                chatBody.appendChild(botResponse);
+                botResponse.scrollIntoView({ behavior: "smooth" });
+            });
+        }
+
+
+
+        function createUserMessage() {
+            var userInput = document.getElementById('userInput').value;
+            var chatBody = document.getElementById('chatBody');
+            var prefix = ""
             var userMessage = document.createElement('div');
             userMessage.className = 'message user-message';
             userMessage.textContent = userInput;
@@ -146,19 +224,20 @@
                 return
             }
             chatBody.appendChild(userMessage);
-
-            // Simulate bot response (you can replace this with actual bot logic)
-            var botResponse = document.createElement('div');
-            botResponse.className = 'message bot-message';
-            botResponse.textContent = 'Bot: Thanks for your message!';
-            chatBody.appendChild(botResponse);
-
             // Clear input field
             document.getElementById('userInput').value = '';
 
             // Scroll to the bottom of the chat body
             chatBody.scrollTop = chatBody.scrollHeight;
         }
+
+
+        $(document).on("click", ".upload", function (e) {
+            console.log("====------onclick function", e.target.id)
+            
+
+        })
+
         runSpeechRecog = () => {
             let recognization = new webkitSpeechRecognition();
             recognization.onstart = () => {
@@ -173,7 +252,7 @@
             recognization.start();
         }
 
-        function mount(){
+        function mount() {
             var botResponse = document.createElement('div');
             botResponse.className = 'message bot-message';
             botResponse.textContent = 'Hi, How Can I help you ?';

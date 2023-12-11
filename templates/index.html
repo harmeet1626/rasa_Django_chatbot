@@ -77,7 +77,7 @@
     }
 
     #conversation {
-      height: 65vh;
+      height: 343px;
       overflow-y: auto;
       padding: 20px;
       display: flex;
@@ -195,8 +195,6 @@
       right: 15px;
     }
 
-    response_array
-
     /* width */
     ::-webkit-scrollbar {
       width: 10px;
@@ -278,7 +276,7 @@
       <form id="input-form" class="form">
         <message-container>
           <input id="input-field" type="text" placeholder="Type your message here">&nbsp;
-          <button id="speech-button" onclick="startSpeechToText()">
+          <button id="speech-button" type="button" onclick="startSpeechToText()">
             <img class="mic_icon" height="25px"
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbfz0EPwsBESNxKeJju2czYhmGvAR_edzC1KfoTPuc1g&s"
               alt="Speech Recognition" />
@@ -289,6 +287,7 @@
           </button>
         </message-container>
       </form>
+      <input id="file-input" type="file" style="display: none;" onchange="handleFileSelection(this)" />
     </div>
   </div>
   <script>// Get chatbot elements
@@ -376,41 +375,45 @@
     };
     const actionField = document.getElementById('action-button');
 
-    function getUserInput(event) {
+
+    $(document).on("click", ".upload", function (e) {
+      console.log("====------onclick function", e.target.id)
       const chatbot = document.getElementById('chatbot');
       const conversation = document.getElementById('conversation');
 
-      // Get user input
-      const input = event.id;
+      const input = e.target.id;
+      console.log(input)
 
-      // Clear input field
-      const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" });
+      if (input === 'Yes') {
+        document.getElementById('file-input').click();
+        return;
+      }
 
-      // Add user input to conversation
+      const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
       let message = document.createElement('div');
       message.classList.add('chatbot-message', 'user-message');
       message.innerHTML = `<p class="chatbot-text" sentTime="${currentTime}">${input}</p>`;
       conversation.appendChild(message);
-      index
-      const response = generateResponse(input);
 
+      const response = generateResponse(input);
       let htmlResponse = '';
 
-      Object.keys(response).forEach((element) =>
-        htmlResponse += `<button id="${element}" class="action-text" type="button" onclick="getUserInput(${element})">
-                        ${element}</button>`);
+      Object.keys(response).forEach((element) => {
+        htmlResponse += `<button id="${element}" class="action-text" type="button" onclick="getUserInput('${element}')">
+                              ${element}</button>`;
+      });
 
-      // Add chatbot response to conversation
       message = document.createElement('div');
       message.classList.add('chatbot-message', 'chatbot');
       message.innerHTML = htmlResponse;
       conversation.appendChild(message);
-      message.scrollIntoView({ behavior: "smooth" });
-    };
+      message.scrollIntoView({ behavior: 'smooth' });
 
-
+    })
 
     function userInputEvent() {
+      console.log("userinput")
       const inputForm = document.getElementById('input-form');
       const inputField = document.getElementById('input-field');
 
@@ -423,9 +426,9 @@
         let displayInput = input;
 
         input = prefix + input;
+        prefix = '';
 
         inputField.value = '';
-
         const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" });
 
         let message = document.createElement('div');
@@ -434,9 +437,8 @@
         conversation.appendChild(message);
         message.scrollIntoView({ behavior: "smooth" });
 
-        $.post("/chatbot", { message: input }).done(function (data) {
+        $.post("/chatbot", { userMessage: input }).done(function (data) {
           let response = '';
-          console.log
 
           if (typeof data?.response === 'string' || data?.response instanceof String) {
             response = data?.response;
@@ -447,48 +449,107 @@
               prefix = "raise_ticket-";
             } else if (response === "please enter the ticket number") {
               prefix = "ticket-";
+            } else if (response.includes("Do you want to share any related documents?")) {
+              // Response includes the specified text, provide "Yes" and "No" buttons
+              response += `<br><button id="Yes" class="action-text upload" type="button">
+                                          Yes
+                                      </button>
+                                      <button id="No" class="action-text upload" type="button">
+                                          No
+                                      </button>`;
             } else {
               prefix = '';
             }
+
             message = document.createElement('div');
             message.classList.add('chatbot-message', 'chatbot');
             message.innerHTML = `<p class="chatbot-text" sentTime="${currentTime}">${response}</p>`;
             conversation.appendChild(message);
             message.scrollIntoView({ behavior: "smooth" });
-          } else {
-            if (data.status !== null) {
-              data?.response?.forEach(element => {
-                message = document.createElement('div');
-                message.classList.add('chatbot-message', 'chatbot');
-                message.innerHTML = `<p class="chatbot-text" sentTime="${currentTime}">${element.text}</p>`;
-                conversation.appendChild(message);
-                message.scrollIntoView({ behavior: "smooth" });
 
-              });
-            }
-            else {
-              data?.response?.forEach(element => {
-                response += `<button id="${element}" class="action-text" type="button" onclick="getUserInput(${element})">
-                                          ${element}</button>`;
-              });
-              message = document.createElement('div');
-              message.classList.add('chatbot-message', 'chatbot');
-              message.innerHTML = response;
-              conversation.appendChild(message);
-              message.scrollIntoView({ behavior: "smooth" });
-            }
           }
+          else {
+
+            data?.response?.forEach(element => {
+              response += `<button id="${element}" class="action-text" type="button" onclick="getUserInput(${element})">
+                                          ${element}
+                                      </button>`;
+            });
+
+            message = document.createElement('div');
+            message.classList.add('chatbot-message', 'chatbot');
+            message.innerHTML = response;
+            conversation.appendChild(message);
+            message.scrollIntoView({ behavior: "smooth" });
+          }
+
         });
       });
     }
 
+
+
+
     function generateResponse(input) {
+      console.log("generate input")
+
       let response = static_response;
       const keys = Object.keys(response);
       const inputKey = keys.find(w => w === input);
       // const randomKey = keys[Math.floor(Math.random() * keys.length)];
       return response[inputKey];
     };
+
+    function uploadDocument(fileName) {
+      console.log("upload doc")
+
+      console.log('Uploading document:', fileName);
+      const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" });
+
+
+      const acknowledgmentMessage = document.createElement('div');
+      acknowledgmentMessage.classList.add('chatbot-message', 'chatbot');
+      acknowledgmentMessage.innerHTML = `<p class="chatbot-text" sentTime="${currentTime}">Thanks for uploading the document! We have saved the document and will try to resolve the ticket as soon as possible.</p>`;
+      conversation.appendChild(acknowledgmentMessage);
+      acknowledgmentMessage.scrollIntoView({ behavior: 'smooth' });
+
+
+      const apiEndpoint = '/create_ticket';
+      const ticket_id = 'your_ticket_id';
+      const document_url = fileName;
+      const chatroom_id = '1';
+
+
+      fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ticket_id,
+          document_url,
+          chatroom_id,
+        }),
+      })
+        .then(response => response.json())
+        .then(data => {
+
+          console.log('API Response:', data);
+
+        })
+        .catch(error => {
+          console.error('API Error:', error);
+        });
+    }
+
+    function handleFileSelection(input) {
+      const fileName = input.files[0].name;
+      console.log('Selected file:', fileName);
+
+
+      uploadDocument(fileName);
+    }
+
   </script>
 </body>
 
