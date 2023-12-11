@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import *
 from rest_framework.response import Response 
 import requests, json, secrets, string, random
-from rasa_chat_app.models import Tickets, Chatroom
+from rasa_chat_app.models import Tickets, Chatroom, Chats
 from decouple import config
 from rasa_chat_app.serializers import UploadDocumentsSerializer
 
@@ -28,12 +28,14 @@ class Chatbot(APIView):
     
 
     def post(self,request):
+
         try:
             status,message,response_array=200,"",[]
             user_message = request.data["message"]
-            print(user_message)
-            chatroom = Chatroom.objects.filter(user=request.user.id).first()
-            
+            user=1
+            chatroom= Chatroom.objects.get_or_create(user=user)[0]
+            chat = Chats.objects.create(chatroom = chatroom, question = user_message)
+
             if 'help_me' in user_message.lower():
                 response_array = [{"text":"You can ask me about categories, products, or anything else. Feel free to explore!"}]
                 status=200
@@ -42,7 +44,7 @@ class Chatbot(APIView):
             elif 'raise_ticket' in user_message.lower() and '-'  in user_message.lower():
                 ticket_number = generate_random_alphanumeric_string(5)
                 response_array = [{"text":f'Thankyou for sharing your problem, We have created a ticket for your issue. Please note down the ticket number T-{ticket_number} \n Do you want to share any related documents?'}]
-                Tickets.objects.create(ext_id=ticket_number,document="", chat_id=1,status ="Initiated")
+                Tickets.objects.create(ext_id=ticket_number,document="", chat_id = chat.id,status ="Initiated")
                 status=200
                 message="Success"
     
@@ -67,11 +69,12 @@ class Chatbot(APIView):
                     print("chatbot_response.content",chatbot_response.content)
                     status = 400
                     message ="Rasa Error"
-
+            chat.response = response_array[0]["text"]
             return Response({"status":status,"message":message,"response":response_array})
         except Exception as E:
             print("internal server error===",str(E))
             return Response({"status":500, "message":str(E)})
+
 
 class UploadDocumentTicket(UpdateAPIView):
     queryset = Tickets.objects.all()
