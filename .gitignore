@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 rasa_chat_app/__pycache__/
 *cache/*
-
+Rasa/.rasa/cache/
 # C extensions
 *.so
 # Distribution / packaging
