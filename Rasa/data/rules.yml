@@ -85,7 +85,4 @@ rules:
   - intent: order_status
   - action: utter_order_status
 
-- rule: enquire pizza
-  steps:
-  - intent: pizza
-  - action: utter_pizza
+
