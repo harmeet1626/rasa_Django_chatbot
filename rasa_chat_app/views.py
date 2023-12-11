@@ -7,7 +7,8 @@ from rest_framework.response import Response
 import requests, json, secrets, string, random
 from rasa_chat_app.models import Tickets, Chatroom, Chats
 from decouple import config
-from rasa_chat_app.serializers import UploadDocumentsSerializer
+from rasa_chat_app.serializers import *
+from rasa_chat_app.pagination import paginator
 
 
 def generate_random_alphanumeric_string(length):
@@ -25,7 +26,6 @@ class Chatbot(APIView):
     def get_headers(self):
         headers = {"Content-Type": "application/json"}
         return headers
-    
 
     def post(self,request):
 
@@ -82,7 +82,9 @@ class UploadDocumentTicket(UpdateAPIView):
     def put(self, request):
         try:
             ext_id = request.data["ext_id"]
-            ticket_obj = Tickets.objects.filter(ext_id = ext_id).last()
+            # ticket_obj = Tickets.objects.filter(ext_id = ext_id).last()
+            ticket_obj = Tickets.objects.filter(chat__chatroom__user_id = 1).last()
+
             print("ticket_obj =", ticket_obj)
             serializer = UploadDocumentsSerializer(ticket_obj,request.data)
             if serializer.is_valid():
@@ -97,7 +99,18 @@ class UploadDocumentTicket(UpdateAPIView):
             return Response({"status":500, "error":str(E)})
 
     
+class ChatsListing(ListAPIView):
+    queryset = Chats.objects.all()
+    serializer_class = ChatsListingSerializer
+    pagination_class = paginator
 
+    def get_queryset(self):
+        try:
+            chats = Chats.objects.filter(chatroom__user = 1).order_by("-id")
+            return chats
+        except Exception as E:
+            print("internal server error===",str(E))
+            return Response({"status":500, "error":str(E)})
 
 
 
