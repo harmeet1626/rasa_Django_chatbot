@@ -117,6 +117,51 @@
         .button-container {
             padding: 10px;
         }
+
+
+
+
+        /* .chat-container {
+      width: 300px;
+      margin: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      position: relative;
+    } */
+        /* Style for the chat message */
+        .chat-message {
+            background-color: #F1F1F1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        /* Style for the typing loader */
+        .typing-loader {
+            background-color: green !important;
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #555;
+            animation: typingAnimation 1s infinite;
+            margin-left: 5px;
+            border-radius: 28px;
+        }
+
+        /* Keyframe animation for the typing loader */
+        @keyframes typingAnimation {
+            0% {
+                height: 20px;
+            }
+
+            50% {
+                height: 10px;
+            }
+
+            100% {
+                height: 20px;
+            }
+        }
     </style>
 </head>
 
@@ -130,6 +175,16 @@
 
         </div>
         <div class="chat-body" id="chatBody">
+        </div>
+        <div id="loading" style="display: none;">
+            <div class="chat-message">
+                <span class="typing-loader">
+                </span>
+                <span class="typing-loader">
+                </span>
+                <span class="typing-loader">
+                </span>
+            </div>
         </div>
         <div class="input-container">
             <input type="text" class="user-input" id="userInput" placeholder="Type your message...">
@@ -149,20 +204,35 @@
 
     <script>
         var input_text = ''
-        var userInput_text = document.getElementById("userInput");
+        let userInput_text = document.getElementById("userInput");
+        let prefix = ""
         userInput_text.addEventListener("keydown", function (e) {
             if (e.code === "Enter" || e.code === "NumpadEnter") {  //checks whether the pressed key is "Enter"
                 sendMessage();
             }
         });
-        async function sendMessage() {
-
-            var userInput = document.getElementById('userInput').value;
+        async function sendMessage(msg = "") {
+            var userInput
+            if (msg == '') {
+                userInput = document.getElementById('userInput').value;
+            }
+            else {
+                userInput = msg
+            }
             var chatBody = document.getElementById('chatBody');
-            var prefix = ""
+
+            if (prefix == "") {
+
+            }
+            else {
+                userInput = prefix + userInput
+            }
+
 
             // Add user message
             createUserMessage()
+            chatBoatTyping(true)
+            const startTime = new Date();
             await fetch(`/chatbot`, {
                 method: 'POST',
                 headers: {
@@ -180,8 +250,19 @@
                     // Parse the JSON in the response
                 })
                 .then(data => {
-                    chatBoatTyping(true)
-                    createBoatMessage(data)
+                    prefix = ""
+                    const endTime = new Date();
+                    const durationInMilliseconds = endTime - startTime;
+                    const durationInSeconds = durationInMilliseconds / 1000;
+                    const delay = Math.max(0, 1500 - durationInMilliseconds);
+                    setTimeout(() => {
+                        console.log(`Waited for at least 3 seconds after API response`);
+                        chatBoatTyping(false)
+                        createBoatMessage(data)
+                    }, delay);
+
+
+
                 })
                 .catch(error => {
                     console.error('There was a problem with the POST request', error);
@@ -190,15 +271,32 @@
         }
 
         function chatBoatTyping(e) {
-            console.log(e, 'chatboat typing status')
+            if (e == true) {
+                var element = document.getElementById("loading");
+                element.style.display = "block";
+            }
+            if (e == false) {
+                var element = document.getElementById("loading");
+                element.style.display = "none";
+            }
+
         }
 
         function createBoatMessage(data) {
             let chatBody = document.getElementById('chatBody');
             data?.response?.forEach(element => {
-                console.log(element, "element ")
                 var botResponse = document.createElement('div');
                 botResponse.className = 'message bot-message';
+
+                if (element.text.includes("please write your concern in one line")) {
+                    prefix = 'raise_ticket-'
+                }
+                if (element.text.includes("please enter the ticket number")) {
+                    prefix = 'ticket-'
+                }
+                if (element.text.includes("Can you please enter your order id?")) {
+                    prefix = "track my order-"
+                }
                 if (element.text.includes('Do you want to share any related documents')) {
                     // Create a div element to hold the content and buttons
                     const responseContainer = document.createElement('div');
@@ -219,7 +317,6 @@
             });
         }
         function addButton() {
-            console.log('add buttn')
             var botResponse = document.createElement('div');
             botResponse.className = 'bot-button';
             botResponse.innerHTML = `
@@ -232,10 +329,7 @@
             // Scroll to the newly added content
             botResponse.scrollIntoView({ behavior: "smooth" });
             return;
-
         }
-
-
 
         function createUserMessage() {
             var userInput = document.getElementById('userInput').value;
@@ -259,7 +353,6 @@
         })
         function handleFileSelection(input) {
             const fileName = input.files[0];
-            console.log('Selected file:', fileName);
             uploadDocument(fileName);
         }
 
