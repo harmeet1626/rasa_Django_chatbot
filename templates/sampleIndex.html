@@ -314,6 +314,7 @@
                 botResponse.textContent = `${element.text}`
                 chatBody.appendChild(botResponse);
                 botResponse.scrollIntoView({ behavior: "smooth" });
+
             });
         }
         function addButton() {
@@ -367,6 +368,28 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('API Response:', data);
+                    let chatBody = document.getElementById('chatBody');
+                    var botResponse = document.createElement('div');
+                    botResponse.className = 'message bot-message';
+
+                    // Add the text content from the response
+                    botResponse.innerHTML = `${data?.response[0]?.text}`;
+
+                    // Check if the document URL exists in the response
+                    if (data?.document) {
+                        // Create a link element
+                        var documentLink = document.createElement('a');
+                        documentLink.href = data.document; // Set the URL
+                        documentLink.target = '_blank'; // Open link in a new tab
+                        documentLink.textContent = 'Click here to view the document';
+
+                        // Append the link to the bot response
+                        botResponse.appendChild(document.createElement('br')); // Add a line break
+                        botResponse.appendChild(documentLink);
+                    }
+
+                    chatBody.appendChild(botResponse);
+                    botResponse.scrollIntoView({ behavior: "smooth" });
                 })
                 .catch(error => {
                     console.error('API Error:', error);
@@ -388,35 +411,44 @@
             recognization.start();
         }
 
-
-        function getChats() {
-            const apiEndpoint = 'user/chats/';
-            fetch(apiEndpoint, {
-                method: 'GET',
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('API Response getchat:', data);
-                })
-                .catch(error => {
-                    console.error('API Error:', error);
-                });
-        }
-        // getChats()
-
         async function mount() {
-            var botResponse = document.createElement('div');
-            botResponse.className = 'message bot-message';
-            botResponse.textContent = 'Hi this is your personal assistant zoya. How may I help you ?';
-            const apiEndpoint = 'user/chats/';
-            chatBody.appendChild(botResponse);
+            // var botResponse = document.createElement('div');
+            // botResponse.className = 'message bot-message';
+            // botResponse.textContent = 'Hi this is your personal assistant zoya. How may I help you ?';
+            // chatBody.appendChild(botResponse);
 
+            const apiEndpoint = 'user/chats/';
             await fetch(apiEndpoint, {
                 method: 'GET',
             })
                 .then(response => response.json())
                 .then(data => {
                     console.log('API Response getchat:', data);
+                    let chatBody = document.getElementById('chatBody');
+
+                    data.results.forEach((element, index, array) => {
+                        // Calculate the index in reverse order
+                        const reversedIndex = array.length - 1 - index;
+
+                        // for user message
+                        var userMessage = document.createElement('div');
+                        userMessage.className = 'message user-message';
+                        userMessage.textContent = `${array[reversedIndex].question}`;
+                        chatBody.appendChild(userMessage);
+
+                        // for bot message
+                        var botResponse = document.createElement('div');
+                        botResponse.className = 'message bot-message';
+                        botResponse.textContent = `${array[reversedIndex].response}`;
+                        chatBody.appendChild(botResponse);
+                    })
+                }).then(() => {
+                    console.log("new message")
+                    var botResponse = document.createElement('div');
+                    botResponse.className = 'message bot-message';
+                    botResponse.textContent = 'Hi this is your personal assistant zoya. How may I help you ?';
+                    chatBody.appendChild(botResponse);
+                    botResponse.scrollIntoView({ behavior: "smooth" });
                 })
                 .catch(error => {
                     console.error('API Error:', error);

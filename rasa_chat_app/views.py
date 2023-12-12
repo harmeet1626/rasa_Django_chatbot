@@ -74,6 +74,7 @@ class Chatbot(APIView):
                     print("chatbot_response.content",chatbot_response.content)
                     status = 400
                     message ="Rasa Error"
+                chat.question = user_message
             chat.response = response_array[0]["text"]
             chat.save()
             return Response({"status":status,"message":message,"response":response_array})
