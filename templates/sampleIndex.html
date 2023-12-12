@@ -56,8 +56,9 @@
             color: #fff;
             border-radius: 20px;
             padding: 15px;
-            max-width: 40%;
+            max-width: 60%;
             text-align: right;
+            font-size: 13px;
         }
 
         .user-message {
@@ -69,7 +70,7 @@
             background-color: #ddd;
             color: black;
             text-align: left;
-            max-width: 40%;
+            max-width: 60%;
             border-bottom-left-radius: 0px !important;
         }
 
@@ -118,13 +119,6 @@
 
         </div>
         <div class="chat-body" id="chatBody">
-            <!-- Messages will be dynamically added here -->
-            <!-- <div class="chat-container">
-                <div class="chat-message">
-                <span class="typing-loader"></span>
-                <span class="typing-loader"></span>
-                <span class="typing-loader"></span>
-               </div> -->
         </div>
         <div class="input-container">
             <input type="text" class="user-input" id="userInput" placeholder="Type your message...">
@@ -158,7 +152,6 @@
 
             // Add user message
             createUserMessage()
-
             await fetch(`/chatbot`, {
                 method: 'POST',
                 headers: {
@@ -176,12 +169,17 @@
                     // Parse the JSON in the response
                 })
                 .then(data => {
+                    chatBoatTyping(true)
                     createBoatMessage(data)
                 })
                 .catch(error => {
                     console.error('There was a problem with the POST request', error);
                     // Handle errors
                 });
+        }
+
+        function chatBoatTyping(e) {
+            console.log(e, 'chatboat typing status')
         }
 
         function createBoatMessage(data) {
@@ -199,6 +197,7 @@
                     responseContainer.innerHTML = `${element.text}<br>
                     <button class="upload">Yes</button> 
                     <button onclick="userResponseButton('No')">No</button>`;
+
                     // Append the container to the chat body
                     chatBody.appendChild(responseContainer);
                     // Scroll to the newly added content
@@ -272,13 +271,44 @@
             recognization.start();
         }
 
-        function mount() {
+
+        function getChats() {
+            const apiEndpoint = 'user/chats/';
+            fetch(apiEndpoint, {
+                method: 'GET',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('API Response getchat:', data);
+                })
+                .catch(error => {
+                    console.error('API Error:', error);
+                });
+        }
+        // getChats()
+
+        async function mount() {
             var botResponse = document.createElement('div');
             botResponse.className = 'message bot-message';
             botResponse.textContent = 'Hi, How Can I help you ?';
             chatBody.appendChild(botResponse);
+
+            await fetch(apiEndpoint, {
+                method: 'GET',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('API Response getchat:', data);
+
+
+
+                })
+                .catch(error => {
+                    console.error('API Error:', error);
+                });
         }
         mount()
+
     </script>
 
 </body>
