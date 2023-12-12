@@ -9,11 +9,12 @@ from rasa_chat_app.models import Tickets, Chatroom, Chats
 from decouple import config
 from rasa_chat_app.serializers import *
 from rasa_chat_app.pagination import paginator
+from django.shortcuts import get_object_or_404
 
 
 def generate_random_alphanumeric_string(length):
         alphanumeric_characters = string.ascii_letters + string.digits
-        return ''.join(secrets.choice(alphanumeric_characters) for _ in range(length))
+        return "T-"+''.join(secrets.choice(alphanumeric_characters) for _ in range(length))
 
 
 def index(request):
@@ -30,25 +31,30 @@ class Chatbot(APIView):
     def post(self,request):
 
         try:
-            status,message,response_array=200,"",[]
+            status,message,response_array=200,"Success",[]
             user_message = request.data["message"]
             user=1
             chatroom= Chatroom.objects.get_or_create(user=user)[0]
-            chat = Chats.objects.create(chatroom = chatroom, question = user_message)
+            chat = Chats.objects.create(chatroom = chatroom)
 
             if 'help_me' in user_message.lower():
                 response_array = [{"text":"You can ask me about categories, products, or anything else. Feel free to explore!"}]
-                status=200
-                message="Success"
-
-            elif 'raise_ticket' in user_message.lower() and '-'  in user_message.lower():
+            elif 'raise_ticket-' in user_message.lower():
                 ticket_number = generate_random_alphanumeric_string(5)
-                response_array = [{"text":f'Thankyou for sharing your problem, We have created a ticket for your issue. Please note down the ticket number T-{ticket_number} '},{"text":"Do you want to share any related documents?"}]
-                Tickets.objects.create(ext_id=ticket_number,document="", chat_id = chat.id,status ="Initiated")
-                status=200
-                message="Success"
-    
-    
+                response_array = [{"text":f'Thankyou for sharing your problem, We have created a ticket for your issue. Please note down the ticket number {ticket_number} '},{"text":"Do you want to share any related documents?"}]
+                user_message =user_message.replace("raise_ticket-","")
+                chat.question = user_message
+                Tickets.objects.create(ext_id=ticket_number,document="", chat_id = chat.id,status ="Initiated",text=user_message)
+            elif 'track_ticket-' in user_message.lower():
+                ext_id = user_message.lower().replace("track_ticket-","")
+                try:
+                    ticket_details = get_object_or_404(Tickets,ext_id=ext_id)
+                    response_array = [{"text":f'Current status of your ticket {ext_id} is marked as "{ticket_details.status}"'}]
+                except:
+                    response_array = [{"text":f'Sorry, We were not able to fetch the details of this ticket. Please enter the correct ticket number'}]
+                user_message =user_message.replace("track_ticket-","")
+                chat.question = user_message
+                
             else:
                 url =  config('RASA_URL')
                 data = request.data
@@ -63,7 +69,6 @@ class Chatbot(APIView):
                     print("response:================>", response_array)
                     if response_array ==[]:
                         response_array =[{"text":"I'm sorry. I dont have the answer to that."}]
-                    status=200
                     # return Response({"status":200, "response":response_array})
                 else:
                     print("chatbot_response.content",chatbot_response.content)
@@ -112,6 +117,9 @@ class ChatsListing(ListAPIView):
         except Exception as E:
             print("internal server error===",str(E))
             return Response({"status":500, "error":str(E)})
+        
+
+
 
 
 
