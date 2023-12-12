@@ -435,7 +435,17 @@
                         // for bot message
                         var botResponse = document.createElement('div');
                         botResponse.className = 'message bot-message';
-                        botResponse.textContent = `${element.response}`;
+                        if (element.type == 'text') {
+                            botResponse.textContent = `${element.response}`;
+                        }
+                        else {
+                            var documentLink = document.createElement('a');
+                            documentLink.href = element.document;
+                            documentLink.target = '_blank';
+                            documentLink.textContent = 'Click here to view the document';
+                            botResponse.appendChild(document.createElement('br'));
+                            botResponse.appendChild(documentLink);
+                        }
 
                         // Insert bot response at the beginning of the chatBody
                         chatBody.insertBefore(botResponse, chatBody.firstChild);
