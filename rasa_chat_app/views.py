@@ -36,7 +36,7 @@ class Chatbot(APIView):
             user=1
             chatroom= Chatroom.objects.get_or_create(user=user)[0]
             chat = Chats.objects.create(chatroom = chatroom)
-
+            print("user_message=============>",user_message)
             if 'help_me' in user_message.lower():
                 response_array = [{"text":"You can ask me about categories, products, or anything else. Feel free to explore!"}]
             elif 'raise_ticket-' in user_message.lower():
@@ -66,14 +66,13 @@ class Chatbot(APIView):
                 if chatbot_response.status_code == 200 :
                     chatbot_response = json.loads(chatbot_response.content)
                     response_array = chatbot_response
-                    print("response:================>", response_array)
                     if response_array ==[]:
                         response_array =[{"text":"I'm sorry. I dont have the answer to that."}]
                     # return Response({"status":200, "response":response_array})
                 else:
-                    print("chatbot_response.content",chatbot_response.content)
                     status = 400
                     message ="Rasa Error"
+                chat.question = user_message
             chat.response = response_array[0]["text"]
             chat.save()
             return Response({"status":status,"message":message,"response":response_array})
@@ -91,12 +90,12 @@ class UploadDocumentTicket(UpdateAPIView):
             # ticket_obj = Tickets.objects.filter(ext_id = ext_id).last()
             ticket_obj = Tickets.objects.filter(chat__chatroom__user_id = 1).last()
 
-            print("ticket_obj =", ticket_obj)
             serializer = UploadDocumentsSerializer(ticket_obj,request.data)
             if serializer.is_valid():
                 serializer.save()
+                # chatroom_obj = Chatroom.objects.filter(user=request.user)
+                Chats.objects.create(chatroom=ticket_obj.chat.chatroom, document = serializer.data["document"],type = "file")
                 response_array = [{"text":"Your Document has uploaded Successfully"}]
-                print(serializer.data)
             else:
                 return Response({"status":500, "error":serializer.errors})
             return Response({"status":200,"response":response_array,"document":serializer.data["document"]})
@@ -118,8 +117,6 @@ class ChatsListing(ListAPIView):
             print("internal server error===",str(E))
             return Response({"status":500, "error":str(E)})
         
-
-
 
 
 

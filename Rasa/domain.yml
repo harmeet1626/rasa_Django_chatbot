@@ -28,13 +28,32 @@ intents:
   - offers_info
   - coupon_codes
   - platform_services
-  - pizza
+
+
+forms: 
+  restaurant_form:
+    required_slots:
+      - cuisine
+      - num_people
+      - outdoor_seating
+
+
+
+
+
 
 entities:
   - payment_method
   - day
   - person
+  - cuisine
+  - number
 
+slots:
+  cuisine:
+    type: text
+    mappings:
+      type: from_entity
 
 
 responses:
