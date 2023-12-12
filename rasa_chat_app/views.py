@@ -43,7 +43,7 @@ class Chatbot(APIView):
 
             elif 'raise_ticket' in user_message.lower() and '-'  in user_message.lower():
                 ticket_number = generate_random_alphanumeric_string(5)
-                response_array = [{"text":f'Thankyou for sharing your problem, We have created a ticket for your issue. Please note down the ticket number T-{ticket_number} \n Do you want to share any related documents?'}]
+                response_array = [{"text":f'Thankyou for sharing your problem, We have created a ticket for your issue. Please note down the ticket number T-{ticket_number} '},{"text":"Do you want to share any related documents?"}]
                 Tickets.objects.create(ext_id=ticket_number,document="", chat_id = chat.id,status ="Initiated")
                 status=200
                 message="Success"
@@ -70,6 +70,7 @@ class Chatbot(APIView):
                     status = 400
                     message ="Rasa Error"
             chat.response = response_array[0]["text"]
+            chat.save()
             return Response({"status":status,"message":message,"response":response_array})
         except Exception as E:
             print("internal server error===",str(E))
