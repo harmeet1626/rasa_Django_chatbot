@@ -411,38 +411,38 @@
             recognization.start();
         }
 
+        let apiEndpoint = 'user/chats/';
         async function mount() {
-            // var botResponse = document.createElement('div');
-            // botResponse.className = 'message bot-message';
-            // botResponse.textContent = 'Hi this is your personal assistant zoya. How may I help you ?';
-            // chatBody.appendChild(botResponse);
-
-            const apiEndpoint = 'user/chats/';
             await fetch(apiEndpoint, {
                 method: 'GET',
             })
                 .then(response => response.json())
                 .then(data => {
                     console.log('API Response getchat:', data);
+                    apiEndpoint = data.next;
+                    console.log('endpoint updated', apiEndpoint);
                     let chatBody = document.getElementById('chatBody');
 
                     data.results.forEach((element, index, array) => {
-                        // Calculate the index in reverse order
-                        const reversedIndex = array.length - 1 - index;
-
                         // for user message
                         var userMessage = document.createElement('div');
                         userMessage.className = 'message user-message';
-                        userMessage.textContent = `${array[reversedIndex].question}`;
-                        chatBody.appendChild(userMessage);
+                        userMessage.textContent = `${element.question}`;
+
+                        // Insert user message at the beginning of the chatBody
+                        chatBody.insertBefore(userMessage, chatBody.firstChild);
 
                         // for bot message
                         var botResponse = document.createElement('div');
                         botResponse.className = 'message bot-message';
-                        botResponse.textContent = `${array[reversedIndex].response}`;
-                        chatBody.appendChild(botResponse);
-                    })
-                }).then(() => {
+                        botResponse.textContent = `${element.response}`;
+
+                        // Insert bot response at the beginning of the chatBody
+                        chatBody.insertBefore(botResponse, chatBody.firstChild);
+                    });
+                })
+
+                .then(() => {
                     console.log("new message")
                     var botResponse = document.createElement('div');
                     botResponse.className = 'message bot-message';
@@ -455,6 +455,26 @@
                 });
         }
         mount()
+        chatBody.addEventListener('scroll', () => {
+            if (chatBody.scrollTop === 0) {
+                mount();
+            }
+        });
+
+
+
+        // function loadMoreMessages(url) {
+        //     fetchData(currentPage)
+        //         .then(data => {
+        //             appendMessages(data.results);
+        //             currentPage++;
+        //             isLoading = false;
+        //         })
+        //         .catch(error => {
+        //             console.error('Error fetching data:', error);
+        //             isLoading = false;
+        //         });
+        // }
 
     </script>
 
