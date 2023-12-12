@@ -9,5 +9,5 @@ class UploadDocumentsSerializer(serializers.ModelSerializer):
 class ChatsListingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chats
-        fields = "__all__"
+        exclude = ("chatroom",)
 
