@@ -86,3 +86,7 @@ rules:
   - action: utter_order_status
 
 
+- rule: Check work timings
+  steps:
+  - intent: work_timings
+  - action: utter_work_timings

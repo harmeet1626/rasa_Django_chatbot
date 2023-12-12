@@ -16,6 +16,7 @@ class Chats(models.Model):
     question = models.CharField(max_length=255, null=True, blank=True)
     response = models.CharField(max_length=255, null=True, blank=True)
     document = models.CharField(max_length=255, null=True, blank=True)
+    type = models.CharField(choices=(("text","text"),("file","file")),default="text",max_length=255)
     created_at = models.DateTimeField(default=datetime.now())
 
 

@@ -255,9 +255,3 @@ nlu:
     - What products do you sell?
     - what does you company do?
 
-- intent : pizza
-  examples : |
-    - Tell me about the pizza.
-    - Tell me about your pizza
-    - What pizza do you sell?
-    - what does your pizza do?
