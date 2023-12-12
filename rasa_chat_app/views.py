@@ -86,18 +86,19 @@ class UploadDocumentTicket(UpdateAPIView):
     serializer_class = UploadDocumentsSerializer
     def put(self, request):
         try:
-            # ext_id = request.data["ext_id"]
-            # ticket_obj = Tickets.objects.filter(ext_id = ext_id).last()
+            print(request.data)
             ticket_obj = Tickets.objects.filter(chat__chatroom__user_id = 1).last()
-
+            if not ticket_obj:
+                return Response({"status":400, "error":"Ticket doesn't exist"})
             serializer = UploadDocumentsSerializer(ticket_obj,request.data)
             if serializer.is_valid():
+                print("serializer is validated")
                 serializer.save()
-                # chatroom_obj = Chatroom.objects.filter(user=request.user)
+                print("serializer  saved")
                 Chats.objects.create(chatroom=ticket_obj.chat.chatroom, document = serializer.data["document"],type = "file")
                 response_array = [{"text":"Your Document has uploaded Successfully"}]
             else:
-                return Response({"status":500, "error":serializer.errors})
+                return Response({"status":400, "error":serializer.errors})
             return Response({"status":200,"response":response_array,"document":serializer.data["document"]})
         except Exception as E:
             print("internal server error===",str(E))
