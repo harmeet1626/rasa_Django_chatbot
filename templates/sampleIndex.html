@@ -106,6 +106,17 @@
             background-color: #fff;
             cursor: pointer;
         }
+
+        .upload_button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .button-container {
+            padding: 10px;
+        }
     </style>
 </head>
 
@@ -194,21 +205,34 @@
                     responseContainer.className = 'message bot-message';
 
                     // Set the inner HTML of the container with text and buttons
-                    responseContainer.innerHTML = `${element.text}<br>
-                    <button class="upload">Yes</button> 
-                    <button onclick="userResponseButton('No')">No</button>`;
-
+                    responseContainer.innerHTML = `${element.text}`;
                     // Append the container to the chat body
                     chatBody.appendChild(responseContainer);
                     // Scroll to the newly added content
                     responseContainer.scrollIntoView({ behavior: "smooth" });
+                    addButton()
                     return;
                 }
-
                 botResponse.textContent = `${element.text}`
                 chatBody.appendChild(botResponse);
                 botResponse.scrollIntoView({ behavior: "smooth" });
             });
+        }
+        function addButton() {
+            console.log('add buttn')
+            var botResponse = document.createElement('div');
+            botResponse.className = 'bot-button';
+            botResponse.innerHTML = `
+                <div class="button-container">
+                    <button class="upload_button upload">Yes</button> 
+                    <button class="upload_button" onclick="userResponseButton('No')">No</button>
+                </div>`;
+            // Append the container to the chat body
+            chatBody.appendChild(botResponse);
+            // Scroll to the newly added content
+            botResponse.scrollIntoView({ behavior: "smooth" });
+            return;
+
         }
 
 
@@ -290,7 +314,8 @@
         async function mount() {
             var botResponse = document.createElement('div');
             botResponse.className = 'message bot-message';
-            botResponse.textContent = 'Hi, How Can I help you ?';
+            botResponse.textContent = 'Hi this is your personal assistant zoya. How may I help you ?';
+            const apiEndpoint = 'user/chats/';
             chatBody.appendChild(botResponse);
 
             await fetch(apiEndpoint, {
@@ -299,9 +324,6 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('API Response getchat:', data);
-
-
-
                 })
                 .catch(error => {
                     console.error('API Error:', error);
