@@ -32,3 +32,13 @@ class Tickets(models.Model):
 
 
 
+class Bookings(models.Model):
+    class Meta:
+        db_table = "bookings"
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    cuisine =models.CharField(max_length=255,null=False, blank=False)
+    people_num = models.IntegerField()
+    outdoor_seating= models.BooleanField(default=False)
+    booking_date = models.DateTimeField(null=False)
+    created_at = models.DateTimeField(default=datetime.now(),null=False)
+

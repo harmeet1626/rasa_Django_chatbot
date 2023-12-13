@@ -63,6 +63,7 @@ class Chatbot(APIView):
                     "sender": "Ranjeet",
                 }
                 chatbot_response = requests.post(url,data=json.dumps(chatbot_data),headers=self.get_headers())
+                print("chatbot_response======================>",chatbot_response)
                 if chatbot_response.status_code == 200 :
                     chatbot_response = json.loads(chatbot_response.content)
                     response_array = chatbot_response
