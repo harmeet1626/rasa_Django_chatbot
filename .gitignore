@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-rasa_chat_app/__pycache__/
+api/__pycache__/
 *cache/*
 Rasa/.rasa/cache/
 static/documents/

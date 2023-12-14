@@ -1,0 +1,184 @@
+version: "3.1"
+
+intents:
+
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - bot_abilities
+  - change_my_address
+  - reset_my_password
+  - available_payment_methods
+  - average_delivery_time
+  - cancel_my_order
+  - work_timings
+  - help
+  - initiate_refund
+  - refund_answer
+  - refund_time_question
+  - raise_ticket
+  - ticket_resolution_time
+  - track_order
+  - order_status
+  - offers_info
+  - coupon_codes
+  - platform_services
+  - request_restaurant
+  - inform
+  - get_my_bookings
+  - affirm_create_new_booking
+
+actions:
+  - action_book_table
+  - get_booking_details
+
+
+entities:
+  - payment_method
+  - day
+  - person
+  - cuisine
+  - number
+
+
+
+forms: 
+  restaurant_form:
+    required_slots:
+      - cuisine
+      - num_people
+      - outdoor_seating
+
+
+
+slots:
+  cuisine:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: cuisine
+  num_people:
+    type: float
+    mappings:
+    - type: from_entity
+      entity: number
+  outdoor_seating:
+    type: bool
+    mappings:
+    - type: from_intent
+      intent: affirm
+      value: true
+      conditions:
+      - active_loop: restaurant_form
+        requested_slot: outdoor_seating
+    - type: from_intent
+      intent: deny
+      value: false
+      conditions:
+      - active_loop: restaurant_form
+        requested_slot: outdoor_seating
+
+
+responses:
+  utter_greet:
+  - text: "Hey! How are you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Good Bye"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+
+  utter_bot_abilities:
+  - text : "You can ask me about orders, loans, offers, tickets and customer support."
+
+  utter_change_my_address:
+  - text : "Go to the address tab in your profile and can change the address."
+
+  utter_reset_my_password:
+  - text : "Go to forgot password setting in your profile. A mail will be sent to you to change your password."
+
+  utter_available_payment_methods:
+  - text : "We support COD, Credit/Debit Card and UPI payments."
+
+  utter_average_delivery_time:
+  - text : "We generraly deliver within 3-5 working days in India."
+
+  utter_cancel_my_order:
+  - text : "Sorry, Due to business restrictions, we can not cancel your order. But once recieved, you can raise a return request for that order."
+
+  utter_work_timings:
+  - text : "We work from Monday to Friday, from 9 am to 7 pm"
+
+  utter_help:
+  - text : "You can send an email on ranjeet@gmail.com to register a ticket or  call on +91 9878987878 to connect to our customer support"
+
+  utter_initiate_refund:
+  - text : "Can you please provide the reason for it?"
+
+  utter_refund_answer:
+  - text : "please go to your order and initiate a refund/return request. You can also connect to customer support if you want to register a ticket."
+
+  utter_refund_time_question:
+  - text : "Refunds take 7-14 days to reflect in your payment source."
+
+  utter_confirm_raise_ticket:
+  - text : "please write your concern in one line."
+
+  utter_ticket_resolution_time:
+  - text : "It will take 5-7 business days to resolve the issue."
+
+  utter_track_order:
+  - text : "Go to orders page and click on 'Track my Order' button. it will help you tack your order's location"
+
+  utter_order_status:
+  - text : "please enter your order id."
+
+  utter_offers_info:
+  - text : "Yes on the occassion of New year we have 10% discount on all products across our platform."
+
+  utter_coupon_codes:
+  - text : "You can use 'Flat10', 'New10', 'Bot10' to avail discounts"
+
+  utter_platform_services:
+  - text : "We sell mobile phones, laptops, electronic gadgets and clothes. We also deal in banking facilities"
+
+  utter_confirm:
+  - text : "Are you sure ?"
+ 
+  utter_ask_cuisine:
+  - text : "What cuisine?"
+
+  utter_ask_num_people:
+  - text : "How many people?"
+  
+  utter_ask_outdoor_seating:
+  - text : "Do you want to sit outside?"
+
+  utter_submit:
+  - text: "All done!"
+  utter_slots_values:
+  - text: "I am going to run a restaurant search using the following parameters:\n
+            - cuisine: {cuisine}\n
+            - num_people: {num_people}\n
+            - outdoor_seating: {outdoor_seating}"
+
+
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
