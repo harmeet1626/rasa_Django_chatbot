@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 api/__pycache__/
 *cache/*
-Rasa/.rasa/cache/
+# app_rasa/.rasa/cache/
 static/documents/
 # C extensions
 *.so
