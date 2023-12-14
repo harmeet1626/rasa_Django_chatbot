@@ -8,6 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot UI</title>
     <style>
+        .pre-line {
+            white-space: pre-line;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -286,7 +290,7 @@
             let chatBody = document.getElementById('chatBody');
             data?.response?.forEach(element => {
                 var botResponse = document.createElement('div');
-                botResponse.className = 'message bot-message';
+                botResponse.className = 'message bot-message pre-line';
 
                 if (element.text.includes("please write your concern in one line")) {
                     prefix = 'raise_ticket-'
@@ -300,7 +304,7 @@
                 if (element.text.includes('Do you want to share any related documents')) {
                     // Create a div element to hold the content and buttons
                     const responseContainer = document.createElement('div');
-                    responseContainer.className = 'message bot-message';
+                    responseContainer.className = 'message bot-message pre-line';
 
                     // Set the inner HTML of the container with text and buttons
                     responseContainer.innerHTML = `${element.text}`;
@@ -370,7 +374,7 @@
                     console.log('API Response:', data);
                     let chatBody = document.getElementById('chatBody');
                     var botResponse = document.createElement('div');
-                    botResponse.className = 'message bot-message';
+                    botResponse.className = 'message bot-message pre-line';
 
                     // Add the text content from the response
                     botResponse.innerHTML = `${data?.response[0]?.text}`;
@@ -424,28 +428,36 @@
                     let chatBody = document.getElementById('chatBody');
 
                     data.results.forEach((element, index, array) => {
-                        // for user message
-                        var userMessage = document.createElement('div');
-                        userMessage.className = 'message user-message';
-                        userMessage.textContent = `${element.question}`;
 
-                        // Insert user message at the beginning of the chatBody
-                        chatBody.insertBefore(userMessage, chatBody.firstChild);
 
                         // for bot message
                         var botResponse = document.createElement('div');
-                        botResponse.className = 'message bot-message';
+                        console.log("appending this:- ", element.response)
+
+                        botResponse.className = 'message bot-message pre-line';
                         botResponse.textContent = `${element.response}`;
 
                         // Insert bot response at the beginning of the chatBody
                         chatBody.insertBefore(botResponse, chatBody.firstChild);
+
+                        console.log("appending question:- ", element.question)
+                        if (element.question !== null) {
+                            // for user message
+                            var userMessage = document.createElement('div');
+                            userMessage.className = 'message user-message';
+
+                            userMessage.textContent = `${element.question}`;
+
+                            // Insert user message at the beginning of the chatBody
+                            chatBody.insertBefore(userMessage, chatBody.firstChild);
+                        }
                     });
                 })
 
                 .then(() => {
                     console.log("new message")
                     var botResponse = document.createElement('div');
-                    botResponse.className = 'message bot-message';
+                    botResponse.className = 'message bot-message pre-line';
                     botResponse.textContent = 'Hi this is your personal assistant zoya. How may I help you ?';
                     chatBody.appendChild(botResponse);
                     botResponse.scrollIntoView({ behavior: "smooth" });

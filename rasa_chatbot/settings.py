@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rasa_chat_app',
+    'api',
     'rasa',
     'rest_framework',
     'app_rasa'

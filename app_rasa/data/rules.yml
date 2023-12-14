@@ -103,3 +103,9 @@ rules:
     - action : utter_submit
     - action : utter_slots_values
     - action : action_book_table
+
+
+- rule: Get my booking details
+  steps:
+  - intent: get_my_bookings
+  - action: get_booking_details

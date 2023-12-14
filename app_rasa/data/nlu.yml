@@ -291,3 +291,27 @@ nlu:
     - book for [seven](number) people
     - 2 please
     - nine people
+
+- intent: get_my_bookings
+  examples: |
+    - Can you fetch my bookings
+    - please give my bookings list
+    - please remind me of my bokings
+    - Give me my bookings
+    - show me my bookings
+    - please show me my bookings
+    - Are there any bookings for me?
+    - List my bookings
+    - Please tell me the details of my bookings
+    - Fetch the details of my booking
+    - whats the date of my booking ?
+
+
+- intent: affirm_create_new_booking
+  examples: |
+    - Yes, please
+    - yes
+    - please create one
+    - ok
+    - okay
+    - create a booking

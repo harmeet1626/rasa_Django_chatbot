@@ -29,10 +29,12 @@ intents:
   - platform_services
   - request_restaurant
   - inform
-
+  - get_my_bookings
+  - affirm_create_new_booking
 
 actions:
   - action_book_table
+  - get_booking_details
 
 
 entities:

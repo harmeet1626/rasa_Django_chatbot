@@ -52,4 +52,13 @@ stories:
     - action: utter_help
 
 
+- story: Book restaurant after getting null bookings
+  steps:
+    - intent: get_my_bookings
+    - action: get_booking_details
+    - intent: affirm_create_new_booking
+    - action : restaurant_form
+    - active_loop : restaurant_form
+
+
   
