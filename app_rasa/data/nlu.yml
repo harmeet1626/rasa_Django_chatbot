@@ -1,0 +1,317 @@
+version: "3.1"
+
+nlu:
+
+# - intent: 
+
+  
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - yup
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - yes, please
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - No
+
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+    - Who are you?
+
+- intent : bot_abilities
+  examples: |
+    - What can i ask you?
+    - What do you do?
+    - What do you understand?
+    - How can you help me?
+    - What can you do? 
+
+- intent : change_my_address
+  examples: |
+   -  I need to change my address
+   -  hello I want to change my address
+   -  From where we can change the delivery address?
+   -  What can I do to change my address?
+   -  How can I change my address
+   -  Change my address
+
+- intent : reset_my_password
+  examples: |
+   -  I need to change my account password
+   -  How can i reset my password
+   -  Can we change the password?
+   -  Reset my address
+
+- intent : available_payment_methods
+  examples: |
+    -  What are the different payment methods that are supported on the platform?
+    -  what are the different payment methods that are supported?
+    -  what are the payment options available?
+    -  Is it possible to pay by [credit card](payment_method) ?
+    -  Is it possible to pay by [COD](payment_method)?
+    -  Is COD((payment_method)) supported?
+    -  Is [Cash on Delivery](payment_method) supported?
+    -  Is [EMI supported](payment_method)?
+    -  can we do payment through [EMI](payment_method)?
+    -  can we do payment through [Cash](payment_method)?
+
+- intent : average_delivery_time
+  examples: |
+    - What is the expected delivery time?
+    - How long does it take you to deliver your products?
+
+- intent : cancel_my_order
+  examples: |
+    - How can I cancel my order?
+    - Cancel my order?
+    - I want to cancel my order.
+    - please cancel my order.
+
+- intent : work_timings
+  examples: |
+    - What are your timings?
+    - When do you work?
+    - Do you work on [sunday](day)
+    - Do you work on [saturday](day)
+    - Do you work on [monday](day)
+    - Do you work on [tuesday](day)
+    - Do you work on [wednesday](day)
+    - Do you work on [thursday](day)
+    - when do you close your store?
+    - What is the closing time of the store?
+    - What are your work timings?
+
+
+- intent : help
+  examples: |
+    - I need [customer care](person) help
+    - need [customer care](person) support
+    - please connect me to [support](person)
+    - How can i connect to [customer support](person)
+    - Connect me to [support](person)
+
+
+- intent : initiate_refund
+  examples: |
+    - I want a refund
+    - I want a refund on my order
+    - How can i get a refund?
+    - I want a refund.
+    - I want my money back.
+    - where is my refund?
+
+
+- intent : refund_answer
+  examples: |
+    - I got a defective product
+    - I didn't receive my order
+    - My order items are wrong
+    - Order items are missing
+    - I have got a wrong product.
+    - I got a defective product, How can I return it?
+
+- intent : refund_time_question
+  examples: |
+    - How long would it take the refund to reflect?
+    - When will i get the refund
+    - Refund time?
+    - when will the refund receive?
+
+- intent : raise_ticket
+  examples: |
+    - please raise a ticket
+    - I want to raise a ticket
+    - please create a ticket
+    - create a ticket please
+    - raise a ticket
+    - How can I raise a ticket?
+
+
+
+- intent : ticket_resolution_time
+  examples: |
+    - How long will it take to resolve my ticket?
+    - When will the ticket get solved?
+    - How long would it take to solve the issue?
+
+- intent : track_order
+  examples : |
+    - Track my order?
+    - location of my order?
+    - Can you help in tracking my order
+    - How can i know the location of my order?
+
+- intent : order_status
+  examples : |
+    -  What is the status of my order
+    -  Can you tell me the status of my order
+    -  Order status?
+    -  Whats the update on my order?
+    -  When will I receive my order?
+
+- intent : offers_info
+  examples : |
+    -  Are there any discounts going on?
+    -  Do you give discounts?
+    -  Do you give offers?
+    -  Are there any offers going on
+    -  Are there any discounts?
+    -  I want discounts?
+    -  Any offers
+    -  Do you provide any offers?
+
+- intent : coupon_codes
+  examples : |
+    -  Do you have any discount coupon codes?
+    -  please give me some coupon codes
+    -  are there any coupon codes?
+    
+- intent : platform_services
+  examples : |
+    - Tell me about the services that you provide.
+    - Tell me about your products
+    - What products do you sell?
+    - what does you company do?
+
+- intent: request_restaurant
+  examples: |
+    - im looking for a restaurant
+    - can i get [swedish](cuisine) food in any area
+    - a restaurant that serves [caribbean](cuisine) food
+    - id like a restaurant
+    - im looking for a restaurant that serves [mediterranean](cuisine) food
+    - can i find a restaurant that serves [chinese](cuisine)
+    - I'd like to make a reservation at a restaurant.
+    - Can you help me secure a table at a nice restaurant?
+    - I'm interested in booking a restaurant for an upcoming event.
+    - Is it possible to reserve a spot for dinner at a restaurant?
+    - I'm looking to make a reservation for two at a popular restaurant.
+    - Can you assist me in booking a table at a local eatery?
+    - I want to schedule a reservation at a restaurant for a special occasion.
+    - Please help me arrange a booking at a recommended restaurant.
+    - I'm inquiring about the possibility of reserving a table at your restaurant.
+    - Could you guide me through the process of making a restaurant reservation?
+    - I want to book a restaurant for [Italian](cuisine) cuisine for [5](number) people
+    - Please book a restaurant for [French](cuisine) cuisine for [6](number) people
+    - Please create a reservation for [French](cuisine) cuisine for [6](number) people
+
+- intent: inform
+  examples: |
+    - [afghan](cuisine) food
+    - how bout [asian oriental](cuisine)
+    - what about [indian](cuisine) food
+    - uh how about [turkish](cuisine) type of food
+    - um [english](cuisine)
+    - im looking for [tuscan](cuisine) food
+    - id like [moroccan](cuisine) food
+    - for [ten](number) people
+    - [2](number) people
+    - [5](number)
+    - for [three](number) people
+    - just [one](number) person
+    - book for [seven](number) people
+    - 2 please
+    - nine people
+
+- intent: get_my_bookings
+  examples: |
+    - Can you fetch my bookings
+    - please give my bookings list
+    - please remind me of my bokings
+    - Give me my bookings
+    - show me my bookings
+    - please show me my bookings
+    - Are there any bookings for me?
+    - List my bookings
+    - Please tell me the details of my bookings
+    - Fetch the details of my booking
+    - whats the date of my booking ?
+
+
+- intent: affirm_create_new_booking
+  examples: |
+    - Yes, please
+    - yes
+    - please create one
+    - ok
+    - okay
+    - create a booking
