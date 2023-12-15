@@ -14,7 +14,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from rest_framework.authentication import SessionAuthentication
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -53,7 +53,7 @@ class Login(APIView):
 
 
 class Chatbot(APIView,LoginRequiredMixin):
-    authentication_classes =[SessionAuthentication,]
+    authentication_classes =[TokenAuthentication,]
     permission_classes = [IsAuthenticated,]
     login_url = "/login/"
     def get_headers(self):

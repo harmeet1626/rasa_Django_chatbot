@@ -140,3 +140,5 @@ env38/
 db.sqlite3
 db.sqlite3/
 MySQL-python.tar.gz
+# models trained
+app_rasa/models/
