@@ -38,10 +38,7 @@ rules:
   - intent: average_delivery_time
   - action: utter_average_delivery_time
 
-- rule: Guide the user on canceling an order
-  steps:
-  - intent: cancel_my_order
-  - action: utter_cancel_my_order
+
 
 - rule: Initiate a refund process
   steps:

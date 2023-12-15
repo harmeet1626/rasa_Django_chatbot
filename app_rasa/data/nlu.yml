@@ -139,12 +139,7 @@ nlu:
     - What is the expected delivery time?
     - How long does it take you to deliver your products?
 
-- intent : cancel_my_order
-  examples: |
-    - How can I cancel my order?
-    - Cancel my order?
-    - I want to cancel my order.
-    - please cancel my order.
+
 
 - intent : work_timings
   examples: |
@@ -315,3 +310,24 @@ nlu:
     - ok
     - okay
     - create a booking
+
+
+- intent : cancel_my_reservation
+  examples: |
+    - How can I cancel my booking?
+    - Cancel my booking?
+    - I want to cancel my booking.
+    - please cancel my booking.
+    - Please Cancel my resrevation?
+    - I want to cancel my reservation.
+    - I don't want to go
+
+
+- intent: provide_booking_id
+  examples: |
+    - My booking ID is [BKNG-123hsd](booking_id)
+    - The booking ID is [BKNG-45hse6](booking_id)
+    - I have a reservation with ID [BKNG-hyu789](booking_id)
+    - The ID for my booking is [BKNG-h3j4x6](booking_id)
+    - [BKNG-h3j4x6](booking_id)
+
