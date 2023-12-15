@@ -11,6 +11,15 @@ from api.serializers import *
 from api.pagination import paginator
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate,login
+from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+
+
+
 
 
 def generate_random_alphanumeric_string(length):
@@ -23,8 +32,30 @@ def index(request):
     # return render(request, 'index.html')
 
 
-class Chatbot(APIView):
 
+
+class Login(APIView):
+    def get(self,request):
+        return render(request,"login.html")
+    
+    def post(self,request):
+        username,password = request.data["username"],request.data["password"]
+        existing_user = request.data["existing_user"]
+        if existing_user == True:
+            user = authenticate(self, username=username, password=password)
+            if not user:
+                return Response({"message":"User doesn't exist","data":request.data})                
+        else:
+            user = User.objects.create_user(username = username,password = password)
+        login(request, user)
+        return redirect("/")
+
+
+
+class Chatbot(APIView,LoginRequiredMixin):
+    authentication_classes =[TokenAuthentication,]
+    permission_classes = [IsAuthenticated,]
+    login_url = "/login/"
     def get_headers(self):
         headers = {"Content-Type": "application/json"}
         return headers
@@ -34,7 +65,7 @@ class Chatbot(APIView):
         try:
             status,message,response_array=200,"Success",[]
             user_message = request.data["message"]
-            user=User.objects.get(id=1)
+            user=User.objects.get(id=request.user.id)
             chatroom= Chatroom.objects.get_or_create(user=user)[0]
             chat = Chats.objects.create(chatroom = chatroom)
             print("user_message=============>",user_message)
