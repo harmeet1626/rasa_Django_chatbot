@@ -52,9 +52,8 @@ class Login(APIView):
 
 
 
-class Chatbot(APIView,LoginRequiredMixin):
-    authentication_classes =[TokenAuthentication,]
-    permission_classes = [IsAuthenticated,]
+class Chatbot(APIView):
+
     login_url = "/login/"
     def get_headers(self):
         headers = {"Content-Type": "application/json"}
@@ -65,7 +64,7 @@ class Chatbot(APIView,LoginRequiredMixin):
         try:
             status,message,response_array=200,"Success",[]
             user_message = request.data["message"]
-            user=User.objects.get(id=request.user.id)
+            user=User.objects.get(id=1)
             chatroom= Chatroom.objects.get_or_create(user=user)[0]
             chat = Chats.objects.create(chatroom = chatroom)
             print("user_message=============>",user_message)
