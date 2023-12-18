@@ -14,7 +14,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rasa_chatbot.settings')
 import django
 django.setup()
-from api.models import Bookings
+from api.models import Bookings, Restaurants
 print("bookings",Bookings.objects.filter(id=1),"================")
 import concurrent.futures
 from django.utils import timezone
@@ -28,8 +28,8 @@ class BookTableAction(Action):
     async def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        logger.info("action called =======================================>")
-        print(tracker.sender_id,"---")
+        
+
         text =self.run_sync_method(tracker)
         dispatcher.utter_message(text =text)
         # Reset slots after booking
@@ -45,13 +45,19 @@ class BookTableAction(Action):
 
 
     def query_your_model(self, tracker):
-        Bookings.objects.create(user_id = tracker.sender_id,
-                        cuisine =tracker.get_slot("cuisine"),
+        random_restaurant = Restaurants.objects.order_by('?').first()
+        booking = Bookings.objects.create(user_id = tracker.sender_id,
+                        restaurant = random_restaurant,
+                        cuisine = tracker.get_slot("cuisine"),
                         people_num =tracker.get_slot("num_people"),
                         outdoor_seating =tracker.get_slot("outdoor_seating"),
                         booking_date = datetime.now()+timedelta(days=1)
                         )
-        response_text = "Your booking has been made for 8PM sunday, and the booking details has been sent to your registered email"
+        # response_text = f"A booking with {booking.ext_id} has been made for 8PM sunday, and the booking details has been sent to your registered email"
+        hotel_name=['Taj', 'Social', 'The Great beer', 'The pirates', 'Pyramid' ]
+
+        response_text=f"A booking with {booking.ext_id}\n at Hotel {booking.restaurant,name} \n for {booking.people_num} people \n on {booking.booking_date.date()} at {booking.booking_date.time()} \n has been created."
+
         return response_text
 
 
@@ -82,9 +88,8 @@ class GetBookingDetailsAction(Action):
             response_text =[]
             if bookings:
                 response_text.append(f"You have {len(bookings)} upcoming bookings.")
-                hotel_name=['Taj', 'Social', 'The Great beer', 'The pirates', 'Pyramid' ]
                 for one_booking in   bookings: 
-                    response_text.append(f"Booking id- {one_booking.ext_id} \n at Hotel {random.choice(hotel_name)} \n for {one_booking.people_num} people \n on {one_booking.booking_date.date()} at {one_booking.booking_date.time()}")
+                    response_text.append(f"Booking id- {one_booking.ext_id} \n at Hotel {one_booking.restaurant.name} \n for {one_booking.people_num} people \n on {one_booking.booking_date.date()} at {one_booking.booking_date.time()}")
                 response_text.append("See you there :)")
             else:
                 response_text.append("You do not have any active bookings")
@@ -101,7 +106,6 @@ class CancelBookingAction(Action):
     async def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        logger.info("cancel booking action called =======================================>")
         response_array = self.run_sync_method(tracker)
         for res in response_array:
             dispatcher.utter_message(text=res)
@@ -116,14 +120,15 @@ class CancelBookingAction(Action):
 
     def query_your_model(self, tracker):
         try:
-            print("final func ", tracker.get_slot("booking_id"))
             booking = Bookings.objects.filter(ext_id = tracker.get_slot("booking_id"))
-            booking.delete()
             response_text = []
             if booking:
+                booking.delete()
+
                 response_text.append("Your Booking has been cancelled and the refund will be initiated based on the restaurant policy")
             else:
                 response_text.append(f"Sorry, We were not able to fetch the details of booking id {tracker.get_slot('booking_id')}.")
+                response_text.append(f"Please re-check and enter the id again.")
             return response_text
         except Exception as e:
             print("error is============>",e)

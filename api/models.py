@@ -9,14 +9,14 @@ from api.utils import generate
 class Chatroom(models.Model):
     class Meta:
         db_table = "Chatroom"
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Chats(models.Model):
     class Meta:
         db_table = "Chats"
-    chatroom = models.ForeignKey(Chatroom,on_delete=models.CASCADE,related_name="chats")
+    chatroom = models.ForeignKey(Chatroom,on_delete=models.PROTECT,related_name="chats")
     question = models.CharField(max_length=255, null=True, blank=True)
     response = models.CharField(max_length=255, null=True, blank=True)
     document = models.CharField(max_length=255, null=True, blank=True)
@@ -30,17 +30,23 @@ class Tickets(models.Model):
     ext_id = models.CharField(max_length=255,null=False, blank=False, unique = True)
     text =models.CharField(max_length=255,null=False, blank=False)
     document = models.FileField(upload_to =  "static/documents", null = True ,blank = True )
-    chat= models.OneToOneField(Chats, on_delete=models.CASCADE, related_name="tickets")
+    chat= models.OneToOneField(Chats, on_delete=models.PROTECT, related_name="tickets")
     status = models.CharField(choices=(("Initiated","Initiated"),("In-Progress","In-Progress"),("Resolved","Resolved"),("Disposed","Disposed")),max_length=255)
     created_at = models.DateTimeField(auto_now_add=True,null=False)
 
 
 
+class Restaurants(models.Model):
+    class Meta:
+        db_table = "restaurants"
+    name = models.CharField(max_length=120,null=False, blank=False, unique = True)
+
 class Bookings(models.Model):
     class Meta:
         db_table = "bookings"
-    ext_id = models.CharField(max_length=10,null=False, blank=False, unique = True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    ext_id = models.CharField(max_length=20,null=False, blank=False, unique = True)
+    user = models.ForeignKey(Restaurants,on_delete=models.PROTECT)
+    restaurant = models.ForeignKey(User,on_delete=models.PROTECT, null=False, blank=False,)
     cuisine =models.CharField(max_length=255,null=False, blank=False)
     people_num = models.IntegerField()
     outdoor_seating= models.BooleanField(default=False)

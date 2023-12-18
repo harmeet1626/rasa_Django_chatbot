@@ -14,8 +14,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authtoken.models import Token
 
 
 
@@ -27,9 +28,14 @@ def generate_random_alphanumeric_string(length):
         return "T-"+''.join(secrets.choice(alphanumeric_characters) for _ in range(length))
 
 
-def index(request):
-    return render(request, 'sampleIndex.html')
-    # return render(request, 'index.html')
+class index(APIView):
+    authentication_classes =[SessionAuthentication,]
+    permission_classes = [IsAuthenticated,]
+    login_url = ""
+
+    def get(self,request):
+        token = Token.objects.get_or_create(user=request.user)
+        return render(request, 'sampleIndex.html',{"token":token[0].key})
 
 
 
@@ -40,33 +46,39 @@ class Login(APIView):
     
     def post(self,request):
         username,password = request.data["username"],request.data["password"]
+        data = {"username":username,"password":password}
         existing_user = request.data["existing_user"]
-        if existing_user == True:
+        print(existing_user)
+        if existing_user == 'True':
             user = authenticate(self, username=username, password=password)
+            print(user,"is authenticated")
             if not user:
-                return Response({"message":"User doesn't exist","data":request.data})                
+                data['error_message'] = "User not authenticated"
+                return render(request,"login.html",{"data":data})   
         else:
             user = User.objects.create_user(username = username,password = password)
         login(request, user)
-        return redirect("/")
+        print("getting token",user)
+        token = Token.objects.get_or_create(user=user)
+        print("got token")
+        return redirect('/index')  
 
 
 
 class Chatbot(APIView):
-    # authentication_classes =[TokenAuthentication,]
-    # permission_classes = [IsAuthenticated,]
-    # login_url = "/login/"
+    authentication_classes =[TokenAuthentication,]
+    permission_classes = [IsAuthenticated,]
+    login_url = ""
 
     def get_headers(self):
         headers = {"Content-Type": "application/json"}
         return headers
 
     def post(self,request):
-
         try:
             status,message,response_array=200,"Success",[]
             user_message = request.data["message"]
-            user=User.objects.get(id=1)
+            user=request.user
             chatroom= Chatroom.objects.get_or_create(user=user)[0]
             chat = Chats.objects.create(chatroom = chatroom)
             print("user_message=============>",user_message)
@@ -127,7 +139,7 @@ class UploadDocumentTicket(UpdateAPIView):
     def put(self, request):
         try:
             print(request.data)
-            ticket_obj = Tickets.objects.filter(chat__chatroom__user_id = 1).last()
+            ticket_obj = Tickets.objects.filter(chat__chatroom__user_id = request.user).last()
             if not ticket_obj:
                 return Response({"status":400, "error":"Ticket doesn't exist"})
             serializer = UploadDocumentsSerializer(ticket_obj,request.data)
@@ -149,10 +161,12 @@ class ChatsListing(ListAPIView):
     queryset = Chats.objects.all()
     serializer_class = ChatsListingSerializer
     pagination_class = paginator
-
+    authentication_classes =[TokenAuthentication,]
+    permission_classes = [IsAuthenticated,]
+    
     def get_queryset(self):
         try:
-            chats = Chats.objects.filter(chatroom__user = 1).order_by("-id")
+            chats = Chats.objects.filter(chatroom__user = self.request.user).order_by("-id")
             return chats
         except Exception as E:
             print("internal server error===",str(E))
