@@ -224,20 +224,16 @@
                 userInput = msg
             }
             var chatBody = document.getElementById('chatBody');
-
             if (prefix == "") {
-
             }
             else {
                 userInput = prefix + userInput
             }
-
-
             // Add user message
             createUserMessage()
             chatBoatTyping(true)
             const startTime = new Date();
-            await fetch(`/chatbot`, {
+            await fetch(`http://rasa.softprodigy.in/chatbot`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -261,19 +257,14 @@
                     const delay = Math.max(0, 1500 - durationInMilliseconds);
                     setTimeout(() => {
                         console.log(`Waited for at least 3 seconds after API response`);
-                        chatBoatTyping(false)
                         createBoatMessage(data)
                     }, delay);
-
-
-
                 })
                 .catch(error => {
                     console.error('There was a problem with the POST request', error);
                     // Handle errors
                 });
         }
-
         function chatBoatTyping(e) {
             if (e == true) {
                 var element = document.getElementById("loading");
@@ -283,50 +274,66 @@
                 var element = document.getElementById("loading");
                 element.style.display = "none";
             }
-
         }
-
         function createBoatMessage(data) {
             let chatBody = document.getElementById('chatBody');
-            data?.response?.forEach(element => {
-                var botResponse = document.createElement('div');
-                botResponse.className = 'message bot-message pre-line';
+            processElements(data.response);
 
-                if (element.text.includes("please write your concern in one line")) {
-                    prefix = 'raise_ticket-'
-                }
-                if (element.text.includes("please enter the ticket number")) {
-                    prefix = 'ticket-'
-                }
-                if (element.text.includes("Can you please enter your order id?")) {
-                    prefix = "track my order-"
-                }
-                if (element.text.includes('Do you want to share any related documents')) {
-                    // Create a div element to hold the content and buttons
-                    const responseContainer = document.createElement('div');
-                    responseContainer.className = 'message bot-message pre-line';
+            async function processElements(elements) {
+                for (const element of elements) {
 
-                    // Set the inner HTML of the container with text and buttons
-                    responseContainer.innerHTML = `${element.text}`;
-                    // Append the container to the chat body
-                    chatBody.appendChild(responseContainer);
-                    // Scroll to the newly added content
-                    responseContainer.scrollIntoView({ behavior: "smooth" });
-                    addButton()
-                    return;
-                }
-                botResponse.textContent = `${element.text}`
-                chatBody.appendChild(botResponse);
-                botResponse.scrollIntoView({ behavior: "smooth" });
+                    await processElement(element);
 
-            });
+                    chatBoatTyping(false)
+                }
+            }
+            function processElement(element) {
+                return new Promise(resolve => {
+                    chatBoatTyping(true)
+                    var botResponse = document.createElement('div');
+                    botResponse.className = 'message bot-message pre-line';
+
+                    if (element.text.includes("please write your concern in one line")) {
+                        prefix = 'raise_ticket-'
+                    }
+                    if (element.text.includes("please enter the ticket number")) {
+                        prefix = 'ticket-'
+                    }
+                    if (element.text.includes("Can you please enter your order id?")) {
+                        prefix = "track my order-"
+                    }
+                    if (element.text.includes('Do you want to share any related documents')) {
+                        const responseContainer = document.createElement('div');
+                        responseContainer.className = 'message bot-message pre-line';
+                        responseContainer.innerHTML = `${element.text}`;
+                        chatBody.appendChild(responseContainer);
+                        responseContainer.scrollIntoView({ behavior: "smooth" });
+                        addButton();
+
+                        setTimeout(() => {
+                            resolve();
+
+
+                        }, 2000); // 2000 milliseconds (2 seconds) delay
+                        return;
+                    }
+
+                    botResponse.textContent = `${element.text}`;
+                    chatBody.appendChild(botResponse);
+                    botResponse.scrollIntoView({ behavior: "smooth" });
+
+                    setTimeout(() => {
+                        resolve();
+                    }, 2000); // 2000 milliseconds (2 seconds) delay
+                });
+            }
         }
         function addButton() {
             var botResponse = document.createElement('div');
             botResponse.className = 'bot-button';
             botResponse.innerHTML = `
                 <div class="button-container">
-                    <button class="upload_button upload">Yes</button> 
+                    <button class="upload_button upload">Yes</button>
                     <button class="upload_button" onclick="userResponseButton('No')">No</button>
                 </div>`;
             // Append the container to the chat body
@@ -335,7 +342,6 @@
             botResponse.scrollIntoView({ behavior: "smooth" });
             return;
         }
-
         function createUserMessage() {
             var userInput = document.getElementById('userInput').value;
             var chatBody = document.getElementById('chatBody');
@@ -350,8 +356,6 @@
             document.getElementById('userInput').value = '';
             chatBody.scrollTop = chatBody.scrollHeight;
         }
-
-
         $(document).on("click", ".upload", function (e) {
             const input = e.target.id;
             document.getElementById('file-input').click();
@@ -360,9 +364,8 @@
             const fileName = input.files[0];
             uploadDocument(fileName);
         }
-
         function uploadDocument(file) {
-            const apiEndpoint = '/documentUpload/';
+            const apiEndpoint = 'http://rasa.softprodigy.in/documentUpload/';
             const formData = new FormData();
             formData.append('document', file);
             fetch(apiEndpoint, {
@@ -371,14 +374,12 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('API Response:', data);
+
                     let chatBody = document.getElementById('chatBody');
                     var botResponse = document.createElement('div');
                     botResponse.className = 'message bot-message pre-line';
-
                     // Add the text content from the response
                     botResponse.innerHTML = `${data?.response[0]?.text}`;
-
                     // Check if the document URL exists in the response
                     if (data?.document) {
                         // Create a link element
@@ -386,12 +387,10 @@
                         documentLink.href = data.document; // Set the URL
                         documentLink.target = '_blank'; // Open link in a new tab
                         documentLink.textContent = 'Click here to view the document';
-
                         // Append the link to the bot response
                         botResponse.appendChild(document.createElement('br')); // Add a line break
                         botResponse.appendChild(documentLink);
                     }
-
                     chatBody.appendChild(botResponse);
                     botResponse.scrollIntoView({ behavior: "smooth" });
                 })
@@ -399,8 +398,6 @@
                     console.error('API Error:', error);
                 });
         }
-
-
         runSpeechRecog = () => {
             let recognization = new webkitSpeechRecognition();
             recognization.onstart = () => {
@@ -414,80 +411,55 @@
             }
             recognization.start();
         }
-
-        let apiEndpoint = 'user/chats/';
+        let apiEndpoint = 'http://rasa.softprodigy.in/user/chats/';
         async function mount() {
             await fetch(apiEndpoint, {
                 method: 'GET',
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('API Response getchat:', data);
                     apiEndpoint = data.next;
-                    console.log('endpoint updated', apiEndpoint);
                     let chatBody = document.getElementById('chatBody');
-
                     data.results.forEach((element, index, array) => {
-
-
                         // for bot message
                         var botResponse = document.createElement('div');
-                        console.log("appending this:- ", element.response)
-
                         botResponse.className = 'message bot-message pre-line';
                         botResponse.textContent = `${element.response}`;
-
                         // Insert bot response at the beginning of the chatBody
                         chatBody.insertBefore(botResponse, chatBody.firstChild);
-
-                        console.log("appending question:- ", element.question)
                         if (element.question !== null) {
                             // for user message
                             var userMessage = document.createElement('div');
                             userMessage.className = 'message user-message';
-
                             userMessage.textContent = `${element.question}`;
-
                             // Insert user message at the beginning of the chatBody
                             chatBody.insertBefore(userMessage, chatBody.firstChild);
                         }
                     });
                 })
-
-                .then(() => {
-                    console.log("new message")
-                    var botResponse = document.createElement('div');
-                    botResponse.className = 'message bot-message pre-line';
-                    botResponse.textContent = 'Hi this is your personal assistant zoya. How may I help you ?';
-                    chatBody.appendChild(botResponse);
-                    botResponse.scrollIntoView({ behavior: "smooth" });
-                })
-                .catch(error => {
-                    console.error('API Error:', error);
-                });
         }
-        mount()
+        function initial_bot_message() {
+            console.log("new message")
+            var botResponse = document.createElement('div');
+            botResponse.className = 'message bot-message pre-line';
+            botResponse.textContent = 'Hi this is your personal assistant zoya. How may I help you ?';
+            chatBody.appendChild(botResponse);
+            botResponse.scrollIntoView({ behavior: "smooth" });
+        }
+        mount().then(() => {
+            initial_bot_message();
+        })
         chatBody.addEventListener('scroll', () => {
             if (chatBody.scrollTop === 0) {
-                mount();
+                const currentScrollHeight = chatBody.scrollHeight;
+                mount().then(() => {
+                    const newScrollHeight = chatBody.scrollHeight;
+                    const scrollDifference = newScrollHeight - currentScrollHeight;
+                    chatBody.scrollTop = scrollDifference;
+                });
+            } else if (chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight) {
             }
         });
-
-
-
-        // function loadMoreMessages(url) {
-        //     fetchData(currentPage)
-        //         .then(data => {
-        //             appendMessages(data.results);
-        //             currentPage++;
-        //             isLoading = false;
-        //         })
-        //         .catch(error => {
-        //             console.error('Error fetching data:', error);
-        //             isLoading = false;
-        //         });
-        // }
-
     </script>
 
 </body>
