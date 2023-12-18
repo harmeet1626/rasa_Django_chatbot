@@ -58,6 +58,7 @@ Open a new terminal into app_rasa folder
 - Document Sharing
 - Text to speech
 - Table booking in a restaurant
+- Cancel the reservation
 - User based history 
 
 
