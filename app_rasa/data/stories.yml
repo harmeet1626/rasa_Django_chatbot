@@ -29,12 +29,6 @@ stories:
   - intent: deny
   - action: utter_goodbye
 
-- story: Initiate refund and inquire about the process
-  steps:
-    - intent: initiate_refund
-    - action: utter_initiate_refund
-    - intent: refund_time_question
-    - action: utter_refund_time_question
 
 
 - story: Bot abilities inquiry followed by seeking help
@@ -70,6 +64,12 @@ stories:
   - intent: provide_booking_id
   - action: action_cancel_booking
 
+- story: Initiate refund and inquire about the process
+  steps:
+    - intent: initiate_refund
+    - action: get_last_five_bookings
+    - intent: booking_id_for_refund
+    - action: utter_refund_time_question
 
 
 

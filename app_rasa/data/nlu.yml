@@ -172,7 +172,8 @@ nlu:
     - How can i get a refund?
     - I want a refund.
     - I want my money back.
-    - where is my refund?
+    - where is my refund
+    - I have an issue with my reservation 
 
 
 - intent : refund_answer
@@ -349,3 +350,9 @@ nlu:
     - My booking id is [BKNG-123hsd](booking_id)
     - Booking id -  [Bsadd43](booking_id)
     - Reservation id - [123fsdwef](booking_id)
+
+
+- intent: booking_id_for_refund
+  examples: |
+    -Raise Refund - [BKNG-123hsd](booking_id)
+    

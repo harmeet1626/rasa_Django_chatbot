@@ -15,7 +15,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rasa_chatbot.settings')
 import django
 django.setup()
 from api.models import Bookings, Restaurants
-print("bookings",Bookings.objects.filter(id=1),"================")
 import concurrent.futures
 from django.utils import timezone
 
@@ -61,8 +60,7 @@ class BookTableAction(Action):
         return response_text
 
 
-
-class GetBookingDetailsAction(Action):
+class GetActiveBookingDetailsAction(Action):
     def name(self) -> Text:
         return "get_booking_details"
 
@@ -96,7 +94,49 @@ class GetBookingDetailsAction(Action):
                 response_text.append("If you want then I can assist you in creating one.")
             return response_text
         except Exception as E:
-            print("E========================")
+            print("E========================",E)
+
+class GetlastFiveBookings(Action):
+    def name(self) -> Text:
+        return "get_last_five_bookings"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        response_array = self.run_sync_method(tracker)
+        print("response",response_array)
+        if response_array['success'] == 1:
+            booking_data = response_array['booking_data']
+            dispatcher.utter_message(json_message={"button_data":booking_data,"action_type":"create_buttons","data_type":"json","text":"Select an order for refund"})
+        else:
+            for message in response_array['message']:
+                    dispatcher.utter_message(text=message)
+
+    
+    def run_sync_method(self,tracker):
+        # Replace with your actual synchronous method
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            result = executor.submit(self.query_your_model,tracker).result()
+        return result
+
+    def query_your_model(self, tracker):
+        try:
+            bookings = Bookings.objects.filter(user_id = tracker.sender_id)[0:5]
+            response_text ={"success":0,"booking_data":[],"message":[]}
+            if bookings:
+                response_text["success"] = 1
+                for one_booking in   bookings: 
+                    print("append")
+                    response_text["booking_data"].append({"booking_id": one_booking.ext_id,
+                                        "Restaurant_name" : one_booking.restaurant.name,
+                                        "Dated" : str(one_booking.booking_date.date())})
+            else:
+                response_text['message'].append("You do not have any active bookings")
+                response_text['message'].append("If you want then I can assist you in creating one.")
+            return response_text
+        except Exception as E:
+            print("E========================",E)
+
 
 
 class CancelBookingAction(Action):

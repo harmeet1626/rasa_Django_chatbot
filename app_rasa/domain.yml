@@ -32,12 +32,12 @@ intents:
   - affirm_create_new_booking
   - cancel_my_reservation
   - provide_booking_id
-  
+  - booking_id_for_refund
 actions:
   - action_book_table
   - get_booking_details
   - action_cancel_booking
-
+  - get_last_five_bookings
 
 entities:
   - payment_method
@@ -140,7 +140,7 @@ responses:
   - text : "please go to your order and initiate a refund/return request. You can also connect to customer support if you want to register a ticket."
 
   utter_refund_time_question:
-  - text : "Refunds take 7-14 days to reflect in your payment source."
+  - text : "We are looking into it."
 
   utter_confirm_raise_ticket:
   - text : "please write your concern in one line."
