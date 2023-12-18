@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'api',
     'rasa',
     'rest_framework',
+    'rest_framework.authtoken',
     'app_rasa',
     "corsheaders",
 ]

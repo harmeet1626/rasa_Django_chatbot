@@ -250,6 +250,8 @@ nlu:
 - intent: request_restaurant
   examples: |
     - im looking for a restaurant
+    - I want to book a hotel
+    - I want to book a hotel for [5](number) people
     - can i get [swedish](cuisine) food in any area
     - a restaurant that serves [caribbean](cuisine) food
     - id like a restaurant
@@ -289,27 +291,33 @@ nlu:
 
 - intent: get_my_bookings
   examples: |
-    - Can you fetch my bookings
+    - Can you fetch my bookings.
+    - Please fetch my reservations.
     - please give my bookings list
     - please remind me of my bokings
+    - please remind me of my hotel reservations
     - Give me my bookings
     - show me my bookings
     - please show me my bookings
     - Are there any bookings for me?
     - List my bookings
+    - list my  reservations
     - Please tell me the details of my bookings
     - Fetch the details of my booking
     - whats the date of my booking ?
+    - what is the date of my my hotel reservations?
 
 
 - intent: affirm_create_new_booking
   examples: |
     - Yes, please
+    - Yes, create a booking
     - yes
     - please create one
     - ok
     - okay
     - create a booking
+    - Okay create a booking
 
 
 - intent : cancel_my_reservation
@@ -326,8 +334,18 @@ nlu:
 - intent: provide_booking_id
   examples: |
     - My booking ID is [BKNG-123hsd](booking_id)
+    - My reservation id is [BKNG-123hsd](booking_id)
     - The booking ID is [BKNG-45hse6](booking_id)
     - I have a reservation with ID [BKNG-hyu789](booking_id)
     - The ID for my booking is [BKNG-h3j4x6](booking_id)
     - [BKNG-h3j4x6](booking_id)
-
+    - [BKNG-vg3d5g](booking_id)
+    - [sdf12332](booking_id)
+    - [231123sa](booking_id)
+    - [12345](booking_id)
+    - [12dsawrc5](booking_id)
+    - [bg44g5](booking_id)
+    - My reservation id is [BKNG-123hsd](booking_id)
+    - My booking id is [BKNG-123hsd](booking_id)
+    - Booking id -  [Bsadd43](booking_id)
+    - Reservation id - [123fsdwef](booking_id)
