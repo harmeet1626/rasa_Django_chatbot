@@ -115,7 +115,10 @@ class Chatbot(APIView):
                 print("chatbot_response======================>",chatbot_response)
                 if chatbot_response.status_code == 200 :
                     chatbot_response = json.loads(chatbot_response.content)
+                    print(chatbot_response,"-=------------")
                     response_array = chatbot_response
+                    if not response_array[0].get('text'):
+                        response_array[0]['text']='Select an order for refund'
                     if response_array ==[]:
                         response_array =[{"text":"I'm sorry. I dont have the answer to that."}]
                     # return Response({"status":200, "response":response_array})
@@ -144,7 +147,8 @@ class UploadDocumentTicket(UpdateAPIView):
     serializer_class = UploadDocumentsSerializer
     def put(self, request):
         try:
-            print(request.data)
+            print(request.data,"==========")
+            print(request.FILES,"=========")
             ticket_obj = Tickets.objects.filter(chat__chatroom__user_id = request.user).last()
             if not ticket_obj:
                 return Response({"status":400, "error":"Ticket doesn't exist"})

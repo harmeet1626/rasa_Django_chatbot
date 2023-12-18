@@ -45,8 +45,8 @@ class Bookings(models.Model):
     class Meta:
         db_table = "bookings"
     ext_id = models.CharField(max_length=20,null=False, blank=False, unique = True)
-    user = models.ForeignKey(Restaurants,on_delete=models.PROTECT)
-    restaurant = models.ForeignKey(User,on_delete=models.PROTECT, null=False, blank=False,)
+    user = models.ForeignKey(User,on_delete=models.PROTECT)
+    restaurant = models.ForeignKey(Restaurants,on_delete=models.PROTECT, null=False, blank=False,)
     cuisine =models.CharField(max_length=255,null=False, blank=False)
     people_num = models.IntegerField()
     outdoor_seating= models.BooleanField(default=False)

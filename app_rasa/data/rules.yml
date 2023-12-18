@@ -43,17 +43,17 @@ rules:
 - rule: Initiate a refund process
   steps:
   - intent: initiate_refund
-  - action: utter_initiate_refund
+  - action: get_last_five_bookings
 
-- rule: Provide an answer regarding a refund
-  steps:
-  - intent: refund_answer
-  - action: utter_refund_answer
+# - rule: Provide an answer regarding a refund
+#   steps:
+#   - intent: refund_answer
+#   - action: utter_refund_answer
 
-- rule: Answer a question about refund time
-  steps:
-  - intent: refund_time_question
-  - action: utter_refund_time_question
+# - rule: Answer a question about refund time
+#   steps:
+#   - intent: refund_time_question
+#   - action: utter_refund_time_question
 
 - rule: Instruct the user to raise a ticket
   steps:
