@@ -14,7 +14,6 @@ intents:
   - reset_my_password
   - available_payment_methods
   - average_delivery_time
-  - cancel_my_order
   - work_timings
   - help
   - initiate_refund
@@ -31,10 +30,13 @@ intents:
   - inform
   - get_my_bookings
   - affirm_create_new_booking
-
+  - cancel_my_reservation
+  - provide_booking_id
+  
 actions:
   - action_book_table
   - get_booking_details
+  - action_cancel_booking
 
 
 entities:
@@ -43,6 +45,7 @@ entities:
   - person
   - cuisine
   - number
+  - booking_id
 
 
 
@@ -56,6 +59,12 @@ forms:
 
 
 slots:
+  booking_id:
+    type: text
+    influence_conversation: false
+    mappings: 
+    - type: from_entity 
+      entity: booking_id
   cuisine:
     type: text
     mappings:
@@ -118,9 +127,6 @@ responses:
   utter_average_delivery_time:
   - text : "We generraly deliver within 3-5 working days in India."
 
-  utter_cancel_my_order:
-  - text : "Sorry, Due to business restrictions, we can not cancel your order. But once recieved, you can raise a return request for that order."
-
   utter_work_timings:
   - text : "We work from Monday to Friday, from 9 am to 7 pm"
 
@@ -177,6 +183,8 @@ responses:
             - num_people: {num_people}\n
             - outdoor_seating: {outdoor_seating}"
 
+  utter_ask_for_booking_id:
+  - text : "Please enter the booking id that was sent on your registered email"
 
 
 session_config:

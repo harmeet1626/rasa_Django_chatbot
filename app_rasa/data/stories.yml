@@ -36,13 +36,6 @@ stories:
     - intent: refund_time_question
     - action: utter_refund_time_question
 
-- story: Cancel order and confirm
-  steps:
-    - intent: cancel_my_order
-    - action: utter_cancel_my_order
-    - intent: raise_ticket
-    - action: utter_confirm_raise_ticket
-
 
 - story: Bot abilities inquiry followed by seeking help
   steps:
@@ -61,4 +54,26 @@ stories:
     - active_loop : restaurant_form
 
 
-  
+- story: Cancel the existing booking
+  steps:
+    - intent: get_my_bookings
+    - action: get_booking_details
+    - intent: affirm_create_new_booking
+    - action : restaurant_form
+    - active_loop : restaurant_form
+
+
+- story: Cancel the existing booking
+  steps:
+  - intent: cancel_my_reservation
+  - action: utter_ask_for_booking_id
+  - intent: provide_booking_id
+  - action: action_cancel_booking
+
+
+
+
+
+
+
+

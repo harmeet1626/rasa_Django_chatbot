@@ -233,7 +233,8 @@
             createUserMessage()
             chatBoatTyping(true)
             const startTime = new Date();
-            await fetch(`http://rasa.softprodigy.in/chatbot`, {
+
+            await fetch(`chatbot`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -365,7 +366,8 @@
             uploadDocument(fileName);
         }
         function uploadDocument(file) {
-            const apiEndpoint = 'http://rasa.softprodigy.in/documentUpload/';
+
+            const apiEndpoint = 'documentUpload/';
             const formData = new FormData();
             formData.append('document', file);
             fetch(apiEndpoint, {
@@ -411,7 +413,7 @@
             }
             recognization.start();
         }
-        let apiEndpoint = 'http://rasa.softprodigy.in/user/chats/';
+        let apiEndpoint = 'user/chats/';
         async function mount() {
             await fetch(apiEndpoint, {
                 method: 'GET',

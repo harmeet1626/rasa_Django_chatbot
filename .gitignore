@@ -6,6 +6,7 @@ api/__pycache__/
 *cache/*
 app_rasa/.rasa/cache/
 app_rasa/models/
+
 static/documents/
 # C extensions
 *.so
