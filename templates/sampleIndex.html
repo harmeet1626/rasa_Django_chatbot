@@ -91,28 +91,35 @@
         }
 
         .user-input {
-            flex: 1; /* Take up remaining available space */
+            flex: 1;
+            /* Take up remaining available space */
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
-            outline: none; /* Remove default outline */
-            font-size: 14px; /* Adjust font size */
+            outline: none;
+            /* Remove default outline */
+            font-size: 14px;
+            /* Adjust font size */
         }
+
         .user-input::placeholder {
-            color: #999; /* Placeholder text color */
+            color: #999;
+            /* Placeholder text color */
         }
 
 
         .mic_input,
-        .send-button   {
+        .send-button {
 
             background-color: #ffffff00;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-left: 3px; /* Add some spacing between buttons */
+            margin-left: 3px;
+            /* Add some spacing between buttons */
         }
+
         .send-button {
             transform: rotate(-30deg);
             margin-bottom: 8px;
@@ -120,7 +127,8 @@
 
 
         .title {
-            padding: 10px;
+            padding: 2px;
+            font-size: 17px;
         }
 
         .mic_input {
@@ -184,6 +192,7 @@
                 height: 20px;
             }
         }
+
         .online-status-dot {
             position: absolute;
             width: 10px;
@@ -196,6 +205,16 @@
             margin-top: 38px;
         }
 
+        .zoya_status {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            /* right: 7px; */
+            /* left: 46px; */
+            margin-left: 65px;
+            margin-top: 40px;
+            font-size: 9px;
+        }
     </style>
 </head>
 
@@ -204,9 +223,9 @@
         <div class="chat-header">
             <img height="40px" style="padding: 10px;"
                 src="https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359554_1280.png" />
-                <p class="title">Zoya</p> 
-                <span class="online-status-dot"></span>
-
+            <p class="title">Zoya</p>
+            <span class="online-status-dot"></span>
+            <p class="zoya_status">Online</p>
 
         </div>
         <div class="chat-body" id="chatBody">
@@ -232,7 +251,8 @@
 
             </button>
             <button class="send-button" onclick="sendMessage()">
-                <image style="height: 25px; float: left;" src="https://cdn-icons-png.flaticon.com/512/9350/9350614.png" />
+                <image style="height: 25px; float: left;"
+                    src="https://cdn-icons-png.flaticon.com/512/9350/9350614.png" />
             </button>
             <input id="file-input" type="file" style="display: none;" onchange="handleFileSelection(this)" />
 
@@ -304,10 +324,15 @@
         }
         function chatBoatTyping(e) {
             if (e == true) {
+                var element = document.getElementsByClassName('zoya_status')[0];
+                element.innerHTML = "Typing...";
+
                 var element = document.getElementById("loading");
                 element.style.display = "block";
             }
             if (e == false) {
+                var element = document.getElementsByClassName('zoya_status')[0];
+                element.innerHTML = "Online";
                 var element = document.getElementById("loading");
                 element.style.display = "none";
             }
