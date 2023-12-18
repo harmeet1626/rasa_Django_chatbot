@@ -56,7 +56,11 @@ class Login(APIView):
                 data['error_message'] = "User not authenticated"
                 return render(request,"login.html",{"data":data})   
         else:
-            user = User.objects.create_user(username = username,password = password)
+            if not  User.objects.filter(username = username):
+                user = User.objects.create_user(username = username,password = password)
+            else:
+                data['error_message'] = "User already exists"
+                return render(request,"login.html",{"data":data})   
         login(request, user)
         print("getting token",user)
         token = Token.objects.get_or_create(user=user)

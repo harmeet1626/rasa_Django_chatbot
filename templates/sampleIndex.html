@@ -26,16 +26,18 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 22px!important;
+            margin-top: 22px !important;
         }
 
         .chat-header {
-            background-color: #4CAF50;
+            background-color: #0caaf5;
             color: #fff;
             /* text-align: center; */
             font-weight: bold;
             font-size: 13px;
             display: flex;
+            padding: 10px;
+            position: relative;
         }
 
         .chat-body {
@@ -56,7 +58,7 @@
 
         .user-message,
         .bot-message {
-            background-color: #4CAF50;
+            background-color: #0caaf5;
             color: #fff;
             border-radius: 20px;
             padding: 15px;
@@ -84,24 +86,38 @@
             background-color: #fff;
             border-top: 1px solid #ccc;
             display: flex;
+            align-items: center;
+
         }
 
         .user-input {
-            width: 70%;
-            padding: 8px;
-            border: 1px solid #ccc;
+            flex: 1; /* Take up remaining available space */
+            padding: 10px;
+            border: 1px solid #ddd;
             border-radius: 5px;
+            outline: none; /* Remove default outline */
+            font-size: 14px; /* Adjust font size */
+        }
+        .user-input::placeholder {
+            color: #999; /* Placeholder text color */
         }
 
-        .send-button {
-            width: 12%;
-            padding: 8px;
-            background-color: #ffffff;
+
+        .mic_input,
+        .send-button   {
+
+            background-color: #ffffff00;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-left: 3px; /* Add some spacing between buttons */
         }
+        .send-button {
+            transform: rotate(-30deg);
+            margin-bottom: 8px;
+        }
+
 
         .title {
             padding: 10px;
@@ -113,7 +129,7 @@
         }
 
         .upload_button {
-            background-color: #4CAF50;
+            background-color: #0caaf5;
             color: white;
             padding: 10px;
             border-radius: 8px;
@@ -144,7 +160,7 @@
 
         /* Style for the typing loader */
         .typing-loader {
-            background-color: green !important;
+            background-color: #0caaf5 !important;
             display: inline-block;
             width: 10px;
             height: 20px;
@@ -168,6 +184,18 @@
                 height: 20px;
             }
         }
+        .online-status-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #00ff00;
+            border-radius: 50%;
+            /* right: 7px; */
+            /* left: 46px; */
+            margin-left: 38px;
+            margin-top: 38px;
+        }
+
     </style>
 </head>
 
@@ -176,7 +204,9 @@
         <div class="chat-header">
             <img height="40px" style="padding: 10px;"
                 src="https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359554_1280.png" />
-            <p class="title">Zoya</p>
+                <p class="title">Zoya</p> 
+                <span class="online-status-dot"></span>
+
 
         </div>
         <div class="chat-body" id="chatBody">
@@ -191,7 +221,7 @@
                 </span>
             </div>
         </div>
-        <p style="display: none;" id ="token">{{token}}</p>
+        <p style="display: none;" id="token">{{token}}</p>
 
         <div class="input-container">
             <input type="text" class="user-input" id="userInput" placeholder="Type your message...">
@@ -202,7 +232,7 @@
 
             </button>
             <button class="send-button" onclick="sendMessage()">
-                <image style="height: 25px; float: left;" src="/static/images/send.png" />
+                <image style="height: 25px; float: left;" src="https://cdn-icons-png.flaticon.com/512/9350/9350614.png" />
             </button>
             <input id="file-input" type="file" style="display: none;" onchange="handleFileSelection(this)" />
 
@@ -380,7 +410,7 @@
             formData.append('document', file);
             fetch(apiEndpoint, {
                 method: 'PUT',
-                headers:{
+                headers: {
                     Authorization: "Token {{token}}"
                 },
                 body: formData,
@@ -432,7 +462,7 @@
             apiEndpoint = 'user/chats/';
             await fetch(apiEndpoint, {
                 method: 'GET',
-                headers:{
+                headers: {
                     Authorization: "Token {{token}}"
                 }
             })
@@ -480,7 +510,7 @@
             } else if (chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight) {
             }
         });
-</script>
+    </script>
 
 </body>
 
