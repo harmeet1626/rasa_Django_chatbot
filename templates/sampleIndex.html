@@ -233,6 +233,7 @@
             createUserMessage()
             chatBoatTyping(true)
             const startTime = new Date();
+
             await fetch(`chatbot`, {
                 method: 'POST',
                 headers: {
@@ -365,6 +366,7 @@
             uploadDocument(fileName);
         }
         function uploadDocument(file) {
+
             const apiEndpoint = 'documentUpload/';
             const formData = new FormData();
             formData.append('document', file);

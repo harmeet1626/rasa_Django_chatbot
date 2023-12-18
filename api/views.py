@@ -56,6 +56,7 @@ class Chatbot(APIView):
     # authentication_classes =[TokenAuthentication,]
     # permission_classes = [IsAuthenticated,]
     # login_url = "/login/"
+
     def get_headers(self):
         headers = {"Content-Type": "application/json"}
         return headers

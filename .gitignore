@@ -5,6 +5,8 @@ __pycache__/
 api/__pycache__/
 *cache/*
 app_rasa/.rasa/cache/
+app_rasa/models/
+
 static/documents/
 # C extensions
 *.so
@@ -111,6 +113,7 @@ ENV/
 env.bak/
 venv.bak/
 myenv
+envrasa
 # Spyder project settings
 .spyderproject
 .spyproject
