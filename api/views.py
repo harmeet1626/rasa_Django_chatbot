@@ -134,6 +134,8 @@ class Chatbot(APIView):
 
 
 class UploadDocumentTicket(UpdateAPIView):
+    authentication_classes =[TokenAuthentication,]
+    permission_classes = [IsAuthenticated,]
     queryset = Tickets.objects.all()
     serializer_class = UploadDocumentsSerializer
     def put(self, request):

@@ -211,7 +211,6 @@
 
     <script>
 
-$(document).ready(function() {
 
 
         var input_text = ''
@@ -368,10 +367,12 @@ $(document).ready(function() {
             const input = e.target.id;
             document.getElementById('file-input').click();
         })
+
         function handleFileSelection(input) {
             const fileName = input.files[0];
             uploadDocument(fileName);
         }
+
         function uploadDocument(file) {
 
             const apiEndpoint = 'documentUpload/';
@@ -479,7 +480,6 @@ $(document).ready(function() {
             } else if (chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight) {
             }
         });
-    })
 </script>
 
 </body>
