@@ -117,10 +117,11 @@ class Chatbot(APIView):
                     chatbot_response = json.loads(chatbot_response.content)
                     print(chatbot_response,"-=------------")
                     response_array = chatbot_response
-                    if not response_array[0].get('text'):
-                        response_array[0]['text']='Select an order for refund'
                     if response_array ==[]:
                         response_array =[{"text":"I'm sorry. I dont have the answer to that."}]
+                    if not response_array[0].get('text'):
+                        response_array[0]['text']='Select an order for refund'
+
                     # return Response({"status":200, "response":response_array})
                 else:
                     status = 400
