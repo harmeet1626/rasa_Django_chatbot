@@ -33,6 +33,7 @@ intents:
   - cancel_my_reservation
   - provide_booking_id
   - booking_id_for_refund
+
 actions:
   - action_book_table
   - get_booking_details
@@ -55,7 +56,9 @@ forms:
       - cuisine
       - num_people
       - outdoor_seating
-
+  cancel_booking_form:
+    required_slots:
+      - booking_id
 
 
 slots:
@@ -177,14 +180,16 @@ responses:
 
   utter_submit:
   - text: "All done!"
+
   utter_slots_values:
   - text: "I am going to run a restaurant search using the following parameters:\n
             - cuisine: {cuisine}\n
             - num_people: {num_people}\n
             - outdoor_seating: {outdoor_seating}"
 
-  utter_ask_for_booking_id:
+  utter_ask_booking_id:
   - text : "Please enter the booking id that was sent on your registered email"
+
 
 
 session_config:
