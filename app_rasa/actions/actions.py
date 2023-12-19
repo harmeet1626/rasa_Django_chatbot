@@ -55,7 +55,7 @@ class BookTableAction(Action):
         # response_text = f"A booking with {booking.ext_id} has been made for 8PM sunday, and the booking details has been sent to your registered email"
         hotel_name=['Taj', 'Social', 'The Great beer', 'The pirates', 'Pyramid' ]
 
-        response_text=f"A booking with {booking.ext_id}\n at Hotel {booking.restaurant,name} \n for {booking.people_num} people \n on {booking.booking_date.date()} at {booking.booking_date.time()} \n has been created."
+        response_text=f"A booking with {booking.ext_id}\n at Hotel {booking.restaurant.name} \n for {booking.people_num} people \n on {booking.booking_date.date()} at {booking.booking_date.time()} \n has been created."
 
         return response_text
 
@@ -160,14 +160,19 @@ class CancelBookingAction(Action):
 
     def query_your_model(self, tracker):
         try:
-            booking = Bookings.objects.filter(ext_id = tracker.get_slot("booking_id"))
+            booking_id = tracker.get_slot("booking_id")
+            booking = Bookings.objects.filter(ext_id = booking_id)
+            print("booking==============>",booking)
             response_text = []
             if booking:
                 booking.delete()
 
                 response_text.append("Your Booking has been cancelled and the refund will be initiated based on the restaurant policy")
             else:
-                response_text.append(f"Sorry, We were not able to fetch the details of booking id {tracker.get_slot('booking_id')}.")
+                if booking_id:
+                    response_text.append(f"Sorry, We were not able to fetch the details of booking id {tracker.get_slot('booking_id')}.")
+                else:
+                    response_text.append(f"Sorry, We were not able to fetch the details of above booking id")
                 response_text.append(f"Please re-check and enter the id again.")
             return response_text
         except Exception as e:

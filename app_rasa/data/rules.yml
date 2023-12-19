@@ -93,13 +93,29 @@ rules:
 
 - rule: Submit Form
   condition :
-  - active_loop:  restaurant_form
+  - active_loop: restaurant_form
   steps:
     - action: restaurant_form
     - active_loop:  null
     - action : utter_submit
     - action : utter_slots_values
     - action : action_book_table
+
+- rule:  Activate Cancel booking form
+  steps:
+  - intent: cancel_my_reservation
+  - action: cancel_booking_form
+  - active_loop: cancel_booking_form
+
+
+- rule: Submit the cancel booking form
+  condition : 
+  - active_loop: cancel_booking_form
+  steps:
+    - action: cancel_booking_form
+    - active_loop:  null
+    - action : utter_submit
+    - action : action_cancel_booking
 
 
 - rule: Get my booking details

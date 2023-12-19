@@ -323,11 +323,11 @@ nlu:
 
 - intent : cancel_my_reservation
   examples: |
-    - How can I cancel my booking?
-    - Cancel my booking?
+    - How can I cancel my booking
+    - Cancel my booking
     - I want to cancel my booking.
     - please cancel my booking.
-    - Please Cancel my resrevation?
+    - Please Cancel my resrevation
     - I want to cancel my reservation.
     - I don't want to go
 
@@ -346,6 +346,7 @@ nlu:
     - [12345](booking_id)
     - [12dsawrc5](booking_id)
     - [bg44g5](booking_id)
+    - [bgjhgfvjsfvs](booking_id)
     - My reservation id is [BKNG-123hsd](booking_id)
     - My booking id is [BKNG-123hsd](booking_id)
     - Booking id -  [Bsadd43](booking_id)
