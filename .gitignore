@@ -145,3 +145,5 @@ db.sqlite3/
 MySQL-python.tar.gz
 # models trained
 app_rasa/models/
+#endpoints
+app_rasa/endpoints

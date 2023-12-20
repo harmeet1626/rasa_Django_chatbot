@@ -44,9 +44,9 @@ class BookTableAction(Action):
 
 
     def query_your_model(self, tracker):
-        random_restaurant = Restaurants.objects.order_by('?').first()
+        all_restaurants = Restaurants.objects.all()
         booking = Bookings.objects.create(user_id = tracker.sender_id,
-                        restaurant = random_restaurant,
+                        restaurant = random.choice(all_restaurants),
                         cuisine = tracker.get_slot("cuisine"),
                         people_num =tracker.get_slot("num_people"),
                         outdoor_seating =tracker.get_slot("outdoor_seating"),
@@ -105,12 +105,12 @@ class GetlastFiveBookings(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         response_array = self.run_sync_method(tracker)
         print("response",response_array)
-        if response_array['success'] == 1:
-            booking_data = response_array['booking_data']
-            dispatcher.utter_message(json_message={"button_data":booking_data,"action_type":"create_buttons","data_type":"json","text":"Select an order for refund"})
+        if response_array["message"]== []:
+            dispatcher.utter_message(text="Please select a booking",buttons =response_array["buttons"])
         else:
             for message in response_array['message']:
-                    dispatcher.utter_message(text=message)
+                dispatcher.utter_message(text=message)
+
 
     
     def run_sync_method(self,tracker):
@@ -121,18 +121,17 @@ class GetlastFiveBookings(Action):
 
     def query_your_model(self, tracker):
         try:
-            bookings = Bookings.objects.filter(user_id = tracker.sender_id)[0:5]
-            response_text ={"success":0,"booking_data":[],"message":[]}
+            bookings = Bookings.objects.filter(user_id = tracker.sender_id).order_by("-booking_date")[0:5]
             if bookings:
-                response_text["success"] = 1
+                response_text = {"message":[],"buttons":[]}
                 for one_booking in   bookings: 
                     print("append")
-                    response_text["booking_data"].append({"booking_id": one_booking.ext_id,
-                                        "Restaurant_name" : one_booking.restaurant.name,
-                                        "Dated" : str(one_booking.booking_date.date())})
+                    response_text["buttons"].append({"payload": one_booking.ext_id,
+                                        "title" : one_booking.restaurant.name,
+                                        })
             else:
-                response_text['message'].append("You do not have any active bookings")
-                response_text['message'].append("If you want then I can assist you in creating one.")
+                response_text["message"].append("You do not have any active bookings")
+                response_text["message"].append("If you want then I can assist you in creating one.")
             return response_text
         except Exception as E:
             print("E========================",E)

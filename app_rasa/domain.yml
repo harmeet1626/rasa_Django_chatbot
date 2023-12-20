@@ -4,7 +4,6 @@ intents:
 
   - greet
   - goodbye
-  - affirm
   - deny
   - mood_great
   - mood_unhappy
@@ -33,6 +32,7 @@ intents:
   - cancel_my_reservation
   - provide_booking_id
   - booking_id_for_refund
+  - explain
 
 actions:
   - action_book_table
@@ -62,27 +62,43 @@ forms:
 
 
 slots:
+  requested_slot:
+    type: categorical
+    values:
+      - cuisine
+      - num_people
+      - outdoor_seating
+    influence_conversation: true
+    mappings:
+    - type: custom
+
   booking_id:
     type: text
-    influence_conversation: false
+    influence_conversation: true
     mappings: 
     - type: from_entity 
       entity: booking_id
+
   cuisine:
     type: text
+    influence_conversation: true
     mappings:
     - type: from_entity
       entity: cuisine
+
   num_people:
     type: float
+    influence_conversation: true
     mappings:
     - type: from_entity
       entity: number
+
   outdoor_seating:
     type: bool
+    influence_conversation: true
     mappings:
     - type: from_intent
-      intent: affirm
+      intent: affirm_create_new_booking
       value: true
       conditions:
       - active_loop: restaurant_form
@@ -95,9 +111,17 @@ slots:
         requested_slot: outdoor_seating
 
 
+
+
 responses:
   utter_greet:
   - text: "Hey! How are you?"
+    buttons:
+      - title: "great"
+        payload: "/mood_great"
+      - title: "super sad"
+        payload: "/mood_sad"
+
 
   utter_cheer_up:
   - text: "Here is something to cheer you up:"
@@ -190,7 +214,14 @@ responses:
   utter_ask_booking_id:
   - text : "Please enter the booking id that was sent on your registered email"
 
+  utter_explain_cuisine:
+  - text : "Name of cuisine is needed to filter out the restaurants."
 
+  utter_explain_num_people:
+  - text : "I need to know how many people are in your party to ensure the restaurant can accomodate you."
+
+  utter_explain_outdoor_seating:
+  - text : "Required for selecting the suitable table."
 
 session_config:
   session_expiration_time: 60
