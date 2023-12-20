@@ -135,6 +135,7 @@ class Chatbot(APIView):
                     Chats.objects.create(chatroom = chatroom,response=response_array[i]["text"])
             except:
                 pass
+            print("final_response")
             return Response({"status":status,"message":message,"response":response_array})
         except Exception as E:
             print("internal server error===",str(E))
