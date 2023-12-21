@@ -39,6 +39,8 @@ actions:
   - get_booking_details
   - action_cancel_booking
   - get_last_five_bookings
+  - validate_restaurant_form
+
 
 entities:
   - payment_method
@@ -109,9 +111,6 @@ slots:
       conditions:
       - active_loop: restaurant_form
         requested_slot: outdoor_seating
-
-
-
 
 responses:
   utter_greet:
