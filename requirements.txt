@@ -79,6 +79,7 @@ ml-dtypes==0.2.0
 msgpack==1.0.7
 multidict==5.2.0
 murmurhash==1.0.10
+mysqlclient==2.2.0
 networkx==2.6.3
 numpy==1.24.4
 oauthlib==3.2.2

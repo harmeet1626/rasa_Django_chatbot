@@ -1,9 +1,9 @@
 # yourprojectname/urls.py
 from django.contrib import admin
 from django.urls import include, path
-from rasa_chat_app.views import index
+from api.views import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('rasa_chat_app.urls')),
+    path('', include('api.urls')),
 ]

@@ -29,12 +29,6 @@ stories:
   - intent: deny
   - action: utter_goodbye
 
-- story: test
-  steps:
-  - intent: honey_test
-  - action: utter_honey
-
-
 - story: Initiate refund and inquire about the process
   steps:
     - intent: initiate_refund
