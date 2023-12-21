@@ -216,16 +216,6 @@ nlu:
     -  Whats the update on my order?
     -  When will I receive my order?
 
-- intent : offers_info
-  examples : |
-    -  Are there any discounts going on?
-    -  Do you give discounts?
-    -  Do you give offers?
-    -  Are there any offers going on
-    -  Are there any discounts?
-    -  I want discounts?
-    -  Any offers
-    -  Do you provide any offers?
 
 - intent : coupon_codes
   examples : |
@@ -352,7 +342,6 @@ nlu:
   examples: |
     -Raise Refund - [BKNG-123hsd](booking_id)
     
-
 
 - intent: explain
   examples: |

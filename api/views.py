@@ -69,6 +69,7 @@ class Login(APIView):
 
 
 
+
 class Chatbot(APIView):
     authentication_classes =[TokenAuthentication,]
     permission_classes = [IsAuthenticated,]
