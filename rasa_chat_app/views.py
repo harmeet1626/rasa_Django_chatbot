@@ -27,11 +27,16 @@ class Chatbot(APIView):
                 "message" :data['message'],
                 "sender": "Ranjeet",
             }
+            print(chatbot_data,"test")
             chatbot_response = requests.post(url,data=json.dumps(chatbot_data),headers=self.get_headers())
             if chatbot_response.status_code == 200 :
                 chatbot_response = json.loads(chatbot_response.content)
                 response_array = chatbot_response
+<<<<<<< HEAD
                 print("response:================>", response_array)
+=======
+                print(response_array)
+>>>>>>> 45fb12b04dd269b16fdb891fbbfabfb6de29dd42
                 if response_array ==[]:
                     response_array =[{"text":"I'm sorry. I dont have the answer to that."}]
                 return Response({"status":200, "response":response_array})

@@ -1,7 +1,7 @@
 version: "3.1"
 
 intents:
-
+  - honey_test
   - greet
   - goodbye
   - affirm
@@ -29,10 +29,10 @@ intents:
   - coupon_codes
   - platform_services
 
-entities:
-  - payment_method
-  - day
-  - person
+# entities:
+#   - payment_method
+#   - day
+#   - person
 
 
 
@@ -43,7 +43,7 @@ responses:
   utter_cheer_up:
   - text: "Here is something to cheer you up:"
     image: "https://i.imgur.com/nGF1K8f.jpg"
-offers_info
+  
   utter_did_that_help:
   - text: "Did that help you?"
 
@@ -109,6 +109,21 @@ offers_info
 
   utter_platform_services:
   - text : "We sell mobile phones, laptops, electronic gadgets and clothes. We also deal in banking facilities"
+
+
+  utter_are_you_sure:
+  - text : "Are You Sure ?"
+
+  utter_ticket_raised:
+  - text : "Okay we have created a ticket for your issue. Please note down the ticket number T-123."
+
+
+  utter_time_required_to_resolve:
+  - text : "How long would it take to resolve the ticket ?"
+
+
+  utter_time_confirmed_to_resolved:
+  - text : "It will be solved within 3-5 working days"
 
  
 
