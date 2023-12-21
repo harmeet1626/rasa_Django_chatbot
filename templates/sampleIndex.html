@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot UI</title>
+    <style>
+        .pre-line {
+            white-space: pre-line;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-container {
+            max-width: 400px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 22px !important;
+        }
+
+        .chat-header {
+            background-color: #0caaf5;
+            color: #fff;
+            /* text-align: center; */
+            font-weight: bold;
+            font-size: 13px;
+            display: flex;
+            padding: 10px;
+            position: relative;
+        }
+
+        .chat-body {
+            padding: 10px;
+            overflow-y: auto;
+            max-height: 300px;
+            height: 50vh;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            overflow: hidden;
+            clear: both;
+            font-size: 11px !important;
+            /* Add this line to clear the floats */
+        }
+
+
+        .user-message,
+        .bot-message {
+            background-color: #0caaf5;
+            color: #fff;
+            border-radius: 20px;
+            padding: 15px;
+            max-width: 60%;
+            text-align: right;
+
+        }
+
+        .user-message {
+            float: right;
+            border-bottom-right-radius: 0px !important;
+        }
+
+        .bot-message {
+            background-color: #ddd;
+            color: black;
+            text-align: left;
+            max-width: 60%;
+            border-bottom-left-radius: 0px !important;
+
+        }
+
+        .input-container {
+            padding: 10px;
+            background-color: #fff;
+            border-top: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+
+        }
+
+        .user-input {
+            flex: 1;
+            /* Take up remaining available space */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            /* Remove default outline */
+            font-size: 14px;
+            /* Adjust font size */
+        }
+
+        .user-input::placeholder {
+            color: #999;
+            /* Placeholder text color */
+        }
+
+
+        .mic_input,
+        .send-button {
+
+            background-color: #ffffff00;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 3px;
+            /* Add some spacing between buttons */
+        }
+
+        .send-button {
+            transform: rotate(-30deg);
+            margin-bottom: 8px;
+        }
+
+
+        .title {
+            padding: 2px;
+            font-size: 17px;
+        }
+
+        .mic_input {
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        .upload_button {
+            background-color: #0caaf5;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .button-container {
+            padding: 10px;
+        }
+
+
+
+
+        /* .chat-container {
+      width: 300px;
+      margin: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      position: relative;
+    } */
+        /* Style for the chat message */
+        .chat-message {
+            background-color: #F1F1F1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            height: 7px;
+        }
+
+        /* Style for the typing loader */
+        .typing-loader {
+            background-color: #0caaf5 !important;
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #555;
+            animation: typingAnimation 1s infinite;
+            margin-left: 5px;
+            border-radius: 28px;
+        }
+
+        /* Keyframe animation for the typing loader */
+        @keyframes typingAnimation {
+            0% {
+                height: 20px;
+            }
+
+            50% {
+                height: 10px;
+            }
+
+            100% {
+                height: 20px;
+            }
+        }
+
+        .online-status-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #00ff00;
+            border-radius: 50%;
+            /* right: 7px; */
+            /* left: 46px; */
+            margin-left: 38px;
+            margin-top: 38px;
+        }
+
+        .zoya_status {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            /* right: 7px; */
+            /* left: 46px; */
+            margin-left: 65px;
+            margin-top: 40px;
+            font-size: 9px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <img height="40px" style="padding: 10px;"
+                src="https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359554_1280.png" />
+            <p class="title">Zoya</p>
+            <span class="online-status-dot"></span>
+            <p class="zoya_status">Online</p>
+
+        </div>
+        <div class="chat-body" id="chatBody">
+        </div>
+        <div id="loading" style="display: none;">
+            <div class="chat-message">
+                <span class="typing-loader">
+                </span>
+                <span class="typing-loader">
+                </span>
+                <span class="typing-loader">
+                </span>
+            </div>
+        </div>
+        <p style="display: none;" id="token">{{token}}</p>
+
+        <div class="input-container">
+            <input type="text" class="user-input" id="userInput" placeholder="Type your message...">
+            <button class="mic_input" onclick="runSpeechRecog()" style="border: transparent;padding: 0 0.5rem;">
+                <img class="mic_icon" height="25px"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbfz0EPwsBESNxKeJju2czYhmGvAR_edzC1KfoTPuc1g&s"
+                    alt="Speech Recognition" />
+
+            </button>
+            <button class="send-button" onclick="sendMessage()">
+                <image style="height: 25px; float: left;"
+                    src="https://cdn-icons-png.flaticon.com/512/9350/9350614.png" />
+            </button>
+            <input id="file-input" type="file" style="display: none;" onchange="handleFileSelection(this)" />
+
+        </div>
+    </div>
+
+    <script>
+
+
+
+        var input_text = ''
+        let userInput_text = document.getElementById("userInput");
+        let prefix = ""
+        userInput_text.addEventListener("keydown", function (e) {
+            if (e.code === "Enter" || e.code === "NumpadEnter") {  //checks whether the pressed key is "Enter"
+                sendMessage();
+            }
+        });
+        async function sendMessage(msg = "") {
+            var userInput
+            if (msg == '') {
+                userInput = document.getElementById('userInput').value;
+            }
+            else {
+                userInput = msg
+            }
+            var chatBody = document.getElementById('chatBody');
+            if (prefix == "") {
+            }
+            else {
+                userInput = prefix + userInput
+            }
+            // Add user message
+            createUserMessage()
+            chatBoatTyping(true)
+            const startTime = new Date();
+
+            await fetch(`chatbot`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: "Token {{token}}"
+                },
+
+                body: JSON.stringify({ message: userInput }), // Convert the data to JSON format
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                    // Parse the JSON in the response
+                })
+                .then(data => {
+                    prefix = ""
+                    const endTime = new Date();
+                    const durationInMilliseconds = endTime - startTime;
+                    const durationInSeconds = durationInMilliseconds / 1000;
+                    const delay = Math.max(0, 1500 - durationInMilliseconds);
+                    setTimeout(() => {
+                        console.log(`Waited for at least 3 seconds after API response`);
+                        createBoatMessage(data)
+                    }, delay);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the POST request', error);
+                    // Handle errors
+                });
+        }
+        function chatBoatTyping(e) {
+            if (e == true) {
+                var element = document.getElementsByClassName('zoya_status')[0];
+                element.innerHTML = "Typing...";
+
+                var element = document.getElementById("loading");
+                element.style.display = "block";
+            }
+            if (e == false) {
+                var element = document.getElementsByClassName('zoya_status')[0];
+                element.innerHTML = "Online";
+                var element = document.getElementById("loading");
+                element.style.display = "none";
+            }
+        }
+        function createBoatMessage(data) {
+            let chatBody = document.getElementById('chatBody');
+            processElements(data.response);
+
+            async function processElements(elements) {
+                for (const element of elements) {
+
+                    await processElement(element);
+
+                    chatBoatTyping(false)
+                }
+            }
+            function processElement(element) {
+                return new Promise(resolve => {
+                    chatBoatTyping(true)
+                    var botResponse = document.createElement('div');
+                    botResponse.className = 'message bot-message pre-line';
+
+                    if (element.text.includes("please write your concern in one line")) {
+                        prefix = 'raise_ticket-'
+                    }
+                    if (element.text.includes("please enter the ticket number")) {
+                        prefix = 'ticket-'
+                    }
+                    if (element.text.includes("Can you please enter your order id?")) {
+                        prefix = "track my order-"
+                    }
+                    if (element.text.includes('Do you want to share any related documents')) {
+                        const responseContainer = document.createElement('div');
+                        responseContainer.className = 'message bot-message pre-line';
+                        responseContainer.innerHTML = `${element.text}`;
+                        chatBody.appendChild(responseContainer);
+                        responseContainer.scrollIntoView({ behavior: "smooth" });
+                        addButton();
+
+                        setTimeout(() => {
+                            resolve();
+
+
+                        }, 2000); // 2000 milliseconds (2 seconds) delay
+                        return;
+                    }
+
+                    botResponse.textContent = `${element.text}`;
+                    chatBody.appendChild(botResponse);
+                    botResponse.scrollIntoView({ behavior: "smooth" });
+
+                    setTimeout(() => {
+                        resolve();
+                    }, 2000); // 2000 milliseconds (2 seconds) delay
+                });
+            }
+        }
+        function addButton() {
+            var botResponse = document.createElement('div');
+            botResponse.className = 'bot-button';
+            botResponse.innerHTML = `
+                <div class="button-container">
+                    <button class="upload_button upload">Yes</button>
+                    <button class="upload_button" onclick="userResponseButton('No')">No</button>
+                </div>`;
+            // Append the container to the chat body
+            chatBody.appendChild(botResponse);
+            // Scroll to the newly added content
+            botResponse.scrollIntoView({ behavior: "smooth" });
+            return;
+        }
+        function createUserMessage() {
+            var userInput = document.getElementById('userInput').value;
+            var chatBody = document.getElementById('chatBody');
+            var prefix = ""
+            var userMessage = document.createElement('div');
+            userMessage.className = 'message user-message';
+            userMessage.textContent = userInput;
+            if (userInput == "") {
+                return
+            }
+            chatBody.appendChild(userMessage);
+            document.getElementById('userInput').value = '';
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+        $(document).on("click", ".upload", function (e) {
+            const input = e.target.id;
+            document.getElementById('file-input').click();
+        })
+
+        function handleFileSelection(input) {
+            const fileName = input.files[0];
+            uploadDocument(fileName);
+        }
+
+        function uploadDocument(file) {
+
+            const apiEndpoint = 'documentUpload/';
+            const formData = new FormData();
+            formData.append('document', file);
+            fetch(apiEndpoint, {
+                method: 'PUT',
+                headers: {
+                    Authorization: "Token {{token}}"
+                },
+                body: formData,
+
+            })
+                .then(response => response.json())
+                .then(data => {
+
+                    let chatBody = document.getElementById('chatBody');
+                    var botResponse = document.createElement('div');
+                    botResponse.className = 'message bot-message pre-line';
+                    // Add the text content from the response
+                    botResponse.innerHTML = `${data?.response[0]?.text}`;
+                    // Check if the document URL exists in the response
+                    if (data?.document) {
+                        // Create a link element
+                        var documentLink = document.createElement('a');
+                        documentLink.href = data.document; // Set the URL
+                        documentLink.target = '_blank'; // Open link in a new tab
+                        documentLink.textContent = 'Click here to view the document';
+                        // Append the link to the bot response
+                        botResponse.appendChild(document.createElement('br')); // Add a line break
+                        botResponse.appendChild(documentLink);
+                    }
+                    chatBody.appendChild(botResponse);
+                    botResponse.scrollIntoView({ behavior: "smooth" });
+                })
+                .catch(error => {
+                    console.error('API Error:', error);
+                });
+        }
+        runSpeechRecog = () => {
+            let recognization = new webkitSpeechRecognition();
+            recognization.onstart = () => {
+                console.log('listening')
+            }
+            recognization.onresult = (e) => {
+                var transcript = e.results[0][0].transcript;
+                // document.getElementById("userInput").innerHTML = transcript;
+                var text = document.getElementById('userInput');
+                text.value += transcript;
+            }
+            recognization.start();
+        }
+
+        var apiEndpoint = 'user/chats/';
+
+        async function mount() {
+            apiEndpoint = 'user/chats/';
+            await fetch(apiEndpoint, {
+                method: 'GET',
+                headers: {
+                    Authorization: "Token {{token}}"
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    apiEndpoint = data.next;
+                    let chatBody = document.getElementById('chatBody');
+                    data.results.forEach((element, index, array) => {
+                        // for bot message
+                        var botResponse = document.createElement('div');
+                        botResponse.className = 'message bot-message pre-line';
+                        botResponse.textContent = `${element.response}`;
+                        // Insert bot response at the beginning of the chatBody
+                        chatBody.insertBefore(botResponse, chatBody.firstChild);
+                        if (element.question !== null) {
+                            // for user message
+                            var userMessage = document.createElement('div');
+                            userMessage.className = 'message user-message';
+                            userMessage.textContent = `${element.question}`;
+                            // Insert user message at the beginning of the chatBody
+                            chatBody.insertBefore(userMessage, chatBody.firstChild);
+                        }
+                    });
+                })
+        }
+        function initial_bot_message() {
+            console.log("new message")
+            var botResponse = document.createElement('div');
+            botResponse.className = 'message bot-message pre-line';
+            botResponse.textContent = 'Hi this is your personal assistant zoya. How may I help you ?';
+            chatBody.appendChild(botResponse);
+            botResponse.scrollIntoView({ behavior: "instant" });
+        }
+        mount().then(() => {
+            initial_bot_message();
+        })
+        chatBody.addEventListener('scroll', () => {
+            if (chatBody.scrollTop === 0) {
+                const currentScrollHeight = chatBody.scrollHeight;
+                mount().then(() => {
+                    const newScrollHeight = chatBody.scrollHeight;
+                    const scrollDifference = newScrollHeight - currentScrollHeight;
+                    chatBody.scrollTop = scrollDifference;
+                });
+            } else if (chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight) {
+            }
+        });
+    </script>
+
+</body>
+
+</html>

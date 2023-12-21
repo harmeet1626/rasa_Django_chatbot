@@ -1,0 +1,95 @@
+version: "3.1"
+
+stories:
+
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+
+
+- story: Bot abilities inquiry followed by seeking help
+  steps:
+    - intent: bot_abilities
+    - action: utter_bot_abilities
+    - intent: help
+    - action: utter_help
+
+
+- story: Book restaurant after getting null bookings
+  steps:
+    - intent: get_my_bookings
+    - action: get_booking_details
+    - intent: affirm_create_new_booking
+    - action : restaurant_form
+    - active_loop : restaurant_form
+
+
+
+- story: Initiate refund and inquire about the process
+  steps:
+    - intent: initiate_refund
+    - action: get_last_five_bookings
+    # - intent: booking_id_for_refund
+    # - action: utter_refund_time_question
+
+
+
+- story: cuisine interjection
+  steps:
+    - intent: request_restaurant
+    - action: restaurant_form
+    - active_loop: restaurant_form
+    - slot_was_set:
+      - requested_slot: cuisine
+    - intent: explain
+    - action: utter_explain_cuisine
+    - action: restaurant_form
+
+- story: number of people interjection
+  steps:
+    - intent: request_restaurant
+    - action: restaurant_form
+    - active_loop: restaurant_form
+    - slot_was_set:
+      - requested_slot: num_people
+    - intent: explain
+    - action: utter_explain_num_people
+    - action: restaurant_form
+
+
+- story: outdoor seating interjection
+  steps:
+    - intent: request_restaurant
+    - action: restaurant_form
+    - active_loop: restaurant_form
+    - slot_was_set:
+      - requested_slot: outdoor_seating
+    - intent: explain
+    - action: utter_explain_outdoor_seating
+    - action: restaurant_form
+
+
+
+- story: booking interjection
+  steps:
+    - intent: request_restaurant
+    - action: restaurant_form
+    - active_loop: restaurant_form
+    - slot_was_set:
+      - requested_slot: cuisine
+    - intent: explain
+    - action: utter_explain_cuisine
+    - action: restaurant_form
+    - slot_was_set:
+      - requested_slot: num_people
+    - intent: explain
+    - action: utter_explain_num_people
+    - action: restaurant_form
+    - slot_was_set:
+      - requested_slot: outdoor_seating
+    - intent: explain
+    - action: utter_explain_outdoor_seating
+    - action: restaurant_form

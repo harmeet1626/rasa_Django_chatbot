@@ -1,0 +1,137 @@
+version: "3.1"
+
+rules:
+
+
+# - rule: Activate greeting
+#   steps:
+#     - intent: raise_ticket
+#     - action: utter_are_you_sure
+#     - intent: affirm
+#     - action: utter_confirm_raise_ticket
+#     - intent: affirm
+#     - action: utter_ticket_raised
+#     - intent: utter_time_required_to_resolve
+
+
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- rule: Tell bot abilities
+  steps:
+  - intent: bot_abilities
+  - action: utter_bot_abilities
+
+
+- rule: Guide the user on changing their address
+  steps:
+  - intent: change_my_address
+  - action: utter_change_my_address
+
+- rule: Tell the user about the bot abilities
+  steps:
+  - intent: bot_abilities
+  - action: utter_bot_abilities
+
+- rule: Provide information on available payment methods
+  steps:
+  - intent: available_payment_methods
+  - action: utter_available_payment_methods
+
+- rule: Inform the user about average delivery time
+  steps:
+  - intent: average_delivery_time
+  - action: utter_average_delivery_time
+
+
+
+- rule: Initiate a refund process
+  steps:
+  - intent: initiate_refund
+  - action: get_last_five_bookings
+
+# - rule: Provide an answer regarding a refund
+#   steps:
+#   - intent: refund_answer
+#   - action: utter_refund_answer
+
+# - rule: Answer a question about refund time
+#   steps:
+#   - intent: refund_time_question
+#   - action: utter_refund_time_question
+
+- rule: Instruct the user to raise a ticket
+  steps:
+  - intent: raise_ticket
+  - action: utter_are_you_sure
+
+
+- rule: Share information about ticket resolution time
+  steps:
+  - intent: ticket_resolution_time
+  - action: utter_ticket_resolution_time
+
+
+- rule: Track my order
+  steps:
+  - intent: track_order
+  - action: utter_track_order
+
+
+- rule: Check the status of order
+  steps:
+  - intent: order_status
+  - action: utter_order_status
+
+
+- rule: Check work timings
+  steps:
+  - intent: work_timings
+  - action: utter_work_timings
+
+- rule: Activate Restaurant Form
+  steps:
+  -  intent : request_restaurant
+  -  action : restaurant_form
+  -  active_loop : restaurant_form
+
+
+- rule: Submit Form
+  condition :
+  - active_loop: restaurant_form
+  steps:
+    - action: restaurant_form
+    - active_loop:  null
+    - action : utter_submit
+    - action : utter_slots_values
+    - action : action_book_table
+
+- rule:  Activate Cancel booking form
+  steps:
+  - intent: cancel_my_reservation
+  - action: cancel_booking_form
+  - active_loop: cancel_booking_form
+
+
+- rule: Submit the cancel booking form
+  condition : 
+  - active_loop: cancel_booking_form
+  steps:
+    - action: cancel_booking_form
+    - active_loop:  null
+    - action : utter_submit
+    - action : action_cancel_booking
+
+
+- rule: Get my booking details
+  steps:
+  - intent: get_my_bookings
+  - action: get_booking_details
