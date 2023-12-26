@@ -129,8 +129,9 @@ class GetlastFiveBookings(Action):
                 response_text = {"message":[],"buttons":[]}
                 for one_booking in   bookings: 
                     print("append")
-                    response_text["buttons"].append({"payload": one_booking.ext_id,
+                    response_text["buttons"].append({"payload": f'/provide_booking_id{{"booking_id":"{one_booking.ext_id}"}}',
                                         "title" : one_booking.restaurant.name,
+                                        
                                         })
             else:
                 response_text["message"].append("You do not have any active bookings")

@@ -177,12 +177,14 @@ nlu:
     - I have got a wrong product.
     - I got a defective product, How can I return it?
 
+
 - intent : refund_time_question
   examples: |
     - How long would it take the refund to reflect?
     - When will i get the refund
     - Refund time?
     - when will the refund receive?
+
 
 - intent : raise_ticket
   examples: |

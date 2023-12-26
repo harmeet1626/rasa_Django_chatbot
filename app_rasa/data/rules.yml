@@ -40,10 +40,10 @@ rules:
 
 
 
-- rule: Initiate a refund process
-  steps:
-  - intent: initiate_refund
-  - action: get_last_five_bookings
+# - rule: Initiate a refund process
+#   steps:
+#   - intent: initiate_refund
+#   - action: get_last_five_bookings
 
 # - rule: Provide an answer regarding a refund
 #   steps:
