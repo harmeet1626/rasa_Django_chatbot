@@ -28,10 +28,10 @@ stories:
 
 
 
-- story: Initiate refund and inquire about the process
-  steps:
-    - intent: initiate_refund
-    - action: get_last_five_bookings
+# - story: Initiate refund and inquire about the process
+#   steps:
+#     - intent: initiate_refund
+#     - action: get_last_five_bookings
     # - intent: booking_id_for_refund
     # - action: utter_refund_time_question
 
@@ -93,3 +93,11 @@ stories:
     - intent: explain
     - action: utter_explain_outdoor_seating
     - action: restaurant_form
+
+
+- story: Refund to the user
+  steps:
+    - intent: initiate_refund
+    - action: get_last_five_bookings
+    - intent: provide_booking_id
+    - action: utter_confirm_raise_ticket

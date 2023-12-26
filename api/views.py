@@ -82,8 +82,22 @@ class Chatbot(APIView):
     def post(self,request):
         try:
             status,message,response_array=200,"Success",[]
-            user_message = request.data["message"]
             user=request.user
+            data = request.data
+            if request.data["type"]=="buttons":
+                user_message = data["payload"]["title"]
+                chatbot_data = {
+                    "message" :data["payload"]["payload"],
+                    "sender": user.id,
+                }
+            else:
+                print("in the else part")
+                user_message = data["message"]
+                chatbot_data = {
+                    "message" :data['message'],
+                    "sender": user.id,
+                }
+            print("request data=========>",request.data)
             chatroom= Chatroom.objects.get_or_create(user=user)[0]
             chat = Chats.objects.create(chatroom = chatroom)
             print("user_message=============>",user_message)
@@ -107,11 +121,9 @@ class Chatbot(APIView):
                 
             else:
                 url =  config('RASA_URL')
-                data = request.data
-                chatbot_data = {
-                    "message" :data['message'],
-                    "sender": user.id,
-                }
+
+               
+
                 chatbot_response = requests.post(url,data=json.dumps(chatbot_data),headers=self.get_headers())
                 print("chatbot_response======================>",chatbot_response)
                 if chatbot_response.status_code == 200 :
