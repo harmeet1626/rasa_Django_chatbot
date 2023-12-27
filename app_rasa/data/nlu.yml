@@ -353,3 +353,9 @@ nlu:
     - For what purpose
     - what is the purpose of that
     - why
+
+- intent: order_return_video
+  examples: |
+    - video tutorial to return an item
+    - how can I return my order
+    - steps to return a order
