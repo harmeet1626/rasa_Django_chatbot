@@ -34,15 +34,7 @@ nlu:
     - bye bye
     - see you later
 
-- intent: affirm
-  examples: |
-    - yes
-    - yup
-    - indeed
-    - of course
-    - that sounds good
-    - correct
-    - yes, please
+
 
 - intent: deny
   examples: |
@@ -185,12 +177,14 @@ nlu:
     - I have got a wrong product.
     - I got a defective product, How can I return it?
 
+
 - intent : refund_time_question
   examples: |
     - How long would it take the refund to reflect?
     - When will i get the refund
     - Refund time?
     - when will the refund receive?
+
 
 - intent : raise_ticket
   examples: |
@@ -224,16 +218,6 @@ nlu:
     -  Whats the update on my order?
     -  When will I receive my order?
 
-- intent : offers_info
-  examples : |
-    -  Are there any discounts going on?
-    -  Do you give discounts?
-    -  Do you give offers?
-    -  Are there any offers going on
-    -  Are there any discounts?
-    -  I want discounts?
-    -  Any offers
-    -  Do you provide any offers?
 
 - intent : coupon_codes
   examples : |
@@ -319,6 +303,9 @@ nlu:
     - okay
     - create a booking
     - Okay create a booking
+    - yup
+    - YES
+    - Ya
 
 
 - intent : cancel_my_reservation
@@ -357,3 +344,18 @@ nlu:
   examples: |
     -Raise Refund - [BKNG-123hsd](booking_id)
     
+
+- intent: explain
+  examples: |
+    - Why do you want that
+    - I don't want to share this information.
+    - What will you do with that
+    - For what purpose
+    - what is the purpose of that
+    - why
+
+- intent: order_return_video
+  examples: |
+    - video tutorial to return an item
+    - how can I return my order
+    - steps to return a order

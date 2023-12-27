@@ -69,6 +69,7 @@ class Login(APIView):
 
 
 
+
 class Chatbot(APIView):
     authentication_classes =[TokenAuthentication,]
     permission_classes = [IsAuthenticated,]
@@ -79,21 +80,38 @@ class Chatbot(APIView):
         return headers
 
     def post(self,request):
+
         try:
             status,message,response_array=200,"Success",[]
-            user_message = request.data["message"]
             user=request.user
+            data = request.data
+            if request.data["type"]=="buttons":
+                user_message = data["payload"]["title"]
+                chatbot_data = {
+                    "message" :data["payload"]["payload"],
+                    "sender": user.id,
+                }
+            else:
+                print("in the else part")
+                user_message = data["message"]
+                chatbot_data = {
+                    "message" :data['message'],
+                    "sender": user.id,
+                }
+            print("request data=========>",request.data)
             chatroom= Chatroom.objects.get_or_create(user=user)[0]
             chat = Chats.objects.create(chatroom = chatroom)
             print("user_message=============>",user_message)
             if 'help_me' in user_message.lower():
                 response_array = [{"text":"You can ask me about categories, products, or anything else. Feel free to explore!"}]
+
             elif 'raise_ticket-' in user_message.lower():
                 ticket_number = generate_random_alphanumeric_string(5)
                 response_array = [{"text":f'Thankyou for sharing your problem, We have created a ticket for your issue. Please note down the ticket number {ticket_number} '},{"text":"Do you want to share any related documents?"}]
                 user_message =user_message.replace("raise_ticket-","")
                 chat.question = user_message
                 Tickets.objects.create(ext_id=ticket_number,document="", chat_id = chat.id,status ="Initiated",text=user_message)
+                
             elif 'track_ticket-' in user_message.lower():
                 ext_id = user_message.lower().replace("track_ticket-","")
                 try:
@@ -106,11 +124,7 @@ class Chatbot(APIView):
                 
             else:
                 url =  config('RASA_URL')
-                data = request.data
-                chatbot_data = {
-                    "message" :data['message'],
-                    "sender": user.id,
-                }
+                print("chatbot request data===============================>",chatbot_data)
                 chatbot_response = requests.post(url,data=json.dumps(chatbot_data),headers=self.get_headers())
                 print("chatbot_response======================>",chatbot_response)
                 if chatbot_response.status_code == 200 :
@@ -121,7 +135,6 @@ class Chatbot(APIView):
                         response_array =[{"text":"I'm sorry. I dont have the answer to that."}]
                     if not response_array[0].get('text'):
                         response_array[0]['text']='Select an order for refund'
-
                     # return Response({"status":200, "response":response_array})
                 else:
                     status = 400
@@ -135,6 +148,7 @@ class Chatbot(APIView):
                     Chats.objects.create(chatroom = chatroom,response=response_array[i]["text"])
             except:
                 pass
+            print("final_response")
             return Response({"status":status,"message":message,"response":response_array})
         except Exception as E:
             print("internal server error===",str(E))
