@@ -33,6 +33,7 @@ intents:
   - provide_booking_id
   - booking_id_for_refund
   - explain
+  - order_return_video
 
 actions:
   - action_book_table
@@ -40,6 +41,7 @@ actions:
   - action_cancel_booking
   - get_last_five_bookings
   - validate_restaurant_form
+  - return_order_video
 
 
 <<<<<<< HEAD:Rasa/domain.yml
@@ -253,6 +255,10 @@ responses:
   utter_explain_outdoor_seating:
   - text : "Required for selecting the suitable table."
 
+
+
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
+
+

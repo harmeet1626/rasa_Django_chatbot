@@ -3,13 +3,15 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 import logging
+
+from rasa_sdk.interfaces import Tracker
 logger = logging.getLogger(__name__)
 from rasa_sdk import Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
 import django ,sys
 from datetime import datetime, timedelta
-import os, random
+import os, random,webbrowser
 
 
 
@@ -212,3 +214,15 @@ class ValidateRestaurantForm(FormValidationAction):
 
             return {"cuisine": None}
         
+
+class ReturnVideoGuide(Action):
+    def name(self) -> Text:
+        return "return_order_video"
+    
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        url = "https://www.youtube.com/watch?v=h2pQ4HGqEBE"
+        dispatcher.utter_message("wait......video is playing in new browser")
+        webbrowser.open(url)
+        return []

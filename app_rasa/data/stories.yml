@@ -101,3 +101,9 @@ stories:
     - action: get_last_five_bookings
     - intent: provide_booking_id
     - action: utter_confirm_raise_ticket
+
+
+- story: return video play
+  steps:
+    - intent: order_return_video
+    - action: return_order_video
