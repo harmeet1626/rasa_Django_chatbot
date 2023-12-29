@@ -105,13 +105,13 @@ class Chatbot(APIView):
             if 'help_me' in user_message.lower():
                 response_array = [{"text":"You can ask me about categories, products, or anything else. Feel free to explore!"}]
 
-            elif 'raise_ticket-' in user_message.lower():
-                ticket_number = generate_random_alphanumeric_string(5)
-                response_array = [{"text":f'Thankyou for sharing your problem, We have created a ticket for your issue. Please note down the ticket number {ticket_number} '},{"text":"Do you want to share any related documents?"}]
-                user_message =user_message.replace("raise_ticket-","")
-                chat.question = user_message
-                Tickets.objects.create(ext_id=ticket_number,document="", chat_id = chat.id,status ="Initiated",text=user_message)
-                
+            # elif 'raise_ticket-' in user_message.lower():
+            #     ticket_number = generate_random_alphanumeric_string(5)
+            #     response_array = [{"text":f'Thankyou for sharing your problem, We have created a ticket for your issue. Please note down the ticket number {ticket_number} '},{"text":"Do you want to share any related documents?"}]
+            #     user_message =user_message.replace("raise_ticket-","")
+            #     chat.question = user_message
+            #     Tickets.objects.create(ext_id=ticket_number,document="", chat_id = chat.id,status ="Initiated",text=user_message)
+
             elif 'track_ticket-' in user_message.lower():
                 ext_id = user_message.lower().replace("track_ticket-","")
                 try:
@@ -164,7 +164,7 @@ class UploadDocumentTicket(UpdateAPIView):
         try:
             print(request.data,"==========")
             print(request.FILES,"=========")
-            ticket_obj = Tickets.objects.filter(chat__chatroom__user_id = request.user).last()
+            ticket_obj = Tickets.objects.filter(user = request.user).last()
             if not ticket_obj:
                 return Response({"status":400, "error":"Ticket doesn't exist"})
             serializer = UploadDocumentsSerializer(ticket_obj,request.data)
@@ -172,7 +172,8 @@ class UploadDocumentTicket(UpdateAPIView):
                 print("serializer is validated")
                 serializer.save()
                 print("serializer  saved")
-                Chats.objects.create(chatroom=ticket_obj.chat.chatroom, document = serializer.data["document"],type = "file")
+                chatroom = Chatroom.objects.get(user=request.user)
+                Chats.objects.create(chatroom=chatroom, document = serializer.data["document"],type = "file")
                 response_array = [{"text":"Your Document has uploaded Successfully"}]
             else:
                 return Response({"status":400, "error":serializer.errors})

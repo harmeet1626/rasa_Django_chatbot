@@ -23,24 +23,11 @@ class Chats(models.Model):
     type = models.CharField(choices=(("text","text"),("file","file")),default="text",max_length=255)
     created_at = models.DateTimeField(auto_now_add=True,)
 
-
-class Tickets(models.Model):
-    class Meta:
-        db_table = "Tickets"
-    ext_id = models.CharField(max_length=255,null=False, blank=False, unique = True)
-    text =models.CharField(max_length=255,null=False, blank=False)
-    document = models.FileField(upload_to =  "static/documents", null = True ,blank = True )
-    chat= models.OneToOneField(Chats, on_delete=models.PROTECT, related_name="tickets")
-    status = models.CharField(choices=(("Initiated","Initiated"),("In-Progress","In-Progress"),("Resolved","Resolved"),("Disposed","Disposed")),max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True,null=False)
-
-
-
 class Restaurants(models.Model):
     class Meta:
         db_table = "restaurants"
     name = models.CharField(max_length=120,null=False, blank=False, unique = True)
-
+    address = models.CharField(max_length=255,null=True, blank=False, unique = True)
 class Bookings(models.Model):
     class Meta:
         db_table = "bookings"
@@ -62,3 +49,16 @@ class Bookings(models.Model):
             self.ext_id = "BKNG-"+generate.generate_unique_ext(
                 self, 6)
         super(Bookings, self).save(*args, **kwargs)
+
+
+
+class Tickets(models.Model):
+    class Meta:
+        db_table = "Tickets"
+    ext_id = models.CharField(max_length=255,null=False, blank=False, unique = True)
+    text =models.CharField(max_length=255,null=False, blank=False)
+    document = models.FileField(upload_to =  "static/documents", null = True ,blank = True )
+    user= models.ForeignKey(User, on_delete=models.PROTECT, related_name="tickets")
+    status = models.CharField(choices=(("Initiated","Initiated"),("In-Progress","In-Progress"),("Resolved","Resolved"),("Disposed","Disposed")),max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True,null=False)
+    booking = models.ForeignKey(Bookings,on_delete=models.PROTECT, null = True, blank = True)

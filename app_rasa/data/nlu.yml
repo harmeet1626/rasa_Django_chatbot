@@ -1,10 +1,5 @@
 version: "3.1"
-
 nlu:
-
-# - intent: 
-
-  
 - intent: greet
   examples: |
     - hey
@@ -20,7 +15,6 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
-
 - intent: goodbye
   examples: |
     - cu
@@ -33,9 +27,6 @@ nlu:
     - see you around
     - bye bye
     - see you later
-
-
-
 - intent: deny
   examples: |
     - no
@@ -46,7 +37,6 @@ nlu:
     - no way
     - not really
     - No
-
 - intent: mood_great
   examples: |
     - perfect
@@ -63,7 +53,6 @@ nlu:
     - so so perfect
     - so good
     - so perfect
-
 - intent: mood_unhappy
   examples: |
     - my day was horrible
@@ -80,7 +69,6 @@ nlu:
     - extremly sad
     - so saad
     - so sad
-
 - intent: bot_challenge
   examples: |
     - are you a bot?
@@ -88,52 +76,44 @@ nlu:
     - am I talking to a bot?
     - am I talking to a human?
     - Who are you?
-
-- intent : bot_abilities
+- intent: bot_abilities
   examples: |
     - What can i ask you?
     - What do you do?
     - What do you understand?
     - How can you help me?
-    - What can you do? 
-
-- intent : change_my_address
+    - What can you do?
+- intent: change_my_address
   examples: |
-   -  I need to change my address
-   -  hello I want to change my address
-   -  From where we can change the delivery address?
-   -  What can I do to change my address?
-   -  How can I change my address
-   -  Change my address
-
-- intent : reset_my_password
+    - I need to change my address
+    - hello I want to change my address
+    - From where we can change the delivery address?
+    - What can I do to change my address?
+    - How can I change my address
+    - Change my address
+- intent: reset_my_password
   examples: |
-   -  I need to change my account password
-   -  How can i reset my password
-   -  Can we change the password?
-   -  Reset my address
-
-- intent : available_payment_methods
+    - I need to change my account password
+    - How can i reset my password
+    - Can we change the password?
+    - Reset my address
+- intent: available_payment_methods
   examples: |
-    -  What are the different payment methods that are supported on the platform?
-    -  what are the different payment methods that are supported?
-    -  what are the payment options available?
-    -  Is it possible to pay by [credit card](payment_method) ?
-    -  Is it possible to pay by [COD](payment_method)?
-    -  Is COD((payment_method)) supported?
-    -  Is [Cash on Delivery](payment_method) supported?
-    -  Is [EMI supported](payment_method)?
-    -  can we do payment through [EMI](payment_method)?
-    -  can we do payment through [Cash](payment_method)?
-
-- intent : average_delivery_time
+    - What are the different payment methods that are supported on the platform?
+    - what are the different payment methods that are supported?
+    - what are the payment options available?
+    - Is it possible to pay by [credit card](payment_method) ?
+    - Is it possible to pay by [COD](payment_method)?
+    - Is COD((payment_method)) supported?
+    - Is [Cash on Delivery](payment_method) supported?
+    - Is [EMI supported](payment_method)?
+    - can we do payment through [EMI](payment_method)?
+    - can we do payment through [Cash](payment_method)?
+- intent: average_delivery_time
   examples: |
     - What is the expected delivery time?
     - How long does it take you to deliver your products?
-
-
-
-- intent : work_timings
+- intent: work_timings
   examples: |
     - What are your timings?
     - When do you work?
@@ -146,18 +126,14 @@ nlu:
     - when do you close your store?
     - What is the closing time of the store?
     - What are your work timings?
-
-
-- intent : help
+- intent: help
   examples: |
     - I need [customer care](person) help
     - need [customer care](person) support
     - please connect me to [support](person)
     - How can i connect to [customer support](person)
     - Connect me to [support](person)
-
-
-- intent : initiate_refund
+- intent: initiate_refund
   examples: |
     - I want a refund
     - I want a refund on my order
@@ -165,10 +141,8 @@ nlu:
     - I want a refund.
     - I want my money back.
     - where is my refund
-    - I have an issue with my reservation 
-
-
-- intent : refund_answer
+    - I have an issue with my reservation
+- intent: refund_answer
   examples: |
     - I got a defective product
     - I didn't receive my order
@@ -176,17 +150,13 @@ nlu:
     - Order items are missing
     - I have got a wrong product.
     - I got a defective product, How can I return it?
-
-
-- intent : refund_time_question
+- intent: refund_time_question
   examples: |
     - How long would it take the refund to reflect?
     - When will i get the refund
     - Refund time?
     - when will the refund receive?
-
-
-- intent : raise_ticket
+- intent: raise_ticket
   examples: |
     - please raise a ticket
     - I want to raise a ticket
@@ -194,44 +164,35 @@ nlu:
     - create a ticket please
     - raise a ticket
     - How can I raise a ticket?
-
-
-
-- intent : ticket_resolution_time
+- intent: ticket_resolution_time
   examples: |
     - How long will it take to resolve my ticket?
     - When will the ticket get solved?
     - How long would it take to solve the issue?
-
-- intent : track_order
-  examples : |
+- intent: track_order
+  examples: |
     - Track my order?
     - location of my order?
     - Can you help in tracking my order
     - How can i know the location of my order?
-
-- intent : order_status
-  examples : |
-    -  What is the status of my order
-    -  Can you tell me the status of my order
-    -  Order status?
-    -  Whats the update on my order?
-    -  When will I receive my order?
-
-
-- intent : coupon_codes
-  examples : |
-    -  Do you have any discount coupon codes?
-    -  please give me some coupon codes
-    -  are there any coupon codes?
-    
-- intent : platform_services
-  examples : |
+- intent: order_status
+  examples: |
+    - What is the status of my order
+    - Can you tell me the status of my order
+    - Order status?
+    - Whats the update on my order?
+    - When will I receive my order?
+- intent: coupon_codes
+  examples: |
+    - Do you have any discount coupon codes?
+    - please give me some coupon codes
+    - are there any coupon codes?
+- intent: platform_services
+  examples: |
     - Tell me about the services that you provide.
     - Tell me about your products
     - What products do you sell?
     - what does you company do?
-
 - intent: request_restaurant
   examples: |
     - im looking for a restaurant
@@ -255,7 +216,6 @@ nlu:
     - I want to book a restaurant for [Italian](cuisine) cuisine for [5](number) people
     - Please book a restaurant for [French](cuisine) cuisine for [6](number) people
     - Please create a reservation for [French](cuisine) cuisine for [6](number) people
-
 - intent: inform
   examples: |
     - [afghan](cuisine) food
@@ -273,7 +233,6 @@ nlu:
     - book for [seven](number) people
     - 2 please
     - nine people
-
 - intent: get_my_bookings
   examples: |
     - Can you fetch my bookings.
@@ -291,8 +250,6 @@ nlu:
     - Fetch the details of my booking
     - whats the date of my booking ?
     - what is the date of my my hotel reservations?
-
-
 - intent: affirm_create_new_booking
   examples: |
     - Yes, please
@@ -306,9 +263,7 @@ nlu:
     - yup
     - YES
     - Ya
-
-
-- intent : cancel_my_reservation
+- intent: cancel_my_reservation
   examples: |
     - How can I cancel my booking
     - Cancel my booking
@@ -317,8 +272,6 @@ nlu:
     - Please Cancel my resrevation
     - I want to cancel my reservation.
     - I don't want to go
-
-
 - intent: provide_booking_id
   examples: |
     - My booking ID is [BKNG-123hsd](booking_id)
@@ -334,17 +287,12 @@ nlu:
     - [12dsawrc5](booking_id)
     - [bg44g5](booking_id)
     - [bgjhgfvjsfvs](booking_id)
-    - My reservation id is [BKNG-123hsd](booking_id)
     - My booking id is [BKNG-123hsd](booking_id)
     - Booking id -  [Bsadd43](booking_id)
     - Reservation id - [123fsdwef](booking_id)
-
-
 - intent: booking_id_for_refund
   examples: |
-    -Raise Refund - [BKNG-123hsd](booking_id)
-    
-
+    - Raise Refund - [BKNG-123hsd](booking_id)
 - intent: explain
   examples: |
     - Why do you want that
@@ -353,9 +301,51 @@ nlu:
     - For what purpose
     - what is the purpose of that
     - why
-
 - intent: order_return_video
   examples: |
     - video tutorial to return an item
     - how can I return my order
     - steps to return a order
+- intent: get_one_line_concern
+  examples: |
+    - I want to raise_ticket- [](ticket_reason)
+    - I want to raise_ticket- [Food was not good](ticket_reason)
+    - I want to raise_ticket- [Restaurant service was very bad](ticket_reason)
+    - I want to raise_ticket- [Staff was unfriendly](ticket_reason)
+    - I want to raise_ticket- [I didn't get to dine](ticket_reason)
+    - I want to raise_ticket- [Restaurant was closed on booking day](ticket_reason)
+    - I want to raise_ticket- [I went to the wrong restaurant due to address misunderstanding](ticket_reason)
+- intent: request_restaurant_address
+  examples: |
+    - What is the address of [Navile nash](restaurant_name)
+    - Where is  [Gourmet Delights](restaurant_name) located
+    - Where can I find the [Savory Bites Grill](restaurant_name)
+    - Can you tell me the location of [Urban Spice Kitchen](restaurant_name)
+    - What's the address for [Navile Nash](restaurant_name)
+    - Please provide the whereabouts of [Navile Nash](restaurant_name)
+    - Where exactly is [Flavors of Elegance](restaurant_name) situated?
+    - I'm curious about the location of [Navile Nash](restaurant_name)
+    - Could you give me directions to [Flavors of Elegance](restaurant_name)
+    - Tell me where I can locate [Soleil Sunset Grill](restaurant_name)
+    - What's the physical address of [Navile Nash](restaurant_name)
+    - Provide me with information about the location of [Navile Nash](restaurant_name)
+    - Where can I visit [Soleil Sunset Grillh](restaurant_name)
+    - I'm looking for the address of [Navile Nash](restaurant_name)
+    - Could you share the whereabouts of [Navile Nash](restaurant_name)
+    - What is the precise location of [Sizzler's Delight](restaurant_name)
+    - I'd like to know where [Sizzler's Delight](restaurant_name) is.
+    - i want to know the address of a restaurant.
+    - please tell me the address of my restaurant.
+    - How can i reach to my resaturant.
+    - tell me the address of hotel
+- intent: provide_restaurant_name
+  examples: |
+    - Find address of hotelname- [The Green hotel](restaurant_name)
+    - Find address of hotelname- [The Flavors of Elegance](restaurant_name)
+    - Find address of hotelname- [The Sizzler's Delight](restaurant_name)
+    - Find address of hotelname- [The Hotel Mango Tree](restaurant_name)
+    - Find address of hotelname- [The Hotel Mango Tree](restaurant_name)
+    - Find address of hotelname- [The Hotel Mango Tree](restaurant_name)
+    - Find address of hotelname- [The Hotel Mango Tree](restaurant_name)
+    - Find address of hotelname- [The dil mange more](restaurant_name)
+    - Find address of hotelname- [The dil mange less](restaurant_name)

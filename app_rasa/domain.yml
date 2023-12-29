@@ -1,102 +1,98 @@
-version: "3.1"
-
+version: '3.1'
 intents:
-
-  - greet
-  - goodbye
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
-  - bot_abilities
-  - change_my_address
-  - reset_my_password
-  - available_payment_methods
-  - average_delivery_time
-  - work_timings
-  - help
-  - initiate_refund
-  - refund_answer
-  - refund_time_question
-  - raise_ticket
-  - ticket_resolution_time
-  - track_order
-  - order_status
-  - offers_info
-  - coupon_codes
-  - platform_services
-  - request_restaurant
-  - inform
-  - get_my_bookings
-  - affirm_create_new_booking
-  - cancel_my_reservation
-  - provide_booking_id
-  - booking_id_for_refund
-  - explain
-  - order_return_video
-
+- affirm_create_new_booking
+- available_payment_methods
+- average_delivery_time
+- booking_id_for_refund
+- bot_abilities
+- bot_challenge
+- cancel_my_reservation
+- change_my_address
+- coupon_codes
+- deny
+- explain
+- get_my_bookings
+- get_one_line_concern
+- goodbye
+- greet
+- help
+- inform
+- provide_restaurant_name
+- initiate_refund
+- mood_great
+- mood_unhappy
+- offers_info
+- order_return_video
+- order_status
+- platform_services
+- provide_booking_id
+- raise_ticket
+- refund_answer
+- refund_time_question
+- request_restaurant
+- request_restaurant_address
+- reset_my_password
+- ticket_resolution_time
+- track_order
+- work_timings
 actions:
-  - action_book_table
-  - get_booking_details
-  - action_cancel_booking
-  - get_last_five_bookings
-  - validate_restaurant_form
-  - return_order_video
-
-
+- action_fetch_address
+- action_book_table
+- get_booking_details
+- action_cancel_booking
+- get_last_five_bookings
+- validate_restaurant_form
+- return_order_video
+- create_ticket
 entities:
-  - payment_method
-  - day
-  - person
-  - cuisine
-  - number
-  - booking_id
-
-
-
-forms: 
+- restaurant_name
+- payment_method
+- day
+- person
+- cuisine
+- number
+- booking_id
+- ticket_reason
+forms:
   restaurant_form:
     required_slots:
-      - cuisine
-      - num_people
-      - outdoor_seating
+    - cuisine
+    - num_people
+    - outdoor_seating
   cancel_booking_form:
     required_slots:
-      - booking_id
-
-
+    - booking_id
+  form_restaurant_name:
+    required_slots:
+    - restaurant_name
 slots:
   requested_slot:
     type: categorical
     values:
-      - cuisine
-      - num_people
-      - outdoor_seating
+    - cuisine
+    - num_people
+    - outdoor_seating
     influence_conversation: true
     mappings:
     - type: custom
-
   booking_id:
     type: text
     influence_conversation: true
-    mappings: 
-    - type: from_entity 
+    mappings:
+    - type: from_entity
       entity: booking_id
-
   cuisine:
     type: text
     influence_conversation: true
     mappings:
     - type: from_entity
       entity: cuisine
-
   num_people:
     type: float
     influence_conversation: true
     mappings:
     - type: from_entity
       entity: number
-
   outdoor_seating:
     type: bool
     influence_conversation: true
@@ -113,121 +109,95 @@ slots:
       conditions:
       - active_loop: restaurant_form
         requested_slot: outdoor_seating
-
+  ticket_reason:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: ticket_reason
+  restaurant_name:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: restaurant_name
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
+  - text: Hey! How are you?
     buttons:
-      - title: "great"
-        payload: "/mood_great"
-      - title: "super sad"
-        payload: "/mood_sad"
-
-
+    - title: great
+      payload: /mood_great
+    - title: super sad
+      payload: /mood_sad
   utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
+  - text: 'Here is something to cheer you up:'
+    image: https://i.imgur.com/nGF1K8f.jpg
   utter_did_that_help:
-  - text: "Did that help you?"
-
+  - text: Did that help you?
   utter_happy:
-  - text: "Great, carry on!"
-
+  - text: Great, carry on!
   utter_goodbye:
-  - text: "Good Bye"
-
+  - text: Good Bye
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
-
+  - text: I am a bot, powered by Rasa.
   utter_bot_abilities:
-  - text : "You can ask me about orders, loans, offers, tickets and customer support."
-
+  - text: You can ask me about orders, loans, offers, tickets and customer support.
   utter_change_my_address:
-  - text : "Go to the address tab in your profile and can change the address."
-
+  - text: Go to the address tab in your profile and can change the address.
   utter_reset_my_password:
-  - text : "Go to forgot password setting in your profile. A mail will be sent to you to change your password."
-
+  - text: Go to forgot password setting in your profile. A mail will be sent to you to change your password.
   utter_available_payment_methods:
-  - text : "We support COD, Credit/Debit Card and UPI payments."
-
+  - text: We support COD, Credit/Debit Card and UPI payments.
   utter_average_delivery_time:
-  - text : "We generraly deliver within 3-5 working days in India."
-
+  - text: We generraly deliver within 3-5 working days in India.
   utter_work_timings:
-  - text : "We work from Monday to Friday, from 9 am to 7 pm"
-
+  - text: We work from Monday to Friday, from 9 am to 7 pm
   utter_help:
-  - text : "You can send an email on ranjeet@gmail.com to register a ticket or  call on +91 9878987878 to connect to our customer support"
-
+  - text: You can send an email on ranjeet@gmail.com to register a ticket or  call on +91 9878987878 to connect to our customer support
   utter_initiate_refund:
-  - text : "Can you please provide the reason for it?"
-
+  - text: Can you please provide the reason for it?
   utter_refund_answer:
-  - text : "please go to your order and initiate a refund/return request. You can also connect to customer support if you want to register a ticket."
-
+  - text: please go to your order and initiate a refund/return request. You can also connect to customer support if you want to register a ticket.
   utter_refund_time_question:
-  - text : "We are looking into it."
-
+  - text: We are looking into it.
   utter_confirm_raise_ticket:
-  - text : "please write your concern in one line."
-
+  - text: please write your concern in one line.
   utter_ticket_resolution_time:
-  - text : "It will take 5-7 business days to resolve the issue."
-
+  - text: It will take 5-7 business days to resolve the issue.
   utter_track_order:
-  - text : "Go to orders page and click on 'Track my Order' button. it will help you tack your order's location"
-
+  - text: Go to orders page and click on 'Track my Order' button. it will help you tack your order's location
   utter_order_status:
-  - text : "please enter your order id."
-
+  - text: please enter your order id.
   utter_offers_info:
-  - text : "Yes on the occassion of New year we have 10% discount on all products across our platform."
-
+  - text: Yes on the occassion of New year we have 10% discount on all products across our platform.
   utter_coupon_codes:
-  - text : "You can use 'Flat10', 'New10', 'Bot10' to avail discounts"
-
+  - text: You can use 'Flat10', 'New10', 'Bot10' to avail discounts
   utter_platform_services:
-  - text : "We sell mobile phones, laptops, electronic gadgets and clothes. We also deal in banking facilities"
-
+  - text: We sell mobile phones, laptops, electronic gadgets and clothes. We also deal in banking facilities
   utter_confirm:
-  - text : "Are you sure ?"
- 
+  - text: Are you sure ?
   utter_ask_cuisine:
-  - text : "What cuisine?"
-
+  - text: What cuisine?
   utter_ask_num_people:
-  - text : "How many people?"
-  
+  - text: How many people?
   utter_ask_outdoor_seating:
-  - text : "Do you want to sit outside?"
-
+  - text: Do you want to sit outside?
   utter_submit:
-  - text: "All done!"
-
+  - text: All done!
   utter_slots_values:
-  - text: "I am going to run a restaurant search using the following parameters:\n
-            - cuisine: {cuisine}\n
-            - num_people: {num_people}\n
-            - outdoor_seating: {outdoor_seating}"
-
+  - text: |-
+      I am going to run a restaurant search using the following parameters:
+       - cuisine: {cuisine}
+       - num_people: {num_people}
+       - outdoor_seating: {outdoor_seating}
   utter_ask_booking_id:
-  - text : "Please enter the booking id that was sent on your registered email"
-
+  - text: Please enter the booking id that was sent on your registered email
   utter_explain_cuisine:
-  - text : "Name of cuisine is needed to filter out the restaurants."
-
+  - text: Name of cuisine is needed to filter out the restaurants.
   utter_explain_num_people:
-  - text : "I need to know how many people are in your party to ensure the restaurant can accomodate you."
-
+  - text: I need to know how many people are in your party to ensure the restaurant can accomodate you.
   utter_explain_outdoor_seating:
-  - text : "Required for selecting the suitable table."
-
-
-
+  - text: Required for selecting the suitable table.
+  utter_ask_restaurant_name:
+  - text: Please enter the name of restaurant for its address.
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
-
-

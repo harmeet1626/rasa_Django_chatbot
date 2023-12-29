@@ -26,17 +26,6 @@ stories:
     - action : restaurant_form
     - active_loop : restaurant_form
 
-
-
-# - story: Initiate refund and inquire about the process
-#   steps:
-#     - intent: initiate_refund
-#     - action: get_last_five_bookings
-    # - intent: booking_id_for_refund
-    # - action: utter_refund_time_question
-
-
-
 - story: cuisine interjection
   steps:
     - intent: request_restaurant
@@ -93,17 +82,36 @@ stories:
     - intent: explain
     - action: utter_explain_outdoor_seating
     - action: restaurant_form
+ 
 
-
-- story: Refund to the user
+- story: Create a ticket
   steps:
     - intent: initiate_refund
     - action: get_last_five_bookings
     - intent: provide_booking_id
     - action: utter_confirm_raise_ticket
+    - intent: get_one_line_concern
+    - action: create_ticket
 
 
 - story: return video play
   steps:
     - intent: order_return_video
     - action: return_order_video
+
+
+
+- story : Get restaurant's address
+  steps:
+  - intent: request_restaurant_address
+  - slot_was_set:
+    - requested_slot: restaurant_name
+  - action : action_fetch_address
+
+
+- story : Get restaurant's address2
+  steps:
+  - intent: request_restaurant_address
+  - action: utter_ask_restaurant_name
+  - intent : provide_restaurant_name
+  - action : action_fetch_address

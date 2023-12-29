@@ -11,18 +11,20 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
 import django ,sys
 from datetime import datetime, timedelta
-import os, random,webbrowser
-
-
-
+import os, random,webbrowser,requests, json, secrets, string, random
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rasa_chatbot.settings')
 import django
 django.setup()
-from api.models import Bookings, Restaurants
+from api.models import Bookings, Restaurants, Tickets
 import concurrent.futures
 from django.utils import timezone
 
+
+
+def generate_random_alphanumeric_string(length):
+        alphanumeric_characters = string.ascii_letters + string.digits
+        return "T-"+''.join(secrets.choice(alphanumeric_characters) for _ in range(length))
 
 
 class BookTableAction(Action):
@@ -109,9 +111,8 @@ class GetlastFiveBookings(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         response_array = self.run_sync_method(tracker)
-        print("response",response_array)
         if response_array["message"]== []:
-            dispatcher.utter_message(text="Please select a booking",buttons =response_array["buttons"])
+            dispatcher.utter_message(text="Please choose a resevation for which you seek support.",buttons =response_array["buttons"])
         else:
             for message in response_array['message']:
                 dispatcher.utter_message(text=message)
@@ -130,10 +131,8 @@ class GetlastFiveBookings(Action):
             if bookings:
                 response_text = {"message":[],"buttons":[]}
                 for one_booking in   bookings: 
-                    print("append")
                     response_text["buttons"].append({"payload": f'/provide_booking_id{{"booking_id":"{one_booking.ext_id}"}}',
-                                        "title" : one_booking.restaurant.name,
-                                        
+                                        "title" : one_booking.restaurant.name ,"description": 'Dated - ' + str(one_booking.booking_date.date()) + ' | ' + str(one_booking.people_num) + ' people',
                                         })
             else:
                 response_text["message"].append("You do not have any active bookings")
@@ -223,6 +222,56 @@ class ReturnVideoGuide(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         url = "https://www.youtube.com/watch?v=h2pQ4HGqEBE"
-        dispatcher.utter_message("wait......video is playing in new browser")
-        webbrowser.open(url)
+        dispatcher.utter_message("wait......video is playing in new tab")
+        webbrowser.open(url,new=2)
         return []
+    
+
+class CreateTicket(Action):
+    def name(self) -> Text:
+        return "create_ticket"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print("creating a ticket action=====================>",tracker)
+        response_array =self.run_sync_method(tracker)
+        for res in response_array:
+            dispatcher.utter_message(text=res['text'])
+        return [SlotSet("ticket_reason", None),
+            SlotSet("booking_id", None)]
+
+    def run_sync_method(self,tracker):
+        # Replace with your actual synchronous method
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            result = executor.submit(self.query_your_model,tracker).result()
+        return result
+
+    def query_your_model(self, tracker):
+        try:
+            ticket_number = generate_random_alphanumeric_string(5)
+            ticket_reason = tracker.get_slot("ticket_reason")
+            booking_ext_id = tracker.get_slot("booking_id")
+            booking=None
+            if booking_ext_id:
+                booking = Bookings.objects.get(ext_id = booking_ext_id)
+            ticket = Tickets.objects.create(ext_id=ticket_number,document="", user_id = tracker.sender_id, status ="Initiated",text=ticket_reason,booking=booking)
+            text = [{"text":f'Thankyou for sharing your problem, We have created a ticket for your issue and it has been assigned to our customer support team.'},{"text":f"Please note down the ticket number {ticket.ext_id}"},{"text":"Do you want to share any related documents?"}]
+            return text
+        except Exception as E:
+            print("errro,",E)
+
+class GetRestaurantAddress(Action):
+    def name(self) -> Text:
+        return "action_fetch_address"
+    
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print("address action called")
+        restaurant_name = tracker.get_slot("restaurant_name")
+        print(restaurant_name)
+        user_message = tracker.latest_message.get('text', '')
+        print("user_message hotel name==================>",user_message)
+        dispatcher.utter_message(f"{user_message} is located in India")
+        return [SlotSet("restaurant_name", None),]

@@ -12,11 +12,6 @@
             white-space: pre-line;
         }
 
-        .response_button {
-            background-color: #0caaf5;
-            border-radius: 50px;
-        }
-
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -50,6 +45,7 @@
             overflow-y: auto;
             max-height: 300px;
             height: 50vh;
+
         }
 
         .message {
@@ -148,12 +144,51 @@
             border-radius: 8px;
         }
 
-        .button-container {
-            padding: 10px;
+        .button_container {
+            padding: 5px !important;
         }
-
-
-
+        .wrapper_class {
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            width: 35vh;
+            margin-bottom: 20px;
+            clear:both;
+            font-size: 11px !important;
+            
+        }
+        .wrapper_class > :last-child {
+            border-bottom: none;
+        }
+        .wrapper_header{
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            background-color: #ddd;
+            border-top-right-radius: 18px;
+            border-top-left-radius: 18px;
+            font-size: 11px !important;
+            white-space: pre-line;
+        }
+        .response_button {
+            display: inline-block;
+            padding: 1px 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #0caaf5;
+            margin: 2px;
+            width: fit-content;
+            font-size: 13px !important;
+            white-space: pre-line;
+        }
+        .button_description {
+            display: inline-block;
+            padding: 1px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 2px;
+            width: fit-content;
+            font-size: 11px !important;
+            white-space: pre-line;
+        }
 
         /* .chat-container {
       width: 300px;
@@ -220,6 +255,10 @@
             margin-top: 40px;
             font-size: 9px;
         }
+
+        .button_container {
+            border-bottom: 1px solid #ddd
+        }
     </style>
 </head>
 
@@ -248,7 +287,8 @@
         <p style="display: none;" id="token">{{token}}</p>
 
         <div class="input-container">
-            <input type="text" class="user-input" id="userInput" placeholder="Type your message...">
+            <input type="text" value="i want refund" class="user-input" id="userInput"
+                placeholder="Type your message...">
             <button class="mic_input" onclick="runSpeechRecog()" style="border: transparent;padding: 0 0.5rem;">
                 <img class="mic_icon" height="25px"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbfz0EPwsBESNxKeJju2czYhmGvAR_edzC1KfoTPuc1g&s"
@@ -364,10 +404,13 @@
 
 
                     if (element.text.includes("please write your concern in one line")) {
-                        prefix = 'raise_ticket-'
+                        prefix = 'I want to raise_ticket- '
                     }
                     if (element.text.includes("please enter the ticket number")) {
                         prefix = 'ticket-'
+                    }
+                    if (element.text.includes("Please enter the name of restaurant for its address.")) {
+                        prefix = 'Find address of hotelname- '
                     }
                     if (element.text.includes("Can you please enter your order id?")) {
                         prefix = "track my order-"
@@ -384,40 +427,59 @@
                         }, 2000); // 2000 milliseconds (2 seconds) delay
                         return;
                     }
-                    botResponse.innerHTML = `${element.text}`;
 
                     // Append botResponse to chatBody
-                    chatBody.appendChild(botResponse);
+                    if(element.buttons){
+                        console.log("buttons found")
 
-                    // Iterate through buttons
-                    element?.buttons?.forEach(button => {
+                        const wrapper = document.createElement("div")
+                        wrapper.classList.add("wrapper_class");
 
-                        
-                        // Create a container for each button
-                        const buttonContainer = document.createElement("div");
+                        //append header
+                        var header = document.createElement("div")
+                        header.className = 'wrapper_header pre-line';
 
-                        // Create the button
-                        const buttonElement = document.createElement("button");
-                        buttonElement.textContent = button.title;
-                        buttonElement.addEventListener("click", () => {
-                            // Handle button click if needed
-                            console.log(`Button "${button.payload}" clicked`);
-                            console.log(`Button "${button.title}" clicked`);
-                            payload = { title: button.title, payload: button.payload }
-                            sendButtonMEssage(payload)
+                        header.innerHTML = `${element.text}`;
+                        wrapper.appendChild(header);
+                        // Iterate through buttons
+                    
+                        element?.buttons?.forEach(button => {
+                            // Create a container for each button
+                            const buttonContainer = document.createElement("div");
+                            buttonContainer.classList.add("button_container")
+                            // Create the button
+                            const buttonElement = document.createElement("a");
+                            buttonElement.textContent = button.title;
+                            buttonElement.addEventListener("click", () => {
+                                // Handle button click if needed
+                                console.log(`Button "${button.payload}" clicked`);
+                                console.log(`Button "${button.title}" clicked`);
+                                payload = { title: button.title, payload: button.payload }
+                                sendButtonMEssage(payload)
+                            });
+                            buttonElement.classList.add("response_button");
+                            const descriptionElement = document.createElement("p");
+                            descriptionElement.textContent = button.description;
+                            descriptionElement.classList.add("button_description");
 
 
-                        });
-                        buttonElement.classList.add("response_button");
+                            // Append the button to the container
+                            console.log("button append")
+                            buttonContainer.appendChild(buttonElement);
+                            buttonContainer.appendChild(descriptionElement);
 
-                        // Append the button to the container
-                        buttonContainer.appendChild(buttonElement);
+                            // Append the button container to chatBody
+                            wrapper.appendChild(buttonContainer);
+                            });
+                            chatBody.appendChild(wrapper)
+                            wrapper.scrollIntoView({ behavior: "smooth" });
+                    } 
+                    else{
+                        chatBody.appendChild(botResponse);
+                        console.log("buttons not found")
+                        botResponse.innerHTML = `${element.text}`;
 
-                        // Append the button container to chatBody
-                        chatBody.appendChild(buttonContainer);
-                    });
-                
-
+                    }
                     // Scroll to the bottom smoothly
                     botResponse.scrollIntoView({ behavior: "smooth" });
 
@@ -444,7 +506,6 @@
                     // chatBoatTyping(false)
 
                 })
-
 
 
         }
