@@ -48,10 +48,8 @@ class Login(APIView):
         username,password = request.data["username"],request.data["password"]
         data = {"username":username,"password":password}
         existing_user = request.data["existing_user"]
-        print(existing_user)
         if existing_user == 'True':
             user = authenticate(self, username=username, password=password)
-            print(user,"is authenticated")
             if not user:
                 data['error_message'] = "User not authenticated"
                 return render(request,"login.html",{"data":data})   
@@ -62,9 +60,7 @@ class Login(APIView):
                 data['error_message'] = "User already exists"
                 return render(request,"login.html",{"data":data})   
         login(request, user)
-        print("getting token",user)
         token = Token.objects.get_or_create(user=user)
-        print("got token")
         return redirect('/index')  
 
 
@@ -92,16 +88,13 @@ class Chatbot(APIView):
                     "sender": user.id,
                 }
             else:
-                print("in the else part")
                 user_message = data["message"]
                 chatbot_data = {
                     "message" :data['message'],
                     "sender": user.id,
                 }
-            print("request data=========>",request.data)
             chatroom= Chatroom.objects.get_or_create(user=user)[0]
             chat = Chats.objects.create(chatroom = chatroom)
-            print("user_message=============>",user_message)
             if 'help_me' in user_message.lower():
                 response_array = [{"text":"You can ask me about categories, products, or anything else. Feel free to explore!"}]
 
@@ -124,12 +117,9 @@ class Chatbot(APIView):
                 
             else:
                 url =  config('RASA_URL')
-                print("chatbot request data===============================>",chatbot_data)
                 chatbot_response = requests.post(url,data=json.dumps(chatbot_data),headers=self.get_headers())
-                print("chatbot_response======================>",chatbot_response)
                 if chatbot_response.status_code == 200 :
                     chatbot_response = json.loads(chatbot_response.content)
-                    print(chatbot_response,"-=------------")
                     response_array = chatbot_response
                     if response_array ==[]:
                         response_array =[{"text":"I'm sorry. I dont have the answer to that."}]
@@ -148,7 +138,6 @@ class Chatbot(APIView):
                     Chats.objects.create(chatroom = chatroom,response=response_array[i]["text"])
             except:
                 pass
-            print("final_response")
             return Response({"status":status,"message":message,"response":response_array})
         except Exception as E:
             print("internal server error===",str(E))
@@ -162,16 +151,12 @@ class UploadDocumentTicket(UpdateAPIView):
     serializer_class = UploadDocumentsSerializer
     def put(self, request):
         try:
-            print(request.data,"==========")
-            print(request.FILES,"=========")
             ticket_obj = Tickets.objects.filter(user = request.user).last()
             if not ticket_obj:
                 return Response({"status":400, "error":"Ticket doesn't exist"})
             serializer = UploadDocumentsSerializer(ticket_obj,request.data)
             if serializer.is_valid():
-                print("serializer is validated")
                 serializer.save()
-                print("serializer  saved")
                 chatroom = Chatroom.objects.get(user=request.user)
                 Chats.objects.create(chatroom=chatroom, document = serializer.data["document"],type = "file")
                 response_array = [{"text":"Your Document has uploaded Successfully"}]

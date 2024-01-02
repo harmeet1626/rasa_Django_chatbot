@@ -38,11 +38,6 @@ rules:
   - intent: average_delivery_time
   - action: utter_average_delivery_time
 
-- rule: Instruct the user to raise a ticket
-  steps:
-  - intent: raise_ticket
-  - action: utter_confirm_raise_ticket
-
 - rule: Create ticket
   steps:
   - intent: get_one_line_concern

@@ -106,7 +106,7 @@ stories:
   - intent: request_restaurant_address
   - slot_was_set:
     - requested_slot: restaurant_name
-  - action : action_fetch_address
+  - action : action_address_and_contact
 
 
 - story : Get restaurant's address2
@@ -114,4 +114,14 @@ stories:
   - intent: request_restaurant_address
   - action: utter_ask_restaurant_name
   - intent : provide_restaurant_name
-  - action : action_fetch_address
+  - action : action_address_and_contact
+
+
+- story : fetch hotel details
+  steps:
+  - intent: get_hotel_details
+  - action: action_get_latest_three_booked_hotels
+  - intent: provide_hotel_id
+  - action: utter_hotel_info_options
+  - intent: set_info_type
+  - action: action_address_and_contact

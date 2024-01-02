@@ -26,6 +26,7 @@ class Chats(models.Model):
 class Restaurants(models.Model):
     class Meta:
         db_table = "restaurants"
+    ext_id = models.CharField(max_length=10,null=True, blank=False, unique = True)
     name = models.CharField(max_length=120,null=False, blank=False, unique = True)
     address = models.CharField(max_length=255,null=True, blank=False, unique = True)
 class Bookings(models.Model):
