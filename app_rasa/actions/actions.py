@@ -166,7 +166,10 @@ class CancelBookingAction(Action):
         try:
             booking_id = tracker.get_slot("booking_id")
             booking = Bookings.objects.filter(ext_id = booking_id)
+            tickets = Tickets.objects.filter(booking__in=booking)
             response_text = []
+            if tickets:
+                tickets.delete()
             if booking:
                 booking.delete()
 
