@@ -303,8 +303,8 @@ class GetLatestThreeBookedHotel(Action):
     def query_your_model(self, tracker):
         try:
             bookings = Bookings.objects.filter(user_id = tracker.sender_id).order_by("-booking_date")[0:5]
+            response_text = {"message":[],"buttons":[]}
             if bookings:
-                response_text = {"message":[],"buttons":[]}
                 for one_booking in   bookings: 
                     response_text["buttons"].append({"payload": f'/provide_hotel_id{{"hotel_id":"{one_booking.restaurant.ext_id}"}}',
                                         "title" : one_booking.restaurant.name})
