@@ -26,7 +26,6 @@ intents:
 - order_status
 - platform_services
 - provide_booking_id
-- raise_ticket
 - refund_answer
 - refund_time_question
 - request_restaurant
@@ -35,6 +34,10 @@ intents:
 - ticket_resolution_time
 - track_order
 - work_timings
+- get_hotel_details
+- provide_hotel_id
+- set_info_type
+
 actions:
 - action_fetch_address
 - action_book_table
@@ -44,6 +47,9 @@ actions:
 - validate_restaurant_form
 - return_order_video
 - create_ticket
+- action_get_latest_three_booked_hotels
+- action_address_and_contact
+
 entities:
 - restaurant_name
 - payment_method
@@ -53,6 +59,9 @@ entities:
 - number
 - booking_id
 - ticket_reason
+- hotel_id
+- info_type
+
 forms:
   restaurant_form:
     required_slots:
@@ -65,6 +74,7 @@ forms:
   form_restaurant_name:
     required_slots:
     - restaurant_name
+
 slots:
   requested_slot:
     type: categorical
@@ -119,14 +129,21 @@ slots:
     mappings:
     - type: from_entity
       entity: restaurant_name
+  hotel_id_slot:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: hotel_id
+  info_type_slot:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: info_type
+
+
 responses:
   utter_greet:
   - text: Hey! How are you?
-    buttons:
-    - title: great
-      payload: /mood_great
-    - title: super sad
-      payload: /mood_sad
   utter_cheer_up:
   - text: 'Here is something to cheer you up:'
     image: https://i.imgur.com/nGF1K8f.jpg
@@ -198,6 +215,15 @@ responses:
   - text: Required for selecting the suitable table.
   utter_ask_restaurant_name:
   - text: Please enter the name of restaurant for its address.
+  utter_hotel_info_options:
+  - text: Select an option
+    buttons:
+    - title: Address
+      payload: /set_info_type{{"info_type":"hotel_address"}}
+    - title: Contact number
+      payload: /set_info_type{{"info_type":"hotel_contact"}}
+  # utter_set_info_type:
+  # - text: value of slots hotel is {hotel_id_slot} and infotype is {info_type_slot}  
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

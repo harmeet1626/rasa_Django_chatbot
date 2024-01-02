@@ -166,7 +166,6 @@ class CancelBookingAction(Action):
         try:
             booking_id = tracker.get_slot("booking_id")
             booking = Bookings.objects.filter(ext_id = booking_id)
-            print("booking==============>",booking)
             response_text = []
             if booking:
                 booking.delete()
@@ -192,7 +191,7 @@ class ValidateRestaurantForm(FormValidationAction):
     @staticmethod
     def cuisine_db() -> List[Text]:
         """Database of supported cuisines"""
-        return ["caribbean", "chinese", "french"]
+        return ["caribbean", "chinese", "french","indian","italian"]
 
     def validate_cuisine(
         self,
@@ -234,7 +233,6 @@ class CreateTicket(Action):
     async def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        print("creating a ticket action=====================>",tracker)
         response_array =self.run_sync_method(tracker)
         for res in response_array:
             dispatcher.utter_message(text=res['text'])
@@ -242,7 +240,6 @@ class CreateTicket(Action):
             SlotSet("booking_id", None)]
 
     def run_sync_method(self,tracker):
-        # Replace with your actual synchronous method
         with concurrent.futures.ThreadPoolExecutor() as executor:
             result = executor.submit(self.query_your_model,tracker).result()
         return result
@@ -268,10 +265,94 @@ class GetRestaurantAddress(Action):
     async def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        print("address action called")
         restaurant_name = tracker.get_slot("restaurant_name")
-        print(restaurant_name)
-        user_message = tracker.latest_message.get('text', '')
-        print("user_message hotel name==================>",user_message)
+        user_message = tracker.latest_message.get('text', '').replace("Find address of hotelname- ","")
+
         dispatcher.utter_message(f"{user_message} is located in India")
         return [SlotSet("restaurant_name", None),]
+    
+
+
+
+class GetLatestThreeBookedHotel(Action):
+    def name(self) -> Text:
+        return "action_get_latest_three_booked_hotels"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        response_array = self.run_sync_method(tracker)
+        if response_array["message"]== []:
+            dispatcher.utter_message(text="Please choose a hotel for which you want to gather information.",buttons =response_array["buttons"])
+        else:
+            for message in response_array['message']:
+                dispatcher.utter_message(text=message)
+
+
+    
+    def run_sync_method(self,tracker):
+        # Replace with your actual synchronous method
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            result = executor.submit(self.query_your_model,tracker).result()
+        return result
+
+    def query_your_model(self, tracker):
+        try:
+            bookings = Bookings.objects.filter(user_id = tracker.sender_id).order_by("-booking_date")[0:5]
+            if bookings:
+                response_text = {"message":[],"buttons":[]}
+                for one_booking in   bookings: 
+                    response_text["buttons"].append({"payload": f'/provide_hotel_id{{"hotel_id":"{one_booking.restaurant.ext_id}"}}',
+                                        "title" : one_booking.restaurant.name})
+            else:
+                response_text["message"].append("You do not have any active bookings")
+                response_text["message"].append("If you want then I can assist you in creating one.")
+            return response_text
+        except Exception as E:
+            print("E========================",E)
+
+
+    
+
+
+class GetRestaurantAddressAndContact(Action):
+    def name(self) -> Text:
+        return "action_address_and_contact"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        response_array =self.run_sync_method(tracker)
+        for res in response_array:
+            dispatcher.utter_message(text=res['text'])
+        return [SlotSet("hotel_id", None),("info_type_slot",None),]
+
+    def run_sync_method(self,tracker):
+        # Replace with your actual synchronous method
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            result = executor.submit(self.query_your_model,tracker).result()
+        return result
+
+    def query_your_model(self, tracker):
+        try:
+            restaurant_name = tracker.get_slot("restaurant_name")
+            hotel_id = tracker.get_slot("hotel_id_slot")
+            info_type_slot = tracker.get_slot("info_type_slot")
+            if not restaurant_name == None:
+                restaurants = Restaurants.objects.filter(name__icontains=restaurant_name)
+                if restaurants:
+                    text = []
+                    for res in restaurants:
+                        text.append({"text":f"{res.name} is located at {res.address}"})
+                else:
+                    text = [{"text":f"Unable to find the address of {restaurant_name}"}]
+            elif info_type_slot=="hotel_contact":
+                restaurant = Restaurants.objects.filter(ext_id=hotel_id).first()
+                text = [{"text":f"Contact Number of {restaurant.name} is 9876543210"}]
+            else:
+                restaurant = Restaurants.objects.filter(ext_id=hotel_id).first()
+                text = [{"text":f"{restaurant.name} is located at {restaurant.address}"}]
+            return text
+        except Exception as E:
+            print("errror",E)
+

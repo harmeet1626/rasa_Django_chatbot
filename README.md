@@ -54,12 +54,14 @@ Open a new terminal into app_rasa folder
 ## Main Features
 
 - NLP understanding
+- Table booking in a restaurant
+- List the available bookings/reservations
+- Cancel the bookings/reservations
 - Ticket Raising
 - Document Sharing
 - Text to speech
-- Table booking in a restaurant
-- Cancel the reservation
 - User based history 
+- Show the details of the hotel
 
 
 

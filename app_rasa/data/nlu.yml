@@ -142,6 +142,12 @@ nlu:
     - I want my money back.
     - where is my refund
     - I have an issue with my reservation
+    - please raise a ticket
+    - I want to raise a ticket
+    - please create a ticket
+    - create a ticket please
+    - raise a ticket
+    - How can I raise a ticket?
 - intent: refund_answer
   examples: |
     - I got a defective product
@@ -156,14 +162,6 @@ nlu:
     - When will i get the refund
     - Refund time?
     - when will the refund receive?
-- intent: raise_ticket
-  examples: |
-    - please raise a ticket
-    - I want to raise a ticket
-    - please create a ticket
-    - create a ticket please
-    - raise a ticket
-    - How can I raise a ticket?
 - intent: ticket_resolution_time
   examples: |
     - How long will it take to resolve my ticket?
@@ -308,6 +306,7 @@ nlu:
     - steps to return a order
 - intent: get_one_line_concern
   examples: |
+    - I want to raise_ticket- [I dont want to go](ticket_reason)
     - I want to raise_ticket- [](ticket_reason)
     - I want to raise_ticket- [Food was not good](ticket_reason)
     - I want to raise_ticket- [Restaurant service was very bad](ticket_reason)
@@ -349,3 +348,32 @@ nlu:
     - Find address of hotelname- [The Hotel Mango Tree](restaurant_name)
     - Find address of hotelname- [The dil mange more](restaurant_name)
     - Find address of hotelname- [The dil mange less](restaurant_name)
+
+
+- intent: get_hotel_details
+  examples: |
+    - show details of hotel
+    - Can you provide me with details about the hotel?
+    - I'm interested in learning more about the hotel. What details can you share?
+    - What information do you have about the hotel? I want to know the details.
+    - Tell me about the amenities and details of the hotel, please.
+    - I want to get some details about the hotel. Can you help with that?
+    - Provide me with information about the hotel, including any important details.
+    - Share details about the hotel, such as its facilities and services.
+    - I'm looking for specific details about the hotel. What can you tell me?
+    - What are the details of the hotel's rooms and accommodations?
+    - I want to know more about the hotel. Please give me the details.
+
+- intent: provide_hotel_id
+  examples: |
+    - [htl-ab123](hotel_id)
+    - [htl-vg456](hotel_id)
+    - [htl-ab896](hotel_id)
+    - [htl-vg123](hotel_id)
+    - [htl-ab147](hotel_id)
+    - [htl-vg369](hotel_id)
+
+- intent: set_info_type
+  examples: |
+    - [hotel_address](info_type)
+    - [hotel_contact](info_type)
