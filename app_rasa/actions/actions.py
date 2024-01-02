@@ -129,8 +129,8 @@ class GetlastFiveBookings(Action):
     def query_your_model(self, tracker):
         try:
             bookings = Bookings.objects.filter(user_id = tracker.sender_id).order_by("-booking_date")[0:5]
+            response_text = {"message":[],"buttons":[]}
             if bookings:
-                response_text = {"message":[],"buttons":[]}
                 for one_booking in   bookings: 
                     response_text["buttons"].append({"payload": f'/provide_booking_id{{"booking_id":"{one_booking.ext_id}"}}',
                                         "title" : one_booking.restaurant.name ,"description": 'Dated - ' + str(one_booking.booking_date.date()) + ' | ' + str(one_booking.people_num) + ' people',
