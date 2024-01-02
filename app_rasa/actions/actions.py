@@ -111,7 +111,8 @@ class GetlastFiveBookings(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         response_array = self.run_sync_method(tracker)
-        if response_array["message"]== []:
+        print("response_array============",response_array)
+        if response_array["message"]==[]:
             dispatcher.utter_message(text="Please choose a resevation for which you seek support.",buttons =response_array["buttons"])
         else:
             for message in response_array['message']:

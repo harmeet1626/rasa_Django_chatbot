@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'rasa_chatbot.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('DATABASE_NAME', default='rasa_staging'),
+        'NAME': config('DATABASE_NAME', default='rasastaging'),
         'USER': config('DATABASE_USER', default='root'),
         'PASSWORD': config('DATABASE_PASSWORD', default='password'),
         'HOST': config('DATABASE_HOST', default='localhost'),
