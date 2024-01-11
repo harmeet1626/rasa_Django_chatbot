@@ -148,6 +148,9 @@ nlu:
     - create a ticket please
     - raise a ticket
     - How can I raise a ticket?
+    - I have a problem
+    - I have 1 issue
+    - I want to report
 - intent: refund_answer
   examples: |
     - I got a defective product
@@ -195,6 +198,7 @@ nlu:
   examples: |
     - im looking for a restaurant
     - I want to book a hotel
+    - I want to reserve a restaurant
     - I want to book a hotel for [5](number) people
     - can i get [swedish](cuisine) food in any area
     - a restaurant that serves [caribbean](cuisine) food
@@ -233,6 +237,7 @@ nlu:
     - nine people
 - intent: get_my_bookings
   examples: |
+    - show booking
     - Can you fetch my bookings.
     - Please fetch my reservations.
     - please give my bookings list
@@ -270,6 +275,7 @@ nlu:
     - Please Cancel my resrevation
     - I want to cancel my reservation.
     - I don't want to go
+    - delete booking
 - intent: provide_booking_id
   examples: |
     - My booking ID is [BKNG-123hsd](booking_id)
@@ -314,6 +320,58 @@ nlu:
     - I want to raise_ticket- [I didn't get to dine](ticket_reason)
     - I want to raise_ticket- [Restaurant was closed on booking day](ticket_reason)
     - I want to raise_ticket- [I went to the wrong restaurant due to address misunderstanding](ticket_reason)
+    - I want to raise_ticket- [I don't want to go](ticket_reason)
+    - I want to raise_ticket- [No specific reason](ticket_reason)
+    - I want to raise_ticket- [Food was not good](ticket_reason)
+    - I want to raise_ticket- [Restaurant service was very bad](ticket_reason)
+    - I want to raise_ticket- [Staff was unfriendly](ticket_reason)
+    - I want to raise_ticket- [I didn't get to dine](ticket_reason)
+    - I want to raise_ticket- [Restaurant was closed on the booking day](ticket_reason)
+    - I want to raise_ticket- [I went to the wrong restaurant due to address misunderstanding](ticket_reason)
+    - I want to raise_ticket- [My order was incorrect](ticket_reason)
+    - I want to raise_ticket- [I received the wrong food item](ticket_reason)
+    - I want to raise_ticket- [I faced issues with the online payment](ticket_reason)
+    - I want to raise_ticket- [I need a refund for my order](ticket_reason)
+    - I want to raise_ticket- [The delivery was very late](ticket_reason)
+    - I want to raise_ticket- [I received a damaged item](ticket_reason)
+    - I want to raise_ticket- [The restaurant didn't honor the discount](ticket_reason)
+    - I want to raise_ticket- [I faced issues with the mobile app](ticket_reason)
+    - I want to raise_ticket- [The restaurant canceled my order without notice](ticket_reason)
+    - I want to raise_ticket- [I was overcharged for my order](ticket_reason)
+    - I want to raise_ticket- [I faced issues with the website](ticket_reason)
+    - I want to raise_ticket- [The restaurant denied my reservation](ticket_reason)
+    - I want to raise_ticket- [I didn't receive a confirmation for my booking](ticket_reason)
+    - I want to raise_ticket- [The restaurant was overcrowded](ticket_reason)
+    - I want to raise_ticket- [I faced issues with the delivery address](ticket_reason)
+    - I want to raise_ticket- [The restaurant didn't follow my dietary preferences](ticket_reason)
+    - I want to raise_ticket- [I didn't receive my loyalty points](ticket_reason)
+    - I want to raise_ticket- [I faced issues with the in-app navigation](ticket_reason)
+    - I want to raise_ticket- [The restaurant didn't provide the promised amenities](ticket_reason)
+    - I want to raise_ticket- [I was charged for canceled reservations](ticket_reason)
+    - I want to raise_ticket- [The restaurant didn't provide the reserved seating](ticket_reason)
+    - I want to raise_ticket- [I faced issues with the pick-up service](ticket_reason)
+    - I want to raise_ticket- [The restaurant was not wheelchair accessible](ticket_reason)
+    - I want to raise_ticket- [I received expired food items](ticket_reason)
+    - I want to raise_ticket- [The restaurant didn't have my pre-ordered items](ticket_reason)
+    - I want to raise_ticket- [I was refused entry at the restaurant](ticket_reason)
+    - I want to raise_ticket- [I faced issues with the online menu](ticket_reason)
+    - I want to raise_ticket- [The restaurant didn't provide the promised discounts](ticket_reason)
+    - I want to raise_ticket- [I faced issues with the customer support](ticket_reason)
+    - I want to raise_ticket- [I was double-charged for my order](ticket_reason)
+    - I want to raise_ticket- [I didn't receive a confirmation email for my reservation](ticket_reason)
+    - I want to raise_ticket- [The restaurant didn't have the items listed on the menu](ticket_reason)
+    - I want to raise_ticket- [I faced issues with the drive-thru service](ticket_reason)
+    - I want to raise_ticket- [The restaurant didn't provide the promised freebies](ticket_reason)
+    - I want to raise_ticket- [I faced issues with the loyalty program](ticket_reason)
+    - I want to raise_ticket- [The restaurant didn't provide the reserved parking](ticket_reason)
+    - I want to raise_ticket- [I faced issues with the order tracking](ticket_reason)
+    - I want to raise_ticket- [The restaurant didn't have the listed specials](ticket_reason)
+    - I want to raise_ticket- [I faced issues with the Wi-Fi at the restaurant](ticket_reason)
+    - I want to raise_ticket- [The restaurant didn't honor the advertised promotions](ticket_reason)
+    - I want to raise_ticket- [I received the wrong bill](ticket_reason)
+    - I want to raise_ticket- [I faced issues with the restaurant's cleanliness](ticket_reason)
+
+
 - intent: request_restaurant_address
   examples: |
     - What is the address of [Navile nash](restaurant_name)
@@ -377,3 +435,22 @@ nlu:
   examples: |
     - [hotel_address](info_type)
     - [hotel_contact](info_type)
+
+- intent: inquire_services
+  examples: |
+    - What services do you provide?
+    - Tell me about your services
+    - Tell me about your products
+    - What can you do?
+    - List your offerings
+    - What services are available?
+    - What solutions do you offer?
+    - Provide details about your service portfolio
+    - Enlighten me on your range of services
+    - What kind of assistance can I expect?
+    - Share information about the services you deliver
+    - Elaborate on the services at your disposal
+    - What options do you have for customers?
+    - Clarify the scope of your service offerings
+    - Outline the types of services you provide
+    - Can you brief me on the services in your repertoire?

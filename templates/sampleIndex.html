@@ -147,19 +147,22 @@
         .button_container {
             padding: 5px !important;
         }
+
         .wrapper_class {
             border: 2px solid #ddd;
             border-radius: 20px;
             width: 35vh;
             margin-bottom: 20px;
-            clear:both;
+            clear: both;
             font-size: 11px !important;
-            
+
         }
-        .wrapper_class > :last-child {
+
+        .wrapper_class> :last-child {
             border-bottom: none;
         }
-        .wrapper_header{
+
+        .wrapper_header {
             padding: 15px;
             border-bottom: 1px solid #ddd;
             background-color: #ddd;
@@ -168,6 +171,7 @@
             font-size: 11px !important;
             white-space: pre-line;
         }
+
         .response_button {
             display: inline-block;
             padding: 1px 10px;
@@ -179,6 +183,7 @@
             font-size: 13px !important;
             white-space: pre-line;
         }
+
         .button_description {
             display: inline-block;
             padding: 1px 10px;
@@ -287,8 +292,7 @@
         <p style="display: none;" id="token">{{token}}</p>
 
         <div class="input-container">
-            <input type="text" value="" class="user-input" id="userInput"
-                placeholder="Type your message...">
+            <input type="text" value="" class="user-input" id="userInput" placeholder="Type your message...">
             <button class="mic_input" onclick="runSpeechRecog()" style="border: transparent;padding: 0 0.5rem;">
                 <img class="mic_icon" height="25px"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbfz0EPwsBESNxKeJju2czYhmGvAR_edzC1KfoTPuc1g&s"
@@ -429,7 +433,7 @@
                     }
 
                     // Append botResponse to chatBody
-                    if(element.buttons){
+                    if (element.buttons) {
                         console.log("buttons found")
 
                         const wrapper = document.createElement("div")
@@ -442,7 +446,7 @@
                         header.innerHTML = `${element.text}`;
                         wrapper.appendChild(header);
                         // Iterate through buttons
-                    
+
                         element?.buttons?.forEach(button => {
                             // Create a container for each button
                             const buttonContainer = document.createElement("div");
@@ -470,11 +474,11 @@
 
                             // Append the button container to chatBody
                             wrapper.appendChild(buttonContainer);
-                            });
-                            chatBody.appendChild(wrapper)
-                            wrapper.scrollIntoView({ behavior: "smooth" });
-                    } 
-                    else{
+                        });
+                        chatBody.appendChild(wrapper)
+                        wrapper.scrollIntoView({ behavior: "smooth" });
+                    }
+                    else {
                         chatBody.appendChild(botResponse);
                         console.log("buttons not found")
                         botResponse.innerHTML = `${element.text}`;
@@ -604,7 +608,6 @@
         }
 
         var apiEndpoint = 'user/chats/';
-
         async function mount() {
             apiEndpoint = 'user/chats/';
             await fetch(apiEndpoint, {
@@ -617,44 +620,63 @@
                 .then(data => {
                     apiEndpoint = data.next;
                     let chatBody = document.getElementById('chatBody');
+
+                    // Clear existing messages
+                    chatBody.innerHTML = '';
+
                     data.results.forEach((element, index, array) => {
                         // for bot message
                         var botResponse = document.createElement('div');
                         botResponse.className = 'message bot-message pre-line';
                         botResponse.textContent = `${element.response}`;
                         // Insert bot response at the beginning of the chatBody
-                        chatBody.insertBefore(botResponse, chatBody.firstChild);
+                        chatBody.appendChild(botResponse);
+
                         if (element.question !== null) {
                             // for user message
                             var userMessage = document.createElement('div');
                             userMessage.className = 'message user-message';
                             userMessage.textContent = `${element.question}`;
                             // Insert user message at the beginning of the chatBody
-                            chatBody.insertBefore(userMessage, chatBody.firstChild);
+                            chatBody.appendChild(userMessage);
                         }
                     });
-                })
+                });
         }
+
+        let loadingMoreMessages = false;
+
         function initial_bot_message() {
-            console.log("new message")
+            console.log("new message");
             var botResponse = document.createElement('div');
             botResponse.className = 'message bot-message pre-line';
-            botResponse.textContent = 'Hi this is your personal assistant zoya. How may I help you ?';
+            botResponse.textContent = 'Hi, this is your personal assistant Zoya. How may I help you?';
             chatBody.appendChild(botResponse);
             botResponse.scrollIntoView({ behavior: "instant" });
         }
-        mount().then(() => {
-            initial_bot_message();
-        })
-        chatBody.addEventListener('scroll', () => {
-            if (chatBody.scrollTop === 0) {
+
+        function loadMoreMessages() {
+            if (!loadingMoreMessages) {
+                loadingMoreMessages = true;
+
                 const currentScrollHeight = chatBody.scrollHeight;
+
                 mount().then(() => {
                     const newScrollHeight = chatBody.scrollHeight;
                     const scrollDifference = newScrollHeight - currentScrollHeight;
                     chatBody.scrollTop = scrollDifference;
+                    loadingMoreMessages = false;
                 });
-            } else if (chatBody.scrollTop + chatBody.clientHeight >= chatBody.scrollHeight) {
+            }
+        }
+
+        mount().then(() => {
+            initial_bot_message();
+        });
+
+        chatBody.addEventListener('scroll', () => {
+            if (chatBody.scrollTop === 0) {
+                loadMoreMessages();
             }
         });
     </script>
