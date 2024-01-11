@@ -105,3 +105,8 @@ rules:
   steps:
   - intent: get_my_bookings
   - action: get_booking_details
+
+- rule: inquire services
+  steps:
+  - intent: inquire_services
+  - action: utter_inquire_services

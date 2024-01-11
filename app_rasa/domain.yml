@@ -37,6 +37,7 @@ intents:
 - get_hotel_details
 - provide_hotel_id
 - set_info_type
+- inquire_services
 
 actions:
 - action_fetch_address
@@ -215,6 +216,8 @@ responses:
   - text: Required for selecting the suitable table.
   utter_ask_restaurant_name:
   - text: Please enter the name of restaurant for its address.
+  utter_inquire_services:
+  - text: We provide services for booking and canceling restaurant reservations, raising tickets for assistance, displaying booking information, and providing details about hotels.
   utter_hotel_info_options:
   - text: Select an option
     buttons:
