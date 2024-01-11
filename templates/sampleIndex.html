@@ -311,7 +311,7 @@
     <script>
 
 
-
+        var on_pagination = false
         var input_text = ''
         let userInput_text = document.getElementById("userInput");
         let prefix = ""
@@ -609,7 +609,7 @@
 
         var apiEndpoint = 'user/chats/';
         async function mount() {
-            apiEndpoint = 'user/chats/';
+            // apiEndpoint = 'user/chats/';
             await fetch(apiEndpoint, {
                 method: 'GET',
                 headers: {
@@ -622,23 +622,40 @@
                     let chatBody = document.getElementById('chatBody');
 
                     // Clear existing messages
-                    chatBody.innerHTML = '';
+                    // chatBody.innerHTML = '';
+                    let reversed_array
+                    if (on_pagination) {
+                        alert("onpagination")
+                        reversed_array = data.results
+                    } else {
+                        alert("not on pagination")
+                        reversed_array = data.results.reverse();
+                    }
 
-                    data.results.forEach((element, index, array) => {
+                    reversed_array.forEach((element, index, array) => {
                         // for bot message
-                        var botResponse = document.createElement('div');
-                        botResponse.className = 'message bot-message pre-line';
-                        botResponse.textContent = `${element.response}`;
-                        // Insert bot response at the beginning of the chatBody
-                        chatBody.appendChild(botResponse);
 
-                        if (element.question !== null) {
+
+                        if (element.question !== null ) {
                             // for user message
                             var userMessage = document.createElement('div');
                             userMessage.className = 'message user-message';
                             userMessage.textContent = `${element.question}`;
                             // Insert user message at the beginning of the chatBody
-                            chatBody.appendChild(userMessage);
+                            if (on_pagination) {
+                                chatBody.insertBefore(userMessage, chatBody.firstChild);
+                            } else {
+                                chatBody.appendChild(userMessage);
+                            }
+                        }
+                        var botResponse = document.createElement('div');
+                        botResponse.className = 'message bot-message pre-line';
+                        botResponse.textContent = `${element.response}`;
+                        // Insert bot response at the beginning of the chatBody
+                        if (on_pagination) {
+                            chatBody.insertBefore(botResponse, chatBody.firstChild);
+                        } else {
+                            chatBody.appendChild(botResponse);
                         }
                     });
                 });
@@ -676,6 +693,7 @@
 
         chatBody.addEventListener('scroll', () => {
             if (chatBody.scrollTop === 0) {
+                on_pagination = true
                 loadMoreMessages();
             }
         });
