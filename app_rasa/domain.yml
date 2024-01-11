@@ -217,7 +217,12 @@ responses:
   utter_ask_restaurant_name:
   - text: Please enter the name of restaurant for its address.
   utter_inquire_services:
-  - text: We provide services for booking and canceling restaurant reservations, raising tickets for assistance, displaying booking information, and providing details about hotels.
+  - text: |-
+      I can do following things for you :
+      - Booking and canceling restaurant reservations.
+      - Raising tickets for assistance.
+      - Displaying booking information.
+      - Providing details about hotels.
   utter_hotel_info_options:
   - text: Select an option
     buttons:
