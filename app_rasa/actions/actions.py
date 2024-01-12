@@ -342,17 +342,20 @@ class GetRestaurantAddressAndContact(Action):
             restaurant_name = tracker.get_slot("restaurant_name")
             hotel_id = tracker.get_slot("hotel_id_slot")
             info_type_slot = tracker.get_slot("info_type_slot")
+            print("info_type_slot====================>",info_type_slot)
             if not restaurant_name == None:
                 restaurants = Restaurants.objects.filter(name__icontains=restaurant_name)
                 if restaurants:
-                    text = []
-                    for res in restaurants:
-                        text.append({"text":f"{res.name} is located at {res.address}"})
+                    if info_type_slot=="hotel_address":
+                        text = []
+                        for res in restaurants:
+                            text.append({"text":f"{res.name} is located at {res.address}"})
+                    elif info_type_slot=="hotel_contact":
+                        restaurant = Restaurants.objects.filter(ext_id=hotel_id).first()
+                        text = [{"text":f"Contact Number of {restaurant.name} is 9876543210"}]
                 else:
                     text = [{"text":f"Unable to find the address of {restaurant_name}"}]
-            elif info_type_slot=="hotel_contact":
-                restaurant = Restaurants.objects.filter(ext_id=hotel_id).first()
-                text = [{"text":f"Contact Number of {restaurant.name} is 9876543210"}]
+            
             else:
                 restaurant = Restaurants.objects.filter(ext_id=hotel_id).first()
                 text = [{"text":f"{restaurant.name} is located at {restaurant.address}"}]
